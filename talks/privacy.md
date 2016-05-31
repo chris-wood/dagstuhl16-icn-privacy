@@ -1,0 +1,52 @@
+iin ideas:
+        - Data correlation problem and thought experiment slides
+        - Privacy definitions and principles (https://github.com/chris-wood/icn-privacy-principles)
+    - Slide outline:
+        - Different types of privacy-relevant attacks in interest-based ICNs
+            - Correlation of data across consumers
+                - TODO: explain why this is bad
+            - Content leakage through request names
+                - TODO: explain why this is bad
+                - TODO: explain what IP parity means
+        - Adversary model
+            - (IDENTIFICATION) Adv who tries to learn the destination
+                - Winning criteria: Given an interest from Cr_i, R cannot learn that Cr_i sent an interest to P_i with probability non-negligibly better than 1/2.
+            - (CORRELATION) Adv who tries to correlate
+                - Winning criteria: Given two interest and data packet pairs for the same application data, R cannot decide if they correspond to the same bits with probability non-negligibly better than 1/2.
+        - Question: what does it take to prevent both of these attacks?
+        - Identification thought experiment
+            - Assumptions
+                - Hard: Packet forwarding is deterministic and correct (no notion of probabilistic forwarding)
+                - Hard: Forwarding a packet is a non-interactive procedure (consumer sends one thing and that’s it)
+                - Hard: Packet forwarding must be efficient
+                - Hard: There exists some function f() that is used by consumers to translate application names to network names.
+                    - In vanilla CCN, f() is the identity function
+                - Soft: Consumers, router, and producers have the same knowledge
+                    - Application data namespace is known
+                    - Public keying information
+                    - f() is public, but the inputs might be private (only known to the consumers and producers)
+                - Soft: Content popularity is known
+                - Soft: Forwarding uses LPM lookup and exact match
+            - Case 1: keep all assumptions
+                - For any interest for name N', R can guess N and check that N’ = f(N)
+                - Morale: vanilla CCN is bad
+            - Case 2: Consumers and producer share a secret
+                - Let fk() be the translation function
+                - Let N’ = fk(N) must be what’s in the FIB, by properties of LPM and exact match
+                - Assume content from P1 is more popular than content from P2 (more interests have fk(P1) prefix than fk(P2) prefix)
+                - Then, R can distinguish between P1 and P2 interests through aux. information
+                - Morale: application data namespace information cannot be in the network
+            - Case 3: FIB uses LPM but *not* exact match
+                - (see notebook)
+        - Correlation thought experiment
+            - Assumptions:
+                - Same as above
+            - Case 1: keep all assumptions
+                - Any two identical interests will yield identical data. Done.
+                - Morale: Correlation is effortless in vanilla CCN
+            - Case 2: interests have consumer-specific information and the data responses are not equivalent
+                - If consumer-specific information leaks no information about the data, then correlation is not possible
+                - Otherwise, R can correlate
+                - Morale: consumer-specific encryption (e.g., through sessions) is needed
+        - Look forward
+            - Privacy principles (present them in the list)

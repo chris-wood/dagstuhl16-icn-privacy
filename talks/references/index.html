@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html id="ie8" lang="en">
+<![endif]-->
+<!--[if IE 9]>
+<html id="ie9" lang="en">
+<![endif]-->
+<!--[if !(IE 8) & !(IE 9)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>How to Search on Encrypted Data: Searchable Symmetric Encryption (Part 5) | Outsourced Bits</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://outsourcedbits.org/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/fresh-and-clean/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Quattrocento+Sans:r:latin,latin-ext","Quattrocento+Sans:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s1.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active #site-title{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}.wf-active body{font-family:"Quattrocento Sans",sans-serif}.wf-active #site-description{font-family:"Quattrocento Sans",sans-serif}.wf-active .sticky-header{font-family:"Quattrocento Sans",sans-serif}.wf-active .entry-meta{font-family:"Quattrocento Sans",sans-serif}.wf-active #cancel-comment-reply-link{font-family:"Quattrocento Sans",sans-serif}.wf-active .featured .entry-title{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}.wf-active .entry-title{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}.wf-active .archive-title, .wf-active body.attachment .entry-title, .wf-active body.page .entry-title, .wf-active body.single .entry-title{font-style:normal;font-weight:400}.wf-active .archive-title{font-family:"Quattrocento Sans",sans-serif;font-style:normal;font-weight:400}.wf-active .entry-content h1, .wf-active .entry-content h2, .wf-active .entry-content h3, .wf-active .entry-content h4, .wf-active .entry-content h5, .wf-active .entry-content h6{font-family:"Quattrocento Sans",sans-serif;font-style:normal;font-weight:400}.wf-active .entry-content h1{font-style:normal;font-weight:400}.wf-active .entry-content h2{font-style:normal;font-weight:400}.wf-active .entry-content h3{font-style:normal;font-weight:400}.wf-active .entry-content h4{font-style:normal;font-weight:400}.wf-active .entry-content h5{font-style:normal;font-weight:400}.wf-active .entry-content h6{font-style:normal;font-weight:400}.wf-active .widget-title{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}.wf-active #comments-title{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}.wf-active #respond h3{font-style:normal;font-weight:400;font-family:"Quattrocento Sans",sans-serif}</style>
+<meta name="google-site-verification" content="yuhGGeJDik7W_kOTdIu_6goP56GptZ65QEZuWwgExJw" />
+<meta name="msvalidate.01" content="332D572CE7BB45F798963BA7FAD36819" />
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=outsourcedbits.org&amp;id=28219122&amp;t=1466186377&amp;back=https%3A%2F%2Foutsourcedbits.org%2F2014%2F08%2F21%2Fhow-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="Outsourced Bits &raquo; Feed" href="https://outsourcedbits.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Outsourced Bits &raquo; Comments Feed" href="https://outsourcedbits.org/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Outsourced Bits &raquo; How to Search on Encrypted Data: Searchable Symmetric Encryption (Part&nbsp;5) Comments Feed" href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+	<link rel='stylesheet' id='all-css-0' href='https://s0.wp.com/_static/??-eJyNkdFqwzAMRX9omukysqexb3Fs1XErWyaSZ/r3c1bGIB1mL0JX3IO4kmkFHGfFrCZVKFRDzGJacZxAUiS8HdSzE3kyf2MUryjmglqsu8K3erAvxOEX4BDQc1U4MxE306IPqGOo8eatFxOIF0v/8543lBVs9uAIbYbPl1GODckqeigselAjzPGGfZ6K1d2R0EeLhKnbRlgq8w+1t2u/3XDN/R3LUnomgV5TrAl07YseufvYlLocb2BEb4Q78JHeT6/zdJrfpnm6fAFQhMbt' type='text/css' media='all' />
+<link rel='stylesheet' id='pacifico-css'  href='https://fonts.googleapis.com/css?family=Pacifico&#038;ver=4.5.2' type='text/css' media='all' />
+<link rel='stylesheet' id='droid sans-css'  href='https://fonts.googleapis.com/css?family=Droid+Sans%3A400&#038;ver=4.5.2' type='text/css' media='all' />
+<link rel='stylesheet' id='droid serif-css'  href='https://fonts.googleapis.com/css?family=Droid+Serif%3A400&#038;ver=4.5.2' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-6' href='https://s0.wp.com/_static/??-eJx9i1EKgCAQRC+ULYFRfURnKTHZ0F1Ro+tnCFEQ/QxvmHlweKGYkqYEbhfe7gYpgna8YclaxVgBAnHC/Iw3lOHbN5qFZTUnZHoVsdoZw58a9GLZZDSQX496SZMbG9kOUvZdI7cTbrFFxA==' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-7' href='https://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-8' href='https://s1.wp.com/_static/??-eJxti0EKgCAQRS+UTYXUKjqLiakxOuIoXb9atIhaPD4P/oMjCU2xmFggVJGwWh8ZEnERGyqfgZ3KPtpnW83cwH/FpL1CgWTpLZ+oOBMMg5NgkVaF92EJcy/H7mKYhv0EZOQ3yA==' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj+sKwjAMhV/Irk50+Ed8lrlmJbVtatNa9OntQAXnUAjk9p1DIksQ6AebFbA0NS4Z4u2ZGsMr+QsQDnXsEzQO/QseyCfwaWIdndCCyAyx13VWjUZa4AJxcsBcoYXt50norwjlL2YghX44iwiM9y/XkyUtgs0aPctaa1CUkxjJWiqyoNKQ5hqX34oItj6txHT3rKuqozu0265d79tNtzMPcaOEUA=='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://cloudcrypto.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Is the NSA Metadata Program&nbsp;Legal?' href='https://outsourcedbits.org/2014/04/29/is-the-nsa-metadata-program-legal/' />
+<link rel='next' title='Microsoft Research SVC and Applied&nbsp;Theory' href='https://outsourcedbits.org/2014/10/02/microsoft-research-svc-and-applied-theory/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/" />
+<link rel='shortlink' href='http://wp.me/p1Up58-7y' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Foutsourcedbits.org%2F2014%2F08%2F21%2Fhow-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Foutsourcedbits.org%2F2014%2F08%2F21%2Fhow-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Search on Encrypted Data: Searchable Symmetric Encryption (Part 5)" />
+<meta property="og:url" content="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/" />
+<meta property="og:description" content="This is the fifth part of a series on searching on encrypted data. See parts 1, 2 and 3 and 4. In the previous post we covered the most secure way to search on encrypted data: oblivious RAMs (ORAM)…" />
+<meta property="article:published_time" content="2014-08-22T00:25:19+00:00" />
+<meta property="article:modified_time" content="2015-12-18T15:46:26+00:00" />
+<meta property="og:site_name" content="Outsourced Bits" />
+<meta property="og:image" content="https://cloudcrypto.files.wordpress.com/2013/10/sse.jpg" />
+<meta property="og:image:width" content="368" />
+<meta property="og:image:height" content="276" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image:src" content="https://cloudcrypto.files.wordpress.com/2013/10/sse.jpg?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://cloudcrypto.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://cloudcrypto.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://outsourcedbits.org/osd.xml" title="Outsourced Bits" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+				<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<style type="text/css">
+.widget_twitter li {
+	word-wrap: break-word;
+}
+</style>
+<meta name="application-name" content="Outsourced Bits" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="A research blog on cloud computing, cryptography, security, privacy, ..." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://outsourcedbits.org/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="How to Search on Encrypted Data: Searchable Symmetric Encryption (Part&nbsp;5) | Outsourced Bits on WordPress.com" />
+<meta name="description" content="This is the fifth part of a series on searching on encrypted data. See parts 1, 2 and 3 and 4. In the previous post we covered the most secure way to search on encrypted data: oblivious RAMs (ORAM). I always recommend ORAM-based solutions for encrypted search whenever possible; namely, for small- to moderate-size data&hellip;" />
+	<style type="text/css">
+			#site-title a,
+		#site-description {
+			color: #1a1af7 !important;
+		}
+		</style>
+			<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		try {
+			var a9_p = amznads.getKeys(),
+			_ipw_custom = {
+				wordAds: '0',
+				adSafe: '0',
+				domain: 'outsourcedbits.org',
+				pageURL: 'https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/'
+			};
+			if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		} catch(e) {}
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><link rel="amphtml" href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-468 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+	<div id="page" class="hfeed">
+				<header id="branding" role="banner" class="clearfix">
+			<a class="header-link" href="https://outsourcedbits.org/" title="Outsourced Bits" rel="home"></a>
+			<hgroup>
+				<h1 id="site-title"><a href="https://outsourcedbits.org/" title="Outsourced Bits" rel="home">Outsourced Bits</a></h1>
+				<h2 id="site-description">A research blog on cloud computing, cryptography, security, privacy, &#8230;</h2>
+			</hgroup>
+		</header><!-- #branding -->
+
+		<nav id="access" role="navigation" class="clear">
+			<h1 class="assistive-text section-heading">Main menu</h1>
+			<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+			<div class="menu"><ul><li ><a href="https://outsourcedbits.org/">Home</a></li><li class="page_item page-item-50"><a href="https://outsourcedbits.org/about-2/">About</a></li><li class="page_item page-item-220"><a href="https://outsourcedbits.org/reading-list/">Reading List</a></li><li class="page_item page-item-326"><a href="https://outsourcedbits.org/coding-list/">Coding List</a></li></ul></div>
+		</nav><!-- #access -->
+
+		<div id="main">
+			
+		<div id="content" role="main">
+
+						
+			
+				
+<article id="post-468" class="clear post-468 post type-post status-publish format-standard has-post-thumbnail hentry category-crypto-design category-encrypted-search-2 category-privacy tag-cloud-storage tag-encrypted-search tag-privacy-2 tag-search-on-encrypted-data tag-searchable-encryption">
+		
+	<header class="entry-header">
+		<h2 class="entry-title">
+							How to Search on Encrypted Data: Searchable Symmetric Encryption (Part&nbsp;5)					</h2>
+				<div class="entry-meta">
+			This entry was posted on August 21, 2014, in <a href="https://outsourcedbits.org/category/crypto-design/" rel="category tag">Crypto Design</a>, <a href="https://outsourcedbits.org/category/encrypted-search-2/" rel="category tag">Encrypted Search</a>, <a href="https://outsourcedbits.org/category/privacy/" rel="category tag">Privacy</a> and tagged <a href="https://outsourcedbits.org/tag/cloud-storage/" rel="tag">cloud storage</a>, <a href="https://outsourcedbits.org/tag/encrypted-search/" rel="tag">encrypted search</a>, <a href="https://outsourcedbits.org/tag/privacy-2/" rel="tag">privacy</a>, <a href="https://outsourcedbits.org/tag/search-on-encrypted-data/" rel="tag">search on encrypted data</a>, <a href="https://outsourcedbits.org/tag/searchable-encryption/" rel="tag">searchable encryption</a>. Bookmark the <a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/" title="Permalink to How to Search on Encrypted Data: Searchable Symmetric Encryption (Part&nbsp;5)" rel="bookmark">permalink</a>.							<span class="comments-link"><a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comments">24 Comments</a></span>
+								</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p><a href="https://cloudcrypto.files.wordpress.com/2013/10/sse.jpg"><img class="alignleft size-medium wp-image-373" src="https://cloudcrypto.files.wordpress.com/2013/10/sse.jpg?w=300&#038;h=225" alt="sse" width="300" height="225" /></a></p>
+<p><em>This is the fifth part of a series on searching on encrypted data. See parts <a class="snap_noshots" href="https://outsourcedbits.org/2013/10/06/how-to-search-on-encrypted-data-part-1/">1</a>, <a class="snap_noshots" href="https://outsourcedbits.org/2013/10/14/how-to-search-on-encrypted-data-part-2/">2</a> and <a class="snap_noshots" href="https://outsourcedbits.org/2013/10/30/how-to-search-on-encrypted-data-part-3/">3</a> and <a class="snap_noshots" href="https://outsourcedbits.org/2013/10/30/how-to-search-on-encrypted-data-part-4/">4</a>.</em></p>
+<p>In the previous post we covered the most secure way to search on encrypted data: oblivious RAMs (ORAM). I always recommend ORAM-based solutions for encrypted search whenever possible; namely, for small- to moderate-size data [1]. Of course, the main limitation of ORAM is efficiency so this motivates us to keep looking for additional approaches.</p>
+<p>The solution I discuss in this post is <em>searchable symmetric encryption</em> (SSE). For readers who are not familiar with this area, let me stress that this has <em>nothing</em> to do with CipherCloud&#8217;s <a class="snap_noshots" href="http://www.ciphercloud.com/company/about-ciphercloud/press-releases/ciphercloud-delivers-breakthrough-searchable-strong-encryption/">searchable strong encryption</a>. I don&#8217;t know why CipherCloud chose to call its &#8220;breakthrough&#8221; product SSE. No one knows exactly what CipherCloud does at the crypto level but everything points to them using some form of tokenization which, as far as I know, is an industry term for deterministic encryption. This is neither a breakthrough nor really secure for that matter but that&#8217;s the last thing I&#8217;ll say about CipherCloud here so every reference to SSE that follows is about searchable symmetric encryption.</p>
+<p>SSE was first introduced by Song, Wagner and Perrig [<a class="snap_noshots" href="http://www.cs.berkeley.edu/~dawnsong/papers/se.pdf">SWP00</a>] in 2001. SSE tries to achieve the best of all worlds. It is as efficient as the most efficient encrypted search solutions (e.g., deterministic encryption) but provides a lot more security.</p>
+<p><b> The Security of Encrypted Search </b></p>
+<p>One of the most interesting aspects of encrypted search from a research point of view has to do with security definitions; that is, what does it mean for an encrypted search solution to be secure? This is not an obvious question and I talked about this a bit in the previous post on <a class="snap_noshots" href="https://outsourcedbits.org/2013/12/20/how-to-search-on-encrypted-data-part-4-oblivious-rams/">ORAM</a>.</p>
+<p>The first paper to explicitly address this question was an important paper by Eu-Jin Goh [<a class="snap_noshots">Goh03</a>] [2] who was a graduate student at Stanford at the time. This paper had many contributions but one of the most important ones was simply to point out that SSE schemes were not normal encryption schemes and, therefore, the standard notion of CPA-security was not meaningful/relevant for SSE. The problem is essentially that when an adversary interacts with an SSE scheme he has access to more than an encryption oracle; he also has access to a search oracle. Goh&#8217;s point was that this had to be captured in the security definition otherwise it was meaningless.</p>
+<p>To address this, he proposed the first security definition for SSE. Roughly speaking, the definition guaranteed that given an EDB and the encrypted documents, the adversary would learn nothing about the underlying documents beyond the search results <em>even if it had access to a search oracle</em>. Let me highlight a few things about Goh&#8217;s definition: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> it was a game-based definition; and <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> it did not provide query privacy (i.e., no privacy guarantees for user queries) [3]. A follow up paper by Chang and Mitzenmacher [<a class="snap_noshots">CM05</a>] proposed a new definition that was simulation-based and that guaranteed query privacy in addition to data privacy.</p>
+<p>I won&#8217;t go into details, but simulation-based definitions have some advantages over game-based definitions and, generally speaking, are preferable and can be easier to work with&#8212;especially when composing various primitives to build larger protocols. So we&#8217;re done right? Not exactly.</p>
+<p>During this time, Reza Curtmola, Juan Garay, Rafail Ostrovsky and myself were also thinking about SSE and one of the things we noticed while thinking about the security of SSE schemes was that the previous security definitions didn&#8217;t seem to really capture what was going on. There were primarily two issues: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> the definitions were (implicitly) restricting the adversary&#8217;s power; and <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> they didn&#8217;t explicitly capture the fact that the constructions were leaking information.</p>
+<p><b>Adaptivity.</b> The first problem was that in these definitions, the adversary was never given the search tokens, the EDB or the results of its searches. The implication of this was that&#8212;in the definition&#8212;the adversary could not choose its search oracle queries as a function of the EDB, the tokens or previous search results. In other words, it&#8217;s behavior was being implicitly restricted to making <em>non-adaptive</em> queries to its search oracle. This was clearly an issue because in the real-world the adversary we are trying to protect against is a server that stores the EDB, that receives tokens from the client and that sees the results of the of the search. So if we allow this adversary to query a search oracle, then we also have to allow him to query the oracle as a function of the EDB, the tokens and previous search results. More concretely, this captures a form of attack where the server crafts some clever oracle queries based on the EDB, the tokens or previous search results.</p>
+<p>Now let&#8217;s take a step back. At this point&#8212;unless you are a cryptographer&#8212;you are likely thinking something to the effect of: &#8220;this sounds contrived and honestly I can&#8217;t see how one could craft queries of this form that would lead to an actual attack of this form. This is all academic!&#8221;. I know this because, unfortunately, I&#8217;ve heard this many times over the years.</p>
+<p>But this is roughly the reaction people have every time cryptographers point out that an adversarial model needs to be strenghtened. Usually, what happens is the following: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> non-cryptographers ignore this and build their systems using primitives that satisfy the weaker model because they don&#8217;t believe the stronger attacks are realistic; <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> someone comes along and carries out some form of the stronger attack; and <img src="https://s0.wp.com/latex.php?latex=%7B%283%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(3)}" title="{(3)}" class="latex" /> the systems need to be re-designed and patched. This has happened in the cases of encryption (CPA- vs. CCA2-security) and key exchange.</p>
+<p>In any case, having observed this, we wrote about it in the following paper [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] and proposed a new and stronger definition where the adversary was allowed to generate its queries as a function of the EDB, the tokens and previous search results. We called this <em>adaptive</em> security and gave two formulations of this definition: one game-based and one simulation-based. This turned out to be quite interesting from a theoretical point of view because the simulation-based formulations were slightly stronger than the game-based formulations; which is not the case for the standard notion of CPA-security [4].</p>
+<p>Now, to be honest, I do not know of an explicit attack on a concrete SSE construction that takes advantage of adaptivity. But that shouldn&#8217;t matter anymore because we now know how to construct adaptively-secure SSE schemes that are as efficient as non-adaptively-secure ones. So there is no excuse for not using an adaptively-secure scheme. Another important reason to consider adaptive security is for situations where SSE schemes are used as building blocks in larger protocols. In these kinds of situations, the primitive can be used in unorthodox ways which open up subtle new oracles that one may not have considered when designing the primitive for its more standard uses.</p>
+<p>This exact issue comes up in a paper I wrote recently <a class="snap_noshots" href="http://research.microsoft.com/en-us/um/people/senyk/pubs/metacrypt.pdf">[K14]</a> that combines structured encryption (which is a form of SSE) with secure multi-party computation to design a private alternative to the NSA metadata program. In this case, it turns out that the adversary for the larger protocol (i.e., the NSA analyst) can easily influence the inputs to the underlying SSE scheme and implicitly carry out adaptive attacks on it. So in this case, it is crucial that whatever structured encryption scheme is used be adaptively-secure.</p>
+<p><b>Leakage.</b> Another important issue that was overlooked in previous work was leakage. As I&#8217;ve discussed in previous posts, non-ORAM solutions leak some information. Everyone was basically aware that SSE revealed the search results (i.e., the identifiers of the documents that contained the keyword). This was the whole point of SSE and most people believed that this was why it was more efficient than ORAM [5]. But this was not treated appropriately. In addition, we also pointed in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] that all the known SSE constructions leaked more that the search results. In particular, they also revealed whether a search query was being repeated. This was very easy to see by just looking at the constructions: the search tokens were usually the output of a PRF applied to the keyword being searched for.</p>
+<p>The main problem was that the definitions did not capture any of this [6]. To address it we decided to treat leakage in SSE more formally and to capture it very explicitly in our security definitions. Our thinking was that leakage was an integral part of SSE (since it seemed to be one of the reasons why SSE was so efficient) and that it deserved to be properly studied and understood. At this stage we only really considered two types of leakage: the access pattern and the search pattern. The access pattern is basically the search results (the identifiers of the documents that contain the keyword) and the search pattern is whether a search query is repeated. At the time these were the only leakages that had appeared in the literature. In a later paper with Melissa Chase [<a class="snap_noshots" href="http://eprint.iacr.org/2011/010.pdf">CK10</a>], we generalized the definitional approach of [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] so that the definition could include <em>any</em> kind of leakage.</p>
+<p>Leakage is of course undesirable from a security point of view, but it is fascinating from a research point of view. I hope to discuss this further in later posts. For the purposes of this discussion, I&#8217;ll just point out that there are (mostly) two kinds of leakages: setup leakage, which is revealed just by the EDB; and query leakage, which is revealed by a combination of the EDB and a token. One of the main issues with any solution based on deterministic encryption or, more generally, on property-preserving encryption is that they have a high degree of setup leakage: their EDB&#8217;s have non-trivial leakage. In that sense, SSE-based solutions are better because their setup leakage is usually minimal/trivial and the non-trivial leakage is only query leakage which is controlled by the client since queries can only be executed with knowledge of the secret key.</p>
+<p><b>Summing up.</b> So in the end, what we tried to argue in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] was that what we should be asking for from an SSE security definition is a guarantee that:</p>
+<blockquote><p>The adversary cannot learn anything about the data and the queries beyond the explicitly allowed leakage; even if the adversary can make adaptive queries to a search oracle.</p></blockquote>
+<p>But once we settled on this definition and formalized it, the following natural problems came up: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> how do we distinguish between reasonable and unreasonable leakage?; and <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> is it even possible to design SSE schemes that are adaptively-secure? [5]</p>
+<p>Initially, the answers to these questions weren&#8217;t obvious to us. We thought about them for a while and eventually answered the second question by finding an SSE construction that was adaptively-secure. Unfortunately, while the scheme had optimal asymptotic search complexity, it was not really practical. But at least we knew adaptive security was achievable&#8212;though we did not know whether it was achievable efficiently.</p>
+<p>We didn&#8217;t really have any answer for the first question. In fact, we still don&#8217;t. We don&#8217;t really have a good way to understand and analyze the leakage of SSE schemes. For now, the best we can do is to try and describe it precisely.</p>
+<p><b> Searchable Symmetric Encryption </b></p>
+<p>There are many variants of SSE (see this paper [<a class="snap_noshots" href="http://eprint.iacr.org/2011/010.pdf">CK10</a>] for a discussion) including interactive schemes, where the search operation is interactive (i.e., a two-party protocol); and response-hiding schemes, where search results are not revealed to the server but only to the client. I&#8217;ll focus on non-interactive and response-revealing schemes here because they were the first kind of SSE schemes considered and also because they are very useful as building blocks for more complex constructions and protocols. It also happens that they are the most difficult to construct.</p>
+<p>In our formulation we will ignore the document collection itself and just assume that the individual documents are encrypted using some symmetric encryption scheme and that the documents each have a unique identifier that is independent of their content (so that knowing the identifier reveals nothing about a file&#8217;s contents).</p>
+<p>We assume that the client processes the data collection <img src="https://s0.wp.com/latex.php?latex=%7B%5Ctextbf%7BD%7D+%3D+%28D_1%2C+%5Cdots%2C+D_n%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;textbf{D} = (D_1, &#92;dots, D_n)}" title="{&#92;textbf{D} = (D_1, &#92;dots, D_n)}" class="latex" /> and sets up a &#8220;database&#8221; <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}}" title="{&#92;mathrm{DB}}" class="latex" /> that maps every keyword <img src="https://s0.wp.com/latex.php?latex=%7Bw%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w}" title="{w}" class="latex" /> in the collection to the identifiers of the documents that contain it. Recall that in our context, we use the term database loosely to refer to a data structure optimized for keyword search (i.e., a search structure). For a keyword <img src="https://s0.wp.com/latex.php?latex=%7Bw%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w}" title="{w}" class="latex" />, we&#8217;ll write <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" /> to refer to the list of identifiers of documents that contain <img src="https://s0.wp.com/latex.php?latex=%7Bw%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w}" title="{w}" class="latex" />.</p>
+<p>A non-interactive and response-revealing SSE scheme <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7BSetup%7D%2C+%5Cmathrm%7BToken%7D%2C+%5Cmathrm%7BSearch%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{Setup}, &#92;mathrm{Token}, &#92;mathrm{Search})}" title="{(&#92;mathrm{Setup}, &#92;mathrm{Token}, &#92;mathrm{Search})}" class="latex" /> consists of</p>
+<ul>
+<li>a <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BSetup%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{Setup}}" title="{&#92;mathrm{Setup}}" class="latex" /> algorithm run by the client that takes as input a security parameter <img src="https://s0.wp.com/latex.php?latex=%7B1%5Ek%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{1^k}" title="{1^k}" class="latex" /> and a database <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}}" title="{&#92;mathrm{DB}}" class="latex" />; it returns a secret key <img src="https://s0.wp.com/latex.php?latex=%7BK%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K}" title="{K}" class="latex" /> and an encrypted database <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB}}" title="{&#92;mathrm{EDB}}" class="latex" />;</li>
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li>a <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BToken%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{Token}}" title="{&#92;mathrm{Token}}" class="latex" /> algorithm also run by the client that takes as input a secret key <img src="https://s0.wp.com/latex.php?latex=%7BK%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K}" title="{K}" class="latex" /> and a keyword <img src="https://s0.wp.com/latex.php?latex=%7Bw%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w}" title="{w}" class="latex" />; it returns a token <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Btk%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{tk}}" title="{&#92;mathrm{tk}}" class="latex" />;</li>
+<li>a <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BSearch%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{Search}}" title="{&#92;mathrm{Search}}" class="latex" /> algorithm run by the server that takes as input an encrypted database <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB}}" title="{&#92;mathrm{EDB}}" class="latex" /> and a token <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Btk%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{tk}}" title="{&#92;mathrm{tk}}" class="latex" />; it returns a set of identifiers <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" />.In addition to security, of course, the most important thing we want from an SSE solution is low search complexity. Fast, for our purposes will mean <em>sub-linear</em> in the number of documents and, ideally, linear in the number of documents that contain the search term. Note that the latter is optimal since at a minimum the server needs to fetch the relevant documents just to return them.Requiring sub-linear search complexity is <em>crucial</em> for practical purposes. Unless you are working with a very small dataset, linear search is just not realistic&#8212;try to imagine if your desktop search application or email search function did sequential search over your hard drive or email collection <em>every time you searched</em>. Or if your favorite search engine sequentially scanned the entire Web every time you performed a web search [7].The sub-linear requirement has consequences, however. In particular it means that we must be willing to work in a offline/online setting where we run a one-time (linear) pre-processing phase to setup a search structure so that we can then execute search queries on the data structure in sub-linear time. And this is exactly the approach we&#8217;ll take.
+<p><b> The Inverted Index Solution </b></p>
+<p>The particular solution I describe here is referred to as the <em>inverted index solution</em> and was proposed in the same [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] paper in which we studied the security of encrypted search. This is a good construction to understand for several reasons: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> it is the basis of almost all subsequent SSE constructions; and <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> many of the tricks and techniques that are used in recent SSE schemes (and the more general setting of structured encryption) originated in this construction.</p>
+<p><b>Setup.</b> The scheme makes use of a symmetric encryption scheme <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7BGen%7D%2C+%5Cmathrm%7BEnc%7D%2C+%5Cmathrm%7BDec%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{Gen}, &#92;mathrm{Enc}, &#92;mathrm{Dec})}" title="{(&#92;mathrm{Gen}, &#92;mathrm{Enc}, &#92;mathrm{Dec})}" class="latex" />, of a pseudo-random function (PRF) <img src="https://s0.wp.com/latex.php?latex=%7BF%3A+%5C%7B0%2C1%5C%7D%5Ek+%5Ctimes+W+%5Crightarrow+%5C%7B0%2C1%5C%7D%5Ek%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{F: &#92;{0,1&#92;}^k &#92;times W &#92;rightarrow &#92;{0,1&#92;}^k}" title="{F: &#92;{0,1&#92;}^k &#92;times W &#92;rightarrow &#92;{0,1&#92;}^k}" class="latex" /> and of a pseudo-random permutation (PRP) <img src="https://s0.wp.com/latex.php?latex=%7BP%3A+%5C%7B0%2C1%5C%7D%5Ek+%5Ctimes+W+%5Crightarrow+%5C%7B1%2C+%5Cdots%2C+%7CW%7C%5C%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{P: &#92;{0,1&#92;}^k &#92;times W &#92;rightarrow &#92;{1, &#92;dots, |W|&#92;}}" title="{P: &#92;{0,1&#92;}^k &#92;times W &#92;rightarrow &#92;{1, &#92;dots, |W|&#92;}}" class="latex" />. To setup the EDB, the client first samples two <img src="https://s0.wp.com/latex.php?latex=%7Bk%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{k}" title="{k}" class="latex" />-bit keys <img src="https://s0.wp.com/latex.php?latex=%7BK_%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K_&#92;mathrm{T}}" title="{K_&#92;mathrm{T}}" class="latex" /> and <img src="https://s0.wp.com/latex.php?latex=%7BK_%7B%5Cmathbb+R%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K_{&#92;mathbb R}}" title="{K_{&#92;mathbb R}}" class="latex" /> for <img src="https://s0.wp.com/latex.php?latex=%7BF%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{F}" title="{F}" class="latex" /> and <img src="https://s0.wp.com/latex.php?latex=%7BP%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{P}" title="{P}" class="latex" />, respectively. It then creates two arrays <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" /> and <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_1}" title="{&#92;mathrm{RAM}_1}" class="latex" />. For all keywords <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" />, the client builds a list for <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" /> and stores the nodes in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_1}" title="{&#92;mathrm{RAM}_1}" class="latex" />. More precisely, for every keyword <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" /> and every <img src="https://s0.wp.com/latex.php?latex=%7B1+%5Cleq+i+%5Cleq+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{1 &#92;leq i &#92;leq |&#92;mathrm{DB}[w]|}" title="{1 &#92;leq i &#92;leq |&#92;mathrm{DB}[w]|}" class="latex" />, it stores</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cmathrm%7BN%7D_%7Bw%2Ci%7D+%3D+%5Cbigg%5Clangle+%5Cmathrm%7Bid%7D_%7Bw%2Ci%7D%2C+%5Cmathrm%7Bptr%7D_1%28w%2C+i%2B1%29+%5Cbigg%5Crangle+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;mathrm{N}_{w,i} = &#92;bigg&#92;langle &#92;mathrm{id}_{w,i}, &#92;mathrm{ptr}_1(w, i+1) &#92;bigg&#92;rangle " title="&#92;displaystyle &#92;mathrm{N}_{w,i} = &#92;bigg&#92;langle &#92;mathrm{id}_{w,i}, &#92;mathrm{ptr}_1(w, i+1) &#92;bigg&#92;rangle " class="latex" /></p>
+<p>in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_1}" title="{&#92;mathrm{RAM}_1}" class="latex" />, where <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Bid%7D_%7Bw%2Ci%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{id}_{w,i}}" title="{&#92;mathrm{id}_{w,i}}" class="latex" /> is the <img src="https://s0.wp.com/latex.php?latex=%7Bi%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{i}" title="{i}" class="latex" />th identifier in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" /> and <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Bptr%7D_1%28w%2C+i%2B1%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{ptr}_1(w, i+1)}" title="{&#92;mathrm{ptr}_1(w, i+1)}" class="latex" /> is the address (in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_1}" title="{&#92;mathrm{RAM}_1}" class="latex" />) of the <img src="https://s0.wp.com/latex.php?latex=%7B%28i%2B1%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(i+1)}" title="{(i+1)}" class="latex" />th identifier in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" />. Of course, <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Bptr%7D_1%28w%2C+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C+%2B+1%29+%3D+%5Cbot%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{ptr}_1(w, |&#92;mathrm{DB}[w]| + 1) = &#92;bot}" title="{&#92;mathrm{ptr}_1(w, |&#92;mathrm{DB}[w]| + 1) = &#92;bot}" class="latex" />.</p>
+<p>It then randomly permutes the locations of the nodes; that is, it creates a new array <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_2}" title="{&#92;mathrm{RAM}_2}" class="latex" /> stores all the nodes in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_1}" title="{&#92;mathrm{RAM}_1}" class="latex" /> but at locations chosen uniformly at random and with appropriately updated pointers.</p>
+<p>After this shuffling step, the client encrypts each node in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_2}" title="{&#92;mathrm{RAM}_2}" class="latex" />; that is, it creates a new array <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" /> such that for all <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" /> and all <img src="https://s0.wp.com/latex.php?latex=%7B1+%5Cleq+i+%5Cleq+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{1 &#92;leq i &#92;leq |&#92;mathrm{DB}[w]|}" title="{1 &#92;leq i &#92;leq |&#92;mathrm{DB}[w]|}" class="latex" />,</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cmathrm%7BRAM%7D_3%5Cbig%5B%5Cmathrm%7Baddr%7D_2%28%5Cmathrm%7BN%7D_%7Bw%2Ci%7D%29%5Cbig%5D+%3D+%5Cmathrm%7BEnc%7D_%7BK_w%7D%5Cbigg%28%5Cmathrm%7BRAM%7D_2%5Cbig%5B%5Cmathrm%7Baddr%7D_2%28%5Cmathrm%7BN%7D_%7Bw%2Ci%7D%29%5Cbig%5D%5Cbigg%29+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;mathrm{RAM}_3&#92;big[&#92;mathrm{addr}_2(&#92;mathrm{N}_{w,i})&#92;big] = &#92;mathrm{Enc}_{K_w}&#92;bigg(&#92;mathrm{RAM}_2&#92;big[&#92;mathrm{addr}_2(&#92;mathrm{N}_{w,i})&#92;big]&#92;bigg) " title="&#92;displaystyle &#92;mathrm{RAM}_3&#92;big[&#92;mathrm{addr}_2(&#92;mathrm{N}_{w,i})&#92;big] = &#92;mathrm{Enc}_{K_w}&#92;bigg(&#92;mathrm{RAM}_2&#92;big[&#92;mathrm{addr}_2(&#92;mathrm{N}_{w,i})&#92;big]&#92;bigg) " class="latex" /></p>
+<p>where <img src="https://s0.wp.com/latex.php?latex=%7BK_w+%3D+F_%7BK_%7B%5Cmathbb+R%7D%7D%28w%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K_w = F_{K_{&#92;mathbb R}}(w)}" title="{K_w = F_{K_{&#92;mathbb R}}(w)}" class="latex" /> and <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Baddr%7D_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{addr}_2}" title="{&#92;mathrm{addr}_2}" class="latex" /> is just a function that maps nodes to their location in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_2}" title="{&#92;mathrm{RAM}_2}" class="latex" /> (this just makes notation easier). Now, for all keywords <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" />, the client sets</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cmathrm%7BT%7D%5Cbig%5BP_%7BK_%5Cmathrm%7BT%7D%7D%28w%29+%5Cbig%5D+%3D+%5Cmathrm%7BEnc%7D_%7BK_w%7D%5Cbig%28%5Cmathrm%7Baddr%7D_3%28%5Cmathrm%7BN%7D_%7Bw%2C+1%7D%29%5Cbig%29%2C+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;mathrm{T}&#92;big[P_{K_&#92;mathrm{T}}(w) &#92;big] = &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big), " title="&#92;displaystyle &#92;mathrm{T}&#92;big[P_{K_&#92;mathrm{T}}(w) &#92;big] = &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big), " class="latex" /></p>
+<p>where <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Baddr%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{addr}_3}" title="{&#92;mathrm{addr}_3}" class="latex" /> is a function that maps nodes to their locations in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" />. Finally, the client sets <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D+%3D+%28%5Cmathrm%7BT%7D%2C+%5Cmathrm%7BRAM%7D_3%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" title="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" class="latex" />.</p>
+<p>Now the version I just described is simpler than the one presented in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>]. There are two main differences. The first has to do with the domain of the pseudo-random permutation <img src="https://s0.wp.com/latex.php?latex=%7BP%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{P}" title="{P}" class="latex" />. In practice, PRPs have a fixed domain size. For example, if we view AES as a PRP then it is a PRP that maps 128-bit strings to 128-bit strings. But in our case we need a PRP that maps keywords in <img src="https://s0.wp.com/latex.php?latex=%7BW%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{W}" title="{W}" class="latex" /> to the numbers <img src="https://s0.wp.com/latex.php?latex=%7B1%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{1}" title="{1}" class="latex" /> through <img src="https://s0.wp.com/latex.php?latex=%7B%7CW%7C%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{|W|}" title="{|W|}" class="latex" />. The problem here is that in practice the size of <img src="https://s0.wp.com/latex.php?latex=%7BW%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{W}" title="{W}" class="latex" /> will be <em>much</em> smaller than <img src="https://s0.wp.com/latex.php?latex=%7B2%5E%7B128%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{2^{128}}" title="{2^{128}}" class="latex" />. So the question becomes how we can use a PRP built for a large domain to build a PRP for a small domain? There are ways of doing this but at the time the known solutions had several important limitations. So we solved the problem using the following approach.</p>
+<p>Suppose we used a large-domain PRP. The problem would be that the table <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" /> would be large as well, i.e., it would have to hold <img src="https://s0.wp.com/latex.php?latex=%7B2%5E%7B128%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{2^{128}}" title="{2^{128}}" class="latex" /> elements if we were using a PRP over <img src="https://s0.wp.com/latex.php?latex=%7B128%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{128}" title="{128}" class="latex" />-bit strings (e.g., AES). Obviously this is too large to be practical. So the idea was to &#8220;shrink&#8221; <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" /> by using something called a Fredman-Komlos-Szemeredi (FKS) table. I won&#8217;t go into the details, but the point is that by using FKS tables, we could use a large-domain PRP and still have a compact table <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" />.</p>
+<p>The other difference has to do with the symmetric encryption scheme <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7BGen%7D%2C+%5Cmathrm%7BEnc%7D%2C+%5Cmathrm%7BDec%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{Gen}, &#92;mathrm{Enc}, &#92;mathrm{Dec})}" title="{(&#92;mathrm{Gen}, &#92;mathrm{Enc}, &#92;mathrm{Dec})}" class="latex" /> that we use. In the version described here, it is important for security that the encryption scheme be <em>anonymous</em> which means that, given two ciphertexts, one cannot tell whether they were encrypted under the same key or not. Why is this important? Because each list of nodes <img src="https://s0.wp.com/latex.php?latex=%7B%5C%7B%5Cmathrm%7BN%7D_%7Bw%2C+i%7D%5C%7D_%7Bi+%5Cleq+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;{&#92;mathrm{N}_{w, i}&#92;}_{i &#92;leq |&#92;mathrm{DB}[w]|}}" title="{&#92;{&#92;mathrm{N}_{w, i}&#92;}_{i &#92;leq |&#92;mathrm{DB}[w]|}}" class="latex" /> is encrypted under the same key <img src="https://s0.wp.com/latex.php?latex=%7BK_w%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{K_w}" title="{K_w}" class="latex" />. And if, given <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" />, the adversary can tell which ciphertexts are encrypted under the same key, then it can learn the frequency <img src="https://s0.wp.com/latex.php?latex=%7B%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{|&#92;mathrm{DB}[w]|}" title="{|&#92;mathrm{DB}[w]|}" class="latex" /> of each keyword. Note that this would be revealed by the EDB; without the client ever having made any queries.</p>
+<p>The problem with anonymity is that it is not implied by the standard notion of CPA-security. In practice, it seems that most block ciphers (including AES) would be anonymous but again maybe not. In [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] we didn&#8217;t assume that the underlying symmetric encryption scheme was anonymous so we had to use a different approach. At a high-level, what we did is to encrypt each node under a different key and store that key in its predecessor in the list. The fact that every node is encrypted under a different key solves our problem.</p>
+<p><b>Token and search.</b> If the client wants to search for keyword <img src="https://s0.wp.com/latex.php?latex=%7Bw%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w}" title="{w}" class="latex" />, he simply generates a token</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cmathrm%7Btk%7D+%3D+%28%5Cmathrm%7Btk%7D_1%2C+%5Cmathrm%7Btk%7D_2%29+%3D+%28P_%7BK_%5Cmathrm%7BT%7D%7D%28w%29%2C+F_%7BK_%7B%5Cmathbb+R%7D%7D%28w%29%29%2C+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;mathrm{tk} = (&#92;mathrm{tk}_1, &#92;mathrm{tk}_2) = (P_{K_&#92;mathrm{T}}(w), F_{K_{&#92;mathbb R}}(w)), " title="&#92;displaystyle &#92;mathrm{tk} = (&#92;mathrm{tk}_1, &#92;mathrm{tk}_2) = (P_{K_&#92;mathrm{T}}(w), F_{K_{&#92;mathbb R}}(w)), " class="latex" /></p>
+<p>which he sends to the server. To query <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D+%3D+%28%5Cmathrm%7BT%7D%2C+%5Cmathrm%7BRAM%7D_3%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" title="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" class="latex" />, the server first recovers the ciphertext <img src="https://s0.wp.com/latex.php?latex=%7Bc+%3D+%5Cmathrm%7BT%7D%5B%5Cmathrm%7Btk%7D_1%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{c = &#92;mathrm{T}[&#92;mathrm{tk}_1]}" title="{c = &#92;mathrm{T}[&#92;mathrm{tk}_1]}" class="latex" /> which it decrypts to recover address <img src="https://s0.wp.com/latex.php?latex=%7Ba_1+%3D+%5Cmathrm%7BDec%7D_%7B%5Cmathrm%7Btk%7D_2%7D%28c%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{a_1 = &#92;mathrm{Dec}_{&#92;mathrm{tk}_2}(c)}" title="{a_1 = &#92;mathrm{Dec}_{&#92;mathrm{tk}_2}(c)}" class="latex" />. Then, for all <img src="https://s0.wp.com/latex.php?latex=%7Bi%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{i}" title="{i}" class="latex" /> until <img src="https://s0.wp.com/latex.php?latex=%7Ba_i+%3D+%5Cbot%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{a_i = &#92;bot}" title="{a_i = &#92;bot}" class="latex" />, it decrypts the nodes <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7BN%7D_%7Bw%2C+1%7D%2C+%5Cdots%2C+%5Cmathrm%7BN%7D_%7Bw%2C+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{N}_{w, 1}, &#92;dots, &#92;mathrm{N}_{w, |&#92;mathrm{DB}[w]|})}" title="{(&#92;mathrm{N}_{w, 1}, &#92;dots, &#92;mathrm{N}_{w, |&#92;mathrm{DB}[w]|})}" class="latex" /> by computing</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%28%5Cmathrm%7Bid%7D_i%2C+a_%7Bi%2B1%7D%29+%5Cleftarrow+%5Cmathrm%7BDec%7D_%7BK_%7B%5Cmathbb+R%7D%7D%5Cbig%28%5Cmathrm%7BRAM%7D_3%5Ba_i%5D%5Cbig%29.+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle (&#92;mathrm{id}_i, a_{i+1}) &#92;leftarrow &#92;mathrm{Dec}_{K_{&#92;mathbb R}}&#92;big(&#92;mathrm{RAM}_3[a_i]&#92;big). " title="&#92;displaystyle (&#92;mathrm{id}_i, a_{i+1}) &#92;leftarrow &#92;mathrm{Dec}_{K_{&#92;mathbb R}}&#92;big(&#92;mathrm{RAM}_3[a_i]&#92;big). " class="latex" /></p>
+<p>It then finds and returns the encrypted documents with identifiers <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7Bid%7D_1%2C+%5Cdots%2C+%5Cmathrm%7Bid%7D_%7B%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{id}_1, &#92;dots, &#92;mathrm{id}_{|&#92;mathrm{DB}[w]|})}" title="{(&#92;mathrm{id}_1, &#92;dots, &#92;mathrm{id}_{|&#92;mathrm{DB}[w]|})}" class="latex" />.</p>
+<p><b>Efficiency and security.</b> To search, the server needs to do one lookup in <img src="https://s0.wp.com/latex.php?latex=%7BT%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{T}" title="{T}" class="latex" />, which is <img src="https://s0.wp.com/latex.php?latex=%7BO%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{O(1)}" title="{O(1)}" class="latex" /> and then one decryption for each node <img src="https://s0.wp.com/latex.php?latex=%7B%28%5Cmathrm%7BN%7D_%7Bw%2C+1%7D%2C+%5Cdots%2C+%5Cmathrm%7BN%7D_%7Bw%2C+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(&#92;mathrm{N}_{w, 1}, &#92;dots, &#92;mathrm{N}_{w, |&#92;mathrm{DB}[w]|})}" title="{(&#92;mathrm{N}_{w, 1}, &#92;dots, &#92;mathrm{N}_{w, |&#92;mathrm{DB}[w]|})}" class="latex" />, which is <img src="https://s0.wp.com/latex.php?latex=%7BO%28%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{O(|&#92;mathrm{DB}[w]|)}" title="{O(|&#92;mathrm{DB}[w]|)}" class="latex" />. So the search complexity of this approach is <img src="https://s0.wp.com/latex.php?latex=%7BO%28%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{O(|&#92;mathrm{DB}[w]|)}" title="{O(|&#92;mathrm{DB}[w]|)}" class="latex" />, which is optimal since it would take at least that much time just for the server to send back the relevant documents.</p>
+<p>The construction is clearly efficient (asymptotically speaking, as efficient as possible) but is it secure? Yes and no. The security of the solution (at least the more complex version) is proved secure in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] but it is only shown to be <em>non-adaptively-secure</em> with trivial setup leakage and query leakage that includes the access pattern (the search results) and the search pattern (whether a query is repeated).</p>
+<p>Intuitively, given <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D+%3D+%28%5Cmathrm%7BT%7D%2C+%5Cmathrm%7BRAM%7D_3%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" title="{&#92;mathrm{EDB} = (&#92;mathrm{T}, &#92;mathrm{RAM}_3)}" class="latex" /> the adversary learns at most the number of keywords (by the size of <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" />) and <img src="https://s0.wp.com/latex.php?latex=%7B%5Csum_%7Bw+%5Cin+W%7D+%7C%5Cmathrm%7BDB%7D%5Bw%5D%7C%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;sum_{w &#92;in W} |&#92;mathrm{DB}[w]|}" title="{&#92;sum_{w &#92;in W} |&#92;mathrm{DB}[w]|}" class="latex" /> by the size of <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" />. So that is the setup leakage. Notice that unlike solutions based on deterministic encryption, the <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB}}" title="{&#92;mathrm{EDB}}" class="latex" /> by itself does not leak any non-trivial information like the frequency of a keyword. At query time, the server obviously learns the search results <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDB%7D%5Bw%5D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DB}[w]}" title="{&#92;mathrm{DB}[w]}" class="latex" /> but it also learns whether the client is repeating a keyword search since in that case the tokens <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7Btk%7D+%3D+%28P_%7BK_%5Cmathrm%7BT%7D%7D%28w%29%2C+F_%7BK_%7B%5Cmathbb+R%7D%7D%28w%29%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{tk} = (P_{K_&#92;mathrm{T}}(w), F_{K_{&#92;mathbb R}}(w))}" title="{&#92;mathrm{tk} = (P_{K_&#92;mathrm{T}}(w), F_{K_{&#92;mathbb R}}(w))}" class="latex" /> will be the same.</p>
+<p><b>Improvements.</b> The inverted index solution has been improved over several works. Its main limitations were that: <img src="https://s0.wp.com/latex.php?latex=%7B%281%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(1)}" title="{(1)}" class="latex" /> it was only non-adaptively secure; <img src="https://s0.wp.com/latex.php?latex=%7B%282%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(2)}" title="{(2)}" class="latex" /> the use of FKS dictionaries made the solution hard to understand and implement; and <img src="https://s0.wp.com/latex.php?latex=%7B%283%29%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{(3)}" title="{(3)}" class="latex" /> it was a static scheme, in the sense that one could not modify the <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BEDB%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{EDB}}" title="{&#92;mathrm{EDB}}" class="latex" /> to add or remove keywords and/or document identifiers [8].</p>
+<p>The first problem was addressed in a joint paper with my MSR colleague Melissa Chase [<a class="snap_noshots" href="http://eprint.iacr.org/2011/010.pdf">CK10</a>]. One of the observations in that work was that the inverted index solution could be made adaptively-secure by replacing the symmetric encryption scheme by a non-committing encryption scheme. Non-committing encryption schemes are usually either very expensive or require very strong assumptions (i.e., random oracles). Fortunately, in our setting we only need a <em>symmetric</em> non-committing encryption scheme and such a scheme can be instantiated very efficiently. In fact, it turns out that the simplest possible symmetric encryption scheme is non-committing! In retrospect this is a very simple observation, but it&#8217;s been a very useful one since it allows us to design adaptively-secure schemes very efficiently (and under standard assumptions). In fact, this has been used in most subsequent SSE constructions.</p>
+<p>The second issue was also addressed in [<a class="snap_noshots" href="http://eprint.iacr.org/2011/010.pdf">CK10</a>]. Obviously one could just replace the PRP with a small-domain PRP but the approach taken in [<a class="snap_noshots" href="http://eprint.iacr.org/2011/010.pdf">CK10</a>] was different. The idea is to replace the array <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" /> with a dictionary <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDX%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DX}}" title="{&#92;mathrm{DX}}" class="latex" />. A dictionary is a data structure that stores label/value pairs and that supports lookup operations that map labels to their values. Dictionaries can be instantiated as hash tables, binary search trees etc. So instead of populating <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BT%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{T}}" title="{&#92;mathrm{T}}" class="latex" /> with</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cmathrm%7BT%7D%5Cbig%5BP_%7BK_%5Cmathrm%7BT%7D%7D%28w%29+%5Cbig%5D+%3D+%5Cmathrm%7BEnc%7D_%7BK_w%7D%5Cbig%28%5Cmathrm%7Baddr%7D_3%28%5Cmathrm%7BN%7D_%7Bw%2C+1%7D%29%5Cbig%29+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;mathrm{T}&#92;big[P_{K_&#92;mathrm{T}}(w) &#92;big] = &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big) " title="&#92;displaystyle &#92;mathrm{T}&#92;big[P_{K_&#92;mathrm{T}}(w) &#92;big] = &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big) " class="latex" /></p>
+<p>for all <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" />, we instead use a PRF <img src="https://s0.wp.com/latex.php?latex=%7BG%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{G}" title="{G}" class="latex" /> and store the pair</p>
+<p align="center"><img src="https://s0.wp.com/latex.php?latex=%5Cdisplaystyle+%5Cbigg%28G_%7BK_%5Cmathrm%7BT%7D%7D%28w%29%2C+%5Cmathrm%7BEnc%7D_%7BK_w%7D%5Cbig%28%5Cmathrm%7Baddr%7D_3%28%5Cmathrm%7BN%7D_%7Bw%2C+1%7D%29%5Cbig%29%5Cbigg%29+&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="&#92;displaystyle &#92;bigg(G_{K_&#92;mathrm{T}}(w), &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big)&#92;bigg) " title="&#92;displaystyle &#92;bigg(G_{K_&#92;mathrm{T}}(w), &#92;mathrm{Enc}_{K_w}&#92;big(&#92;mathrm{addr}_3(&#92;mathrm{N}_{w, 1})&#92;big)&#92;bigg) " class="latex" /></p>
+<p>in <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BDX%7D%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{DX}}" title="{&#92;mathrm{DX}}" class="latex" /> for all <img src="https://s0.wp.com/latex.php?latex=%7Bw+%5Cin+W%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w &#92;in W}" title="{w &#92;in W}" class="latex" />. With this approach we remove the need for a PRP altogether and, in turn, the need for either small-domain PRPs or FKS dictionaries.</p>
+<p>The third issue was addressed in a joint paper with Charalampos (Babis) Papamanthou who was an MSR intern at the time and Tom Roeder who was an MSR colleague at the time. In this paper [<a class="snap_noshots" href="http://eprint.iacr.org/2012/530.pdf">KPR12</a>], we show how to make the inverted index solution dynamic while maintaining its efficiency. The solution is complex so I won&#8217;t discuss it here.</p>
+<p>In another paper with Babis [<a class="snap_noshots" href="https://research.microsoft.com/en-us/um/people/senyk/pubs/psse.pdf">KP13</a>] we propose a much simpler dynamic solution. Our approach here is tree-based and not based on the inverted index solution at all. It&#8217;s search complexity, however, is not optimal but sub-linear; in particular, it incurs a logarithmic (in the number of documents) factor over optimal. It has other good properties, however, like parallizable search and good I/O complexity.</p>
+<p>In a more recent paper [<a class="snap_noshots" href="http://www.internetsociety.org/sites/default/files/07_4_1.pdf">CJJJKSR14</a>], Cash, Jarecki, Jaeger, Jutla, Krawczyk, Steiner and Rosu describe a dynamic solution that is very simple, has optimal and parallelizable search and has good I/O complexity.</p>
+<p>In another recent paper [<a class="snap_noshots" href="http://web.engr.illinois.edu/~naveed2/pub/Oakland2014BlindStorage.pdf">NPG14</a>], Naveed, Prabakharan and Gunther propose a very interesting dynamic solution based on the notion of blind storage. In a way, their notion of blind storage can be viewed as an abstraction of the <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" /> structure in the inverted index solution. What [<a class="snap_noshots" href="http://web.engr.illinois.edu/~naveed2/pub/Oakland2014BlindStorage.pdf">NPG14</a>] shows, however, is that there is an alternative&#8212;and much better&#8212;way of achieving the properties needed from <img src="https://s0.wp.com/latex.php?latex=%7B%5Cmathrm%7BRAM%7D_3%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{&#92;mathrm{RAM}_3}" title="{&#92;mathrm{RAM}_3}" class="latex" /> than how it is done in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>]. I won&#8217;t say much else because this really gets into the weeds of SSE techniques but I recommend the paper if you&#8217;re interested in this area (see this <a href="http://research.microsoft.com/apps/video/default.aspx?id=212229">talk</a> by Naveed for more details)</p>
+<p>Finally, the last paper I&#8217;ll mention is a work by Cash, Jarecki, Jutla, Krawczyk, Rosu and Steiner [<a class="snap_noshots" href="http://eprint.iacr.org/2013/169">CJJKRS13</a>] that shows how to extend the inverted index solution to handle <em>boolean</em> queries while keeping its optimal search complexity. Prior to this work we knew how to handle conjunctive search queries (i.e., <img src="https://s0.wp.com/latex.php?latex=%7Bw_1+%5Cwedge+w_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w_1 &#92;wedge w_2}" title="{w_1 &#92;wedge w_2}" class="latex" />) in linear time. This paper showed not only how to do it in optimal time but also showed how to handle disjunctive queries (i.e., <img src="https://s0.wp.com/latex.php?latex=%7Bw_1+%5Cvee+w_2%7D&#038;bg=ffffff&#038;fg=000000&#038;s=0" alt="{w_1 &#92;vee w_2}" title="{w_1 &#92;vee w_2}" class="latex" />) and combinations of conjunctions and disjunctions!</p>
+<p><strong>Update:</strong> Two very nice resources on SSE I should have mentioned in the original post are a great <a href="http://bristolcrypto.blogspot.com/2013/11/how-to-search-on-encrypted-data-in.html">blog post</a> by Peter Scholl from University of Bristol and an incredibly comprehensive <a href="http://eprints.eemcs.utwente.nl/24788/01/a18-bosch.pdf">survey</a> by Bosch, Hartel, Jonker and Peter from University of Twente.</p>
+<p><b> Notes </b></p>
+<p>[1] I discuss how to use ORAM for encrypted search towards the end of the previous post of this series.</p>
+<p>[2] Amazingly, this paper was never accepted for publication; which tells you something about the current state of our publication process. [3] This wasn&#8217;t an omission on Goh&#8217;s part; he defined it this way on purpose. His reasoning was that SSE schemes could have a variety of applications where token privacy was not needed. This made sense but it still left open the question of how one should define security with token privacy.</p>
+<p>[4] A similar situation was later observed by Boneh, Sahai and Waters and O&#8217; Neill in the setting of functional encryption.</p>
+<p>[5] Technically, this is <em>not</em> true! The reason SSE schemes tend to be more efficient than ORAM is not because they reveal the search results (access pattern) but because they reveal whether searches were repeated (search pattern).</p>
+<p>[6] At this point you might be wondering how the proofs went through. In the definition of [Goh03], the tokens did not appear at all since he was not considering query privacy. In the case of [CM05], the adversary in the proof is restricted to never repeating queries.</p>
+<p>[7] A criticism I often hear from colleagues and reviewers is that SSE constructions are not really <em>searching</em> over data. The underlying issue is that no computation is being performed. In my opinion, this reflects a very uninformed understanding of the real world. Given the amounts of data we currently produce and have to search over, search has become analogous to <em>sub-linear-time search</em> and therefore to some form of indexed-based search. In other words, the kind of scale we now have to deal with has fundamentally changed what we mean by the term search.</p>
+<p>[8] Actually, in [<a class="snap_noshots" href="http://eprint.iacr.org/2006/210.pdf">CGKO06</a>] we describe a way to make our constructions (and any other) dynamic. There are limitations to this approach, however, including the tokens growing in length with the number of updates and interaction. So when we ask for a dynamic SSE scheme we typically want the update process not to affect the token size and, preferably, the update mechanism to be non-interactive&#8212;though the latter doesn&#8217;t matter much from a practical point of view.</li>
+</ul>
+<p>&nbsp;</p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-468" class="share-twitter sd-button share-icon" href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-468" class="share-facebook sd-button share-icon" href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-28219122-468-57643a89b5692' data-src='//widgets.wp.com/likes/#blog_id=28219122&amp;post_id=468&amp;origin=cloudcrypto.wordpress.com&amp;obj_id=28219122-468-57643a89b5692' data-name='like-post-frame-28219122-468-57643a89b5692'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	</article><!-- #post-468 -->
+
+	<div id="comments">
+	
+	
+			<h2 id="comments-title">
+			24 thoughts on &ldquo;<span>How to Search on Encrypted Data: Searchable Symmetric Encryption (Part&nbsp;5)</span>&rdquo;		</h2>
+
+		
+		<ol class="commentlist">
+				<li class="post pingback">
+		<p>Pingback: <a href='http://blog.whatwoulddando.com/2014/10/02/interesting-technology-posts-this-week-oct-2-2014/' rel='external nofollow' class='url'>Interesting technology posts this week Oct 2, 2014 | What Would Dan Do?</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1596">
+		<article id="comment-1596" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/449196b8ce6ee46729d7a14514b27938?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://ciphercloud.com' rel='external nofollow' class='url'>Pravin Kothari</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1596"><time pubdate datetime="2014-10-06T12:22:15+00:00">
+					October 6, 2014 at 12:22 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>CipherCloud actually does &#8216;Strong Searchable Encryption&#8217; by encrypting all data with a randomized encryption but also indexing a plaintext-&gt;ciphertext mapping using standard key-value data stores like Elastic Search. They can then store the encrypted data in a cloud service (e.g. Salesforce). When a user wants to &#8216;search&#8217; the encrypted data in the cloud service, CipherCloud&#8217;s reverse proxy instead issues a search to the plaintext-&gt;ciphertext mapping. Typically, this is stored on a CipherCloud customer&#8217;s premise. It finds all (randomized) ciphertexts that match the query, then it constructs a big long search query (SOQL in the case of Salesforce) to fetch every value which matches the query. It&#8217;s clever software engineering but bears little resemblance to real searchable encryption techniques.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1596#respond' onclick='return addComment.moveForm( "comment-1596", "1596", "respond", "468" )' aria-label='Reply to Pravin Kothari'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1605">
+		<article id="comment-1605" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1605"><time pubdate datetime="2014-10-07T09:14:41+00:00">
+					October 7, 2014 at 9:14 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thanks for the details Pravin! It&#8217;s hard to figure out what&#8217;s going on with many of the startups in this space. I may be missing something but what exactly is the value proposition for clients if they have to run and maintain a CipherCloud proxy on premise? With this approach the client is trading off having to manage its data on premise to having to manage the &#8220;mapping/proxy&#8221; on premise. What do they gain exactly?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1605#respond' onclick='return addComment.moveForm( "comment-1605", "1605", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-1607">
+		<article id="comment-1607" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/449196b8ce6ee46729d7a14514b27938?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://ciphercloud.com' rel='external nofollow' class='url'>Pravin Kothari</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1607"><time pubdate datetime="2014-10-07T13:42:45+00:00">
+					October 7, 2014 at 1:42 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Basically nothing; it&#8217;s really a question of degree. Ciphercloud would probably argue that it requires fewer resources to manage the on-prem proxy (with or without local search index) than an entire CRM application. Though, their deployments are still quite complex; they typically require hundreds of hours of (billable) professional services work. And that&#8217;s just the standard proxy &#8211; if you want tokenization (e.g. for PCI compliance) that&#8217;s another cluster that needs to be managed.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1610">
+		<article id="comment-1610" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1610"><time pubdate datetime="2014-10-08T09:06:16+00:00">
+					October 8, 2014 at 9:06 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Interesting. For this to make any kind of sense, running a CRM on premise (including the required consulting services) should be more expensive than running a CRM in the cloud + a CipherCloud proxy (including the required consulting services).</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1610#respond' onclick='return addComment.moveForm( "comment-1610", "1610", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1621">
+		<article id="comment-1621" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/cea260d12b8270a535433b50be2492d9?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn">biswatosh</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1621"><time pubdate datetime="2014-10-10T02:07:57+00:00">
+					October 10, 2014 at 2:07 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi Pravin, Are you the same Pravin Kothari of Cipher Cloud&#8211;the founder?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1621#respond' onclick='return addComment.moveForm( "comment-1621", "1621", "respond", "468" )' aria-label='Reply to biswatosh'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment odd alt depth-2 highlander-comment" id="li-comment-1639">
+		<article id="comment-1639" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/449196b8ce6ee46729d7a14514b27938?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://ciphercloud.com' rel='external nofollow' class='url'>Pravin Kothari</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1639"><time pubdate datetime="2014-10-13T11:57:35+00:00">
+					October 13, 2014 at 11:57 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I can neither confirm nor deny this.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1639#respond' onclick='return addComment.moveForm( "comment-1639", "1639", "respond", "468" )' aria-label='Reply to Pravin Kothari'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1833">
+		<article id="comment-1833" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/d936686247534bd03f07371cd5e329d7?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn">blf</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1833"><time pubdate datetime="2014-11-07T10:27:44+00:00">
+					November 7, 2014 at 10:27 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>All SSE schemes talked about here seem to, when given a query, return a full list of all documents containing the keyword(s) in the query. However, in modern search engines results come usually ordered by some relevance ranking. Aren&#8217;t there any provably-secure SSE works giving this functionality? If not, why hasn&#8217;t the security research community tried to tackle this problem, in your opinion?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1833#respond' onclick='return addComment.moveForm( "comment-1833", "1833", "respond", "468" )' aria-label='Reply to blf'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1841">
+		<article id="comment-1841" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-1841"><time pubdate datetime="2014-11-07T22:21:05+00:00">
+					November 7, 2014 at 10:21 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>There are a few papers out there that try to do this and there are more coming. Most of these papers focus on text documents so the ranking is of the TF/IDF style. </p>
+<p>With respect to web search engine rankings, this paper: <a href="http://eprint.iacr.org/2011/010.pdf" rel="nofollow">http://eprint.iacr.org/2011/010.pdf</a> shows how to encrypt web graphs in such a way to support focused  subgraph queries. Based on this, one can run Jon Kleinberg&#8217;s HITS algorithm to get a ranking.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=1841#respond' onclick='return addComment.moveForm( "comment-1841", "1841", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://dluat.com/how-to-securely-store-ssn-details-in-a-database-while-maintaining-searches/' rel='external nofollow' class='url'>How to securely store SSN details in a database while maintaining searches? - DL-UAT</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-2293">
+		<article id="comment-2293" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/ecc5623e5a495aecf4428c8e94f5cc7a?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://gravatar.com/sairalouise' rel='external nofollow' class='url'>sairalouise</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-2293"><time pubdate datetime="2015-01-19T04:30:01+00:00">
+					January 19, 2015 at 4:30 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I have noticed that in general PEKS schemes use secure channels between the user and the server to transport the search tokens to prevent an adversary who cannot derive search tokens themselves from intercepting them and learning the search results. Does SSE prevent against this? Is a secure channel assumed? Or does the security model for SSE allow for any adversary to intercept a search token and learn the corresponding search results?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=2293#respond' onclick='return addComment.moveForm( "comment-2293", "2293", "respond", "468" )' aria-label='Reply to sairalouise'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt depth-2 highlander-comment" id="li-comment-2341">
+		<article id="comment-2341" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-2341"><time pubdate datetime="2015-01-23T11:45:37+00:00">
+					January 23, 2015 at 11:45 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>This is a great question. As you point out, in the PEKS setting we need a secure channel because the tokens are not hiding and do not protect the queries.  So by using a secure channel we can at least protect the queries from a simple eavesdropper even if we can&#8217;t achieve that against the server itself. </p>
+<p>In the symmetric case the tokens offer more protection so in some sense there is less of a need for a secure channel. That being said, it is important to realize that the tokens do leak some information: namely whether two queries are for the same keyword or not; so there is some benefit to using a secure channel. The question boils down to whether you care about revealing the equality of keywords to an eavesdropper. </p>
+<p>In practice I would always recommend to just use a secure channel since you never know and the cost of using one isn&#8217;t that great.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=2341#respond' onclick='return addComment.moveForm( "comment-2341", "2341", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://qandasys.info/how-to-securely-store-ssn-details-in-a-database-while-maintaining-searches/' rel='external nofollow' class='url'>How to securely store SSN details in a database while maintaining searches? | Question and Answer</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='https://outsourcedbits.org/2015/04/15/applied-crypto-highlights-searchable-encryption-with-ranked-results/' rel='external nofollow' class='url'>Applied Crypto Highlights: Searchable Encryption with Ranked Results | Outsourced Bits</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-3229">
+		<article id="comment-3229" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/0a1217628fd9b857237b195420c909f8?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://gravatar.com/fastportal' rel='external nofollow' class='url'>Rik</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3229"><time pubdate datetime="2015-11-03T12:54:16+00:00">
+					November 3, 2015 at 12:54 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Sorry for being late to the party, but how would this work with changing databases? SSE allows for searching in the EBD, but how would one add documents to the EDB when it is already deployed. Would it involve decrypting the entire EDB?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3229#respond' onclick='return addComment.moveForm( "comment-3229", "3229", "respond", "468" )' aria-label='Reply to Rik'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt depth-2 highlander-comment" id="li-comment-3239">
+		<article id="comment-3239" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3239"><time pubdate datetime="2015-11-05T21:46:45+00:00">
+					November 5, 2015 at 9:46 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi Rik. Great question. There are SSE schemes that can handle updates (without decrypting the entire EDB). They are typically referred to as &#8220;Dynamic SSE schemes&#8221;. A particularly nice one is by Cash et al.: <a href="http://eprint.iacr.org/2014/853" rel="nofollow">http://eprint.iacr.org/2014/853</a></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3239#respond' onclick='return addComment.moveForm( "comment-3239", "3239", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-fastportal even thread-even depth-1 highlander-comment" id="li-comment-3241">
+		<article id="comment-3241" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/0a1217628fd9b857237b195420c909f8?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn">fastportal</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3241"><time pubdate datetime="2015-11-06T01:45:24+00:00">
+					November 6, 2015 at 1:45 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thanks! Are there any implementations or libraries that we can have a look at?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3241#respond' onclick='return addComment.moveForm( "comment-3241", "3241", "respond", "468" )' aria-label='Reply to fastportal'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor odd alt depth-2 highlander-comment" id="li-comment-3247">
+		<article id="comment-3247" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3247"><time pubdate datetime="2015-11-06T11:41:24+00:00">
+					November 6, 2015 at 11:41 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>As far as I know, there aren&#8217;t any publicly available implementations available (all the ones I know of are proprietary and there are no plans on releasing them) but I hope that will change soon.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3247#respond' onclick='return addComment.moveForm( "comment-3247", "3247", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-3248">
+		<article id="comment-3248" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/d936686247534bd03f07371cd5e329d7?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://asc.di.fct.unl.pt/~bf/' rel='external nofollow' class='url'>blf</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3248"><time pubdate datetime="2015-11-06T14:31:32+00:00">
+					November 6, 2015 at 2:31 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I have a C++ implementation of that scheme as I&#8217;m building on it to propose something new. I want to open source it in the future, but it&#8217;s still a scientific prototype, not exactly production level code😦</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3248#respond' onclick='return addComment.moveForm( "comment-3248", "3248", "respond", "468" )' aria-label='Reply to blf'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1 highlander-comment" id="li-comment-3413">
+		<article id="comment-3413" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/207866aecc1f13c4d172207eff740e9a?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://gravatar.com/maxpmagee' rel='external nofollow' class='url'>maxpmagee</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3413"><time pubdate datetime="2015-12-16T12:20:34+00:00">
+					December 16, 2015 at 12:20 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I think you have a typo in the following paragraph:<br />
+&#8220;We didn’t really have any answer for the second question. In fact, we still don’t. We don’t really have a good way to understand and analyze the leakage of SSE schemes. For now, the best we can do is to try and describe it precisely.&#8221;</p>
+<p>You had just discussed said you found an SSE implementation that was adaptively-secure (the second question), and I believe you are referring to the first question (leakage) in this paragraph.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3413#respond' onclick='return addComment.moveForm( "comment-3413", "3413", "respond", "468" )' aria-label='Reply to maxpmagee'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor even depth-2 highlander-comment" id="li-comment-3419">
+		<article id="comment-3419" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3419"><time pubdate datetime="2015-12-18T07:46:52+00:00">
+					December 18, 2015 at 7:46 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Fixed, thanks!</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3419#respond' onclick='return addComment.moveForm( "comment-3419", "3419", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-3416">
+		<article id="comment-3416" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/a859f7d13aa8d5008de01078e27c2bed?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn">Jidu</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3416"><time pubdate datetime="2015-12-17T02:53:15+00:00">
+					December 17, 2015 at 2:53 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi Kamara&#8230;thanks for this nice blog on your work on SSE&#8230;&#8230;I have a question regarding the following quote</p>
+<p>&#8220;Notice that unlike solutions based on deterministic encryption, the {\mathrm{EDB}} by itself does not leak any non-trivial information like the frequency of a keyword. At query time, the server obviously learns the search results {\mathrm{DB}[w]} but it also learns whether the client is repeating a keyword search since in that case the tokens {\mathrm{tk} = (P_{K_\mathrm{T}}(w), F_{K_{\mathbb R}}(w))} will be the same.&#8221;</p>
+<p>Does that mean after queries the above described SSE will reveal the frequency?<br />
+I guess the assumption that a database will be queried once is not practical at all. Adding dummy documents will hide the frequency after queries at the cost of large storage at the server. Right?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3416#respond' onclick='return addComment.moveForm( "comment-3416", "3416", "respond", "468" )' aria-label='Reply to Jidu'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-senykam bypostauthor even depth-2 highlander-comment" id="li-comment-3420">
+		<article id="comment-3420" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='https://cloudcrypto.wordpress.com' rel='external nofollow' class='url'>senykam</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3420"><time pubdate datetime="2015-12-18T07:51:31+00:00">
+					December 18, 2015 at 7:51 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>No one assumes it will queried only once. Every time it is queried it will reveal more information and this is captured in the definitions and in the analysis. The point, however, is that this is still considerably less than what is leaked by other approaches; especially some approaches based on PPE (i.e., deterministic and order-preserving encryption) which leak (more) information even if no queries are ever made.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3420#respond' onclick='return addComment.moveForm( "comment-3420", "3420", "respond", "468" )' aria-label='Reply to senykam'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-waleedalgomyli odd alt thread-even depth-1 highlander-comment" id="li-comment-3525">
+		<article id="comment-3525" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/992cc6c010c19d1b2a8e36d8c0c2fa5c?s=32&#038;d=identicon&#038;r=G' class='avatar avatar-32' height='32' width='32' />					<cite class="fn"><a href='http://gravatar.com/waleedalgomyli' rel='external nofollow' class='url'>waleedalgomyli</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#comment-3525"><time pubdate datetime="2016-01-18T09:39:31+00:00">
+					January 18, 2016 at 9:39 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi, can you explain in example  what does  &#8220;query predicate P() &#8221; mean in searchable encryption.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/?replytocom=3525#respond' onclick='return addComment.moveForm( "comment-3525", "3525", "respond", "468" )' aria-label='Reply to waleedalgomyli'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+		</ol>
+
+		
+	
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://outsourcedbits.org/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="f00d973a64" /><input type="hidden" name="_wp_http_referer" value="/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='468' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c0f8cf8287" /></p>
+<input type="hidden" name="genseq" value="1466186377" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="44"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+				
+							<nav id="nav-below">
+			<h1 class="assistive-text section-heading">Post navigation</h1>
+
+		
+			<div class="nav-previous"><a href="https://outsourcedbits.org/2014/04/29/is-the-nsa-metadata-program-legal/" rel="prev"><span class="meta-nav">&laquo;</span> Is the NSA Metadata Program&nbsp;Legal?</a></div>			<div class="nav-next"><a href="https://outsourcedbits.org/2014/10/02/microsoft-research-svc-and-applied-theory/" rel="next">Microsoft Research SVC and Applied&nbsp;Theory <span class="meta-nav">&raquo;</span></a></div>
+		
+		</nav><!-- #nav-below -->
+	
+			
+		</div><!-- #content -->
+
+
+	<div id="sidebar" class="widget-area" role="complementary">
+				<aside id="text-3" class="widget widget_text"><h1 class="widget-title">About Me</h1>			<div class="textwidget"><p><img src="https://cloudcrypto.files.wordpress.com/2015/09/data-encryption-kamara_200.jpg" align="middle"><br />
+My name is Seny Kamara. I am an Associate Professor of <a href="http://cs.brown.edu">Computer Science</a> at <a href="http://brown.edu">Brown</a>. Prior to that, I was a researcher at <a href="http://research.microsoft.com">Microsoft Research</a>.</p>
+<p>My work is focused on designing and studying cryptographic algorithms, protocols and systems; often motivated by privacy issues in cloud computing, surveillance and databases. </p>
+<p>This is a blog about my research and interests. For more about my work see my <a href="http://cs.brown.edu/~seny"> homepage</a>.</p>
+<p>Follow me on <a href="http://twitter.com/senykam">Twitter</a> or subscribe below to stay updated on new posts. </p>
+</div>
+		</aside><aside id="recent-comments-4" class="widget widget_recent_comments"><h1 class="widget-title">Recent Comments</h1>				<table class="recentcommentsavatar" cellspacing="0" cellpadding="0" border="0">
+					<tr><td title="kawa5604" class="recentcommentsavatartop" style="height:16px; width:16px;"><a href="http://theblondemonkey.wordpress.com" rel="nofollow"><img alt='' src='https://0.gravatar.com/avatar/3120d3200bd5154dbb6b8214e74bb4d4?s=16&#038;d=identicon&#038;r=G' class='avatar avatar-16' height='16' width='16' /></a></td><td class="recentcommentstexttop" style=""><a href="http://theblondemonkey.wordpress.com" rel="nofollow">kawa5604</a> on <a href="https://outsourcedbits.org/2014/11/11/how-not-to-learn-cryptography/#comment-3692">How Not to Learn&nbsp;Cryptogr&hellip;</a></td></tr><tr><td title="Rachel Nallathamby" class="recentcommentsavatarend" style="height:16px; width:16px;"><img alt='' src='https://0.gravatar.com/avatar/c34334998253ffb9f4d03efbbb225671?s=16&#038;d=identicon&#038;r=G' class='avatar avatar-16' height='16' width='16' /></td><td class="recentcommentstextend" style="">Rachel Nallathamby on <a href="https://outsourcedbits.org/2013/10/30/how-to-search-on-encrypted-data-part-3/#comment-3633">How to Search on Encrypted Dat&hellip;</a></td></tr><tr><td title="senykam" class="recentcommentsavatarend" style="height:16px; width:16px;"><a href="https://cloudcrypto.wordpress.com" rel="nofollow"><img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=16&#038;d=identicon&#038;r=G' class='avatar avatar-16' height='16' width='16' /></a></td><td class="recentcommentstextend" style=""><a href="https://cloudcrypto.wordpress.com" rel="nofollow">senykam</a> on <a href="https://outsourcedbits.org/2013/12/20/how-to-search-on-encrypted-data-part-4-oblivious-rams/#comment-3617">How to Search on Encrypted Dat&hellip;</a></td></tr><tr><td title="Toma" class="recentcommentsavatarend" style="height:16px; width:16px;"><img alt='' src='https://2.gravatar.com/avatar/e6f584faddf828f26a602f785a9e10df?s=16&#038;d=identicon&#038;r=G' class='avatar avatar-16' height='16' width='16' /></td><td class="recentcommentstextend" style="">Toma on <a href="https://outsourcedbits.org/2013/12/20/how-to-search-on-encrypted-data-part-4-oblivious-rams/#comment-3614">How to Search on Encrypted Dat&hellip;</a></td></tr><tr><td title="senykam" class="recentcommentsavatarend" style="height:16px; width:16px;"><a href="https://cloudcrypto.wordpress.com" rel="nofollow"><img alt='' src='https://0.gravatar.com/avatar/636478fd542e52d1752e00b3e6752f3d?s=16&#038;d=identicon&#038;r=G' class='avatar avatar-16' height='16' width='16' /></a></td><td class="recentcommentstextend" style=""><a href="https://cloudcrypto.wordpress.com" rel="nofollow">senykam</a> on <a href="https://outsourcedbits.org/2013/12/20/how-to-search-on-encrypted-data-part-4-oblivious-rams/#comment-3604">How to Search on Encrypted Dat&hellip;</a></td></tr>				</table>
+				</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-35123767"><a href="https://outsourcedbits.org/category/cloud-computing-2/" >Cloud Computing</a>
+</li>
+	<li class="cat-item cat-item-187237862"><a href="https://outsourcedbits.org/category/crypto-design/" >Crypto Design</a>
+</li>
+	<li class="cat-item cat-item-187237861"><a href="https://outsourcedbits.org/category/crypto-engineering/" >Crypto Engineering</a>
+</li>
+	<li class="cat-item cat-item-187237859"><a href="https://outsourcedbits.org/category/crypto-theory/" >Crypto Theory</a>
+</li>
+	<li class="cat-item cat-item-218319385"><a href="https://outsourcedbits.org/category/encrypted-search-2/" >Encrypted Search</a>
+</li>
+	<li class="cat-item cat-item-2054"><a href="https://outsourcedbits.org/category/law/" >Law</a>
+</li>
+	<li class="cat-item cat-item-264"><a href="https://outsourcedbits.org/category/learning/" >Learning</a>
+</li>
+	<li class="cat-item cat-item-3279"><a href="https://outsourcedbits.org/category/privacy/" >Privacy</a>
+</li>
+	<li class="cat-item cat-item-801"><a href="https://outsourcedbits.org/category/security/" >Security</a>
+</li>
+	<li class="cat-item cat-item-21053"><a href="https://outsourcedbits.org/category/surveillance/" >Surveillance</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://outsourcedbits.org/category/uncategorized/" >Uncategorized</a>
+</li>
+		</ul>
+</aside><aside id="twitter-2" class="widget widget_twitter"><h1 class="widget-title"><a href='http://twitter.com/senykam'>Twitter Stream</a></h1><ul class='tweets'>
+			<li>
+				RT @<a href='http://twitter.com/claudiorlandi'>claudiorlandi</a>: Do you (know someone who) want to be a <a href='http://twitter.com/search?q=%23cryptography'>#cryptography</a> PhD student at @<a href='http://twitter.com/AarhusUni'>AarhusUni</a>? <a href="http://iacr.org/jobs/"> iacr.org/jobs/</a> (thanks for RT)  //  				<a href="http://twitter.com/senykam/statuses/743861481566048257" class="timesince">16&nbsp;minutes&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/BrownCSDept'>BrownCSDept</a>: You can also read Wilson in his own words (&quot;New Opportunities In CS: An SMS-Based Commodity Exchange In Ghana&quot;): <a href="https://t…" rel="nofollow">https://t…</a>  //  				<a href="http://twitter.com/senykam/statuses/743637660430901250" class="timesince">15&nbsp;hours&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				RT @<a href='http://twitter.com/BrownCSDept'>BrownCSDept</a>: An invited talk on encrypted search by @<a href='http://twitter.com/SenyKam'>SenyKam</a> at a CCC workshop previews his fall teaching <a href="http://buff.ly/1UBiMH9"> buff.ly/1UBiMH9</a> https…  //  				<a href="http://twitter.com/senykam/statuses/743523565933305856" class="timesince">22&nbsp;hours&nbsp;ago</a>
+			</li>
+
+			</ul><a href="http://twitter.com/senykam"  class='twitter-follow-button' data-show-count='false' data-link-color='#0099ff' data-text-color='#707070'>Follow @senykam</a></aside><aside id="archives-3" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<label class="screen-reader-text" for="archives-dropdown-3">Archives</label>
+		<select id="archives-dropdown-3" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='https://outsourcedbits.org/2016/03/'> March 2016 </option>
+	<option value='https://outsourcedbits.org/2015/09/'> September 2015 </option>
+	<option value='https://outsourcedbits.org/2015/06/'> June 2015 </option>
+	<option value='https://outsourcedbits.org/2015/04/'> April 2015 </option>
+	<option value='https://outsourcedbits.org/2014/12/'> December 2014 </option>
+	<option value='https://outsourcedbits.org/2014/11/'> November 2014 </option>
+	<option value='https://outsourcedbits.org/2014/10/'> October 2014 </option>
+	<option value='https://outsourcedbits.org/2014/08/'> August 2014 </option>
+	<option value='https://outsourcedbits.org/2014/04/'> April 2014 </option>
+	<option value='https://outsourcedbits.org/2014/03/'> March 2014 </option>
+	<option value='https://outsourcedbits.org/2013/12/'> December 2013 </option>
+	<option value='https://outsourcedbits.org/2013/10/'> October 2013 </option>
+	<option value='https://outsourcedbits.org/2013/07/'> July 2013 </option>
+	<option value='https://outsourcedbits.org/2012/09/'> September 2012 </option>
+	<option value='https://outsourcedbits.org/2012/06/'> June 2012 </option>
+	<option value='https://outsourcedbits.org/2012/05/'> May 2012 </option>
+
+		</select>
+		</aside><aside id="blog_subscription-3" class="widget widget_blog_subscription"><h1 class="widget-title"><label for="subscribe-field">Follow via Email</label></h1>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Follow and receive notifications of new posts by email.</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"/></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="blog_id" value="28219122"/>
+						<input type="hidden" name="source" value="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="4d34db81e1" />						<input type="submit" value="Follow" />
+					</p>
+				</form>
+			
+</aside>	</div><!-- #sidebar .widget-area -->
+			<footer id="colophon" role="contentinfo">
+				<div id="site-info">
+					<p><a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a> <a href="https://wordpress.com/themes/fresh-and-clean/" title="Learn more about this theme">The Fresh &amp; Clean Theme</a>.</p>
+				</div><!-- #site-info -->
+			</footer><!-- #colophon -->
+		</div><!-- #main -->
+	</div><!-- #page -->
+
+<!-- wpcom_wp_footer -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201624y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-449196b8ce6ee46729d7a14514b27938">
+	</div>
+	<div class="grofile-hash-map-636478fd542e52d1752e00b3e6752f3d">
+	</div>
+	<div class="grofile-hash-map-cea260d12b8270a535433b50be2492d9">
+	</div>
+	<div class="grofile-hash-map-d936686247534bd03f07371cd5e329d7">
+	</div>
+	<div class="grofile-hash-map-ecc5623e5a495aecf4428c8e94f5cc7a">
+	</div>
+	<div class="grofile-hash-map-0a1217628fd9b857237b195420c909f8">
+	</div>
+	<div class="grofile-hash-map-0a1217628fd9b857237b195420c909f8">
+	</div>
+	<div class="grofile-hash-map-207866aecc1f13c4d172207eff740e9a">
+	</div>
+	<div class="grofile-hash-map-a859f7d13aa8d5008de01078e27c2bed">
+	</div>
+	<div class="grofile-hash-map-992cc6c010c19d1b2a8e36d8c0c2fa5c">
+	</div>
+	<div class="grofile-hash-map-3120d3200bd5154dbb6b8214e74bb4d4">
+	</div>
+	<div class="grofile-hash-map-c34334998253ffb9f4d03efbbb225671">
+	</div>
+	<div class="grofile-hash-map-e6f584faddf828f26a602f785a9e10df">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/cloudcrypto.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/cloudcrypto.wordpress.com\/wp-login.php?action=logout&_wpnonce=75d2819c06","homeURL":"https:\/\/outsourcedbits.org\/","postID":"468","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1462457903j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;Outsourced Bits&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 80 other followers</p>
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="28219122"/>
+			<input type="hidden" name="source" value="https://outsourcedbits.org/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="4d34db81e1" /><input type="hidden" name="_wp_http_referer" value="/2014/08/21/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/outsourcedbits.org\/2014\/08\/21\/how-to-search-on-encrypted-data-searchable-symmetric-encryption-part-5\/":468};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+		<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431h'></script>
+<script type='text/javascript' src='https://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyNjEsOwjAMBS9EalVAYYM4S5SY1qnjhHwo3J5sKsGGsprFmzewRGWCFJQCLoPFBxmMz87lHXxMvqrIdSTJwDRjhnvFipMWy5hWmcRwtW1sIRO8b0eVMPKr8yQ/iuiDIyjLFzd9hyVqM6v/7C0rhlzUjTUlyJNOJOPKdrr6S38Y9sP52Pcn9wapQHIm'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "cloudcrypto.wordpress.com";
+	</script>
+	<script type="text/javascript" src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20160429#ver=20160429' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.async = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="//stats.wp.com/w.js?52" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'28219122','blog_tz':'-7','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'28219122','v':'wpcom','tz':'-7','user_id':'0','post':'468','subd':'cloudcrypto'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3AlSGN8YmRCSmtFZT8wUDdkZkpPanN6bnIlQnZkflFbSThKfnEtSUJWMklrTzdnNEJlTXIlMHpKZD00fGd5dkE3eCVrSGMuLUp5WXM1Nzl0Pz1JJmNtPVpkQ2Y5Ul82Wk58eXJzSlZxSnVqU1c1c0RESTI3am54aXpzUV12NXVxazFLSnwtPzJ3LCtaY3JsPzIzaDNKUXxrTi96NVVHLlYxV0kxZXFtWVAvPWNCZm0wbnYwTTlXNSZvaXg2a09lLVM/fFV8eEFUWHp5ZElZeUo2RnNpeSVBJnpBUCZKUitLR200SEUwXV9PWmZkVzdIWl1NNmNOb1JMTiZbRCxKbm5UNCY1cFt3MEdWfHJm'}]);
+_stq.push([ 'clickTrackerInit', '28219122', '468' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>
+<!--
+	generated in 0.446 seconds
+	146349 bytes batcached for 300 seconds
+-->

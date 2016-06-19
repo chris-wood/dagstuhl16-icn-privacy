@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- start html-->    
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr" >
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+  <base  />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Hash-based Signatures</title>
+  <link href="../templates/beez_20/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link rel="stylesheet" href="../templates/system/css/system.css" type="text/css" />
+  <link rel="stylesheet" href="../templates/beez_20/css/position.css" type="text/css" media="screen,projection"  />
+  <link rel="stylesheet" href="../templates/beez_20/css/layout.css" type="text/css" media="screen,projection"  />
+  <link rel="stylesheet" href="../templates/beez_20/css/print.css" type="text/css" media="print"  />
+  <link rel="stylesheet" href="../templates/beez_20/css/general.css" type="text/css" />
+  <link rel="stylesheet" href="../templates/beez_20/css/general_mozilla.css" type="text/css" />
+  <link rel="stylesheet" href="../templates/beez_20/css/personal.css" type="text/css" />
+
+<!--[if lte IE 6]>
+<link href="/templates/beez_20/css/ieonly.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+#line {
+  width:98% ;
+}
+.logoheader {
+  height:200px;
+}
+#header ul.menu {
+  display:block !important;
+  width:98.2% ;
+}
+</style>
+<![endif]-->
+
+<!--[if IE 7]>
+<link href="/templates/beez_20/css/ie7only.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+</head>
+
+<!-- start body-->  
+<body>
+
+<div id="all">
+        <div id="back">
+<!-- start header -->           
+                <div id="header">
+<!-- start logoheader -->                  
+                                <div class="logoheader">
+                                        <h1 id="logo">
+                                                                                                                                                                                <span class="header1">
+                                                                                </span></h1>
+                                </div> 
+<!-- end logoheader -->
+                                        <ul class="skiplinks">
+                                                <li><a href="#main" class="u2">Skip to content</a></li>
+                                                <li><a href="#nav" class="u2">Jump to main navigation and login</a></li>
+                                                                                    </ul>
+                                        <h2 class="unseen">Nav view search</h2>
+                                        <h3 class="unseen">Navigation</h3>
+                                        
+                                        <div id="line">
+                    <!-- <div id="fontsize"></div> -->
+                                        <h3 class="unseen">Search</h3>
+                                        
+                                        </div> <!-- end line -->
+
+                        </div>
+<!-- end header -->
+<!-- start content area -->          
+                        <div id="contentarea">
+<!-- remove breadcrumbs over menu                          
+                                        <div id="breadcrumbs">
+
+<div class="breadcrumbs">
+<span class="showHere">You are here: </span><a href="/" class="pathway">Home</a> <img src="/templates/beez_20/images/system/arrow.png" alt=""  /> <span>Advisory Board</span></div>
+
+                                        </div>
+-->
+
+                                                        <div class="left1 leftbigger" id="nav">
+                                                   <div class="moduletable_menu">
+ <h3><span
+	class="backh"><span class="backh2">
+	<span class="backh3">Practical Hash-based Signatures</span></span></span></h3>
+ 
+<ul class="menu">
+<li class="item-201"><a href="../index.html" >Home</a></li>
+<li class="item-202 current active"><a href="hbs.html" >Hash-based Signatures</a></li>
+<li class="item-474"><a href="project-members.html" >Project Members</a></li>
+<li class="item-471"><a href="project-details.html" >Project Details</a></li>
+<li class="item-473"><a href="news-milestones.html" >News and Milestones</a></li>
+<li class="item-472"><a href="publications.html" >Publications</a></li>
+<li class="item-478"><a href="related.html" >Related Work</a></li>
+<li class="item-480"><a href="events.html" >Events</a></li>
+<li class="item-475"><a href="contacts.html" >Contacts</a></li>
+<li class="item-476"><a href="links.html" >Links</a></li>
+<li class="item-477"><a href="imprint.html" >Imprint</a></li></ul>
+</div>
+
+                                                        </div><!-- end navi -->
+               <!-- start main wrapper --> 
+                                        <div id="wrapper2" >
+<!-- start main text section -->  
+                                                <div id="main">
+
+<div id="system-message-container">
+</div>
+                                                        <div class="item-page">
+
+<h2>Hash-based Signatures</h2>
+
+<h1>Today's challenge</h1>
+
+<p>Digital signatures are massively used online, notably for authentication, integrity checking and non-repudiation. The digital signature algorithms most commonly used in practice &mdash; RSA, DSA and ECDSA &mdash; rely on hardness assumptions about number theoretic problems, namely composite integer factorisation and the computation of discrete logarithms. In 1994, Peter Shor [Sho94] showed that these number theoretic problems would become breakable in the presence of quantum computing. Quantum computers could solve them in polynomial time, compromising the security of the digital signature schemes used today. While quantum computers are not yet available, their development is occurring at a swift pace and therefore constitute a real threat over the next decades. Fortunately, post-quantum cryptography provides a variety of quantum-resistant alternatives to classical digital signature schemes [BBD09]. Hash-based signatures or Merkle signatures as they are also known, are one of the most promising of these alternatives.</p>
+
+<h1>Why go hash-based?</h1>
+
+<p>There are many reasons to use hash-based signature schemes and to prefer those over other alternatives. While the very early Merkle Signature Scheme lacks of practical performance and space requirements, today's hash-based schemes like XMSS are reasonably fast and yield small signatures. Also the security requirements are compelling. While the security of other post-quantum cryptographic schemes like lattice-based ones is still object to further research, hash-based signatures are well understood. Using a signature scheme always requires a hash function to reduce a message to a small representation of characters that can be signed easily. While other signature schemes rely on additional intractability assumptions to generate a signature, a hash-based solution only needs a secure hash function for the same procedure. Therefore the security of the scheme holds with the hash function used. If the latter one gets compromised, it can be replaced. The underlying Merkle scheme is not affected. Some hash-based schemes even reduce the need for a collision-resistant hash function to one that only needs to withstand attacks on the second-preimage. That given you will get to know about security issues early as attacks in general aim on the stronger security assumption. As an example practical attacks in means of the collision-resistance of the MD5 function are known, but we still do not know about virtual attacks on the second-preimage. With some schemes, other desirable features like forward security are available as well. A scheme being forward secure means that an attacker will not be able to get information about formerly used signature keys by getting hold of the current private key.</p>
+
+<h1>One-Time Signatures</h1>
+
+<p>Hash-based signatures are based on so-called one-time signatures (OTS). As the term implies, a single key pair must only be used once. Otherwise, an attacker is able to reveal more parts of the private key and spoof signatures. A popular example is the scheme proposed by Leslie Lamport and Whitfield Diffie in 1979 [Lam79]. As one can imagine, this is not very practical. Many key pairs are needed to sign lots of messages, and therefore some kind of key management is required. A solution to cope with this situation was proposed by Ralph Merkle in 1979 [Mer79]. He suggested the use of (binary) hash trees, which are now called Merkle trees. But first, more about one-time signatures: For this kind of signature one generates random data for each case of having a '0' or a '1' representing a single bit of the message. This is the private key. The public key represents the hashed version for each of the random data blocks. To sign a message, the private key data for each bit is revealed, depending on the single message bit being '0' or '1'. A verifier can calculate the hashes and compare them to the public key. Here one notices that generating a second signature would tell more about the private key and allow an attacker to forge further signatures. Therefore a single key pair must only be used once. To improve performance and reduce space requirements, Merkle proposed the Winternitz OTS, named after Robert Winternitz. The basic idea of the Winternitz OTS is to sign several bits at once.</p>
+
+<p>Here you can see the Lamport-Diffie scheme (example message <i>001</i>) <a href="http://csrc.nist.gov/groups/ST/CETA_2011/presentations/mcgrew-Sigs.pdf" target="_blank">following McGrew's visualisation (link to NIST)</a>:</p>
+<p class="centeredImage">
+ <img src="../media/lamport.png" alt="Lamport Diffie"  style="width:650px">
+</p>
+
+<h1>Hash-based Signatures</h1>
+
+<p>To overcome the key management problem of one-time signature key pairs, Merkle proposed the use of hash trees. In the Merkel signature scheme (MSS), verification keys are hashed and build the leaves of the tree. Neighbouring children are concatenated and then hashed to build the parent node. The root of the tree represents the public key of the scheme. A signature is generated by applying the private key of an OTS scheme. The corresponding verification key is handed on to the receiver of the message along with the signature. The verifier also has to be told about neighbouring nodes on the path to the root of the MSS tree, which is referred to as the authentication path. Using that information, the receiver can verify the signature and use the verification key to build the leave and reach the root of the tree using the authentication path. The root is already known to the verifier as the public key, which he obtained earlier, for example via a certificate. For each new signature generated the next key pair must be used. As one can see, this scheme is stateful. For example, the index of the used key pair &mdash; respectively leaf &mdash; of the MSS tree must be stored. This is a whole new situation in the use of cryptographic schemes. Due to slow runtimes, as well as large key and signature sizes, this scheme was not used in practice since other schemes like RSA were known and easier to implement. But as the need for post-quantum cryptography has arisen, the interest in hash-based signatures led to renewed interest in those schemes and significant improvements occurred over the last years. Signature generation is much faster thanks to the use of pseudo-random number generators, the construction of large is trees is easier thanks to multi-tree proposals and many more contributions have been made. In 2011, Andreas Hülsing introduced XMSS [BH11], a hash-based signatures scheme based on minimal security assumptions [Hül13]. This scheme and its multi-tree variant XMSS<sup>MT</sup> are the most advanced approaches for practical hash-based signatures.</p>
+
+<p>A list of literature on hash-based signatures can be found on Andreas Hülsing's <a href="https://huelsing.wordpress.com/hash-based-signature-schemes/literature/" target="_blank">Website</a>.</p>
+
+<p>A summer school lecture on hash-based signatures by Johannes Buchmann and Andreas Hülsing can be found on <a href="https://www.youtube.com/watch?v=MecexfUT4OQ" target="_blank">Youtube</a> provided by the Institute for Quantum Computing, University of Waterloo.</p>
+
+<p>Here you can see an XMSS tree following Andreas Hülsing [Hül13]:</p>
+<p class="centeredImage">
+ <img src="../media/tree.png" alt="Merkle Tree"  style="width:650px">
+</p>
+
+<h1>New Challenges</h1>
+<p>To introduce hash-based signature schemes to today's cryptographic infrastructure, a few drawbacks must be overcome. This does not mean there are barriers one cannot manage, but issues that just have not arose so far and have to be dealt with and thought about now. Particularly statefulness has to be handled. Private keys of e.g. RSA are stateless. They can easily be used. It's possible to have several copies, no matter whether you allow access for several process for example talking about a TLS-server handling hundreds of connections or whether you want to make backups of your key. Due to the statefulness of hash-based schemes, private keys become a critical resource. Also any kind of copy is a security threat as an attacker could get hold of an old key state and forge signatures. Another aspect are interfaces to cryptographic software like TLS libraries. Those are sometimes not prepared to deal with changing keys. Furthermore, issues emerging from the integration with a public key infrastructure (PKI) such as key distribution and revocation must be addressed.</p>
+
+<table border="1">
+  <tr>
+    <td><p>[BBD09]</p></td>
+    <td><p>Bernstein, Daniel J. and Buchmann, Johannes and Dahmen, Erik (Editors): Post-Quantum Cryptography. Springer (2009)</p></td>
+    <td><p><a href="https://www.springer.com/mathematics/numbers/book/978-3-540-88701-0" target="_blank">Springer Website</a></p></td>
+  </tr>
+  <tr>
+    <td><p>[BH11]</p></td>
+    <td><p>Buchmann, Johannes and Hülsing, Andreas: XMSS &mdash; A Practical Forward Secure Signature Scheme based on Minimal Security Assumptions. In: Yang, Bo-Yin (Editor): Post-Quantum Cryptography, Vol. 7071, Springer (2011)</p></td>
+    <td><p><a href="http://huelsing.files.wordpress.com/2013/05/mssgesamt.pdf" target="_blank">Paper (via Hülsing's Website)</a></p></td>
+  </tr>
+  <tr>
+    <td><p>[Hül13]</p></td>
+    <td><p>Hülsing, Andreas: Practical Forward Secure Signatures using Minimal Security Assumptions. Ph.D. thesis, Technische Universität Darmstadt (2013)</p></td>
+    <td><p><a href="http://tuprints.ulb.tu-darmstadt.de/3651/1/Thesis.pdf" target="_blank">Paper (via TU Darmstadt)</a></p></td>
+  </tr>
+  <tr>
+    <td><p>[Lam79]</p></td>
+    <td><p>Lamport, Leslie: Constructing Digital Signatures from a One Way Function. In: SRI International Technical Report CSL-98, SRI International Computer Science Laboratory (1979)</p></td>
+   <td><p><a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/dig-sig.pdf" target="_blank">Paper (via Microsoft Research)</a></p></td>
+  </tr>
+  <tr>
+    <td><p>[Mer79]</p></td>
+    <td><p>Merkle, Ralph C.: Secrecy, Authentication, And Public Key Systems. Ph.D. thesis, Stanford University (1979)</p></td>
+    <td><p><a href="http://www.merkle.com/papers/Certified1979.pdf" target="_blank">Paper (via Merkle's Website)</a></p></td>
+  </tr>
+  <tr>
+    <td><p>[Sho94]</p></td>
+    <td><p>Shor, Peter W.: Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer. SIAM J. Comput. 26(5), 1484–1509 (1997)</p></td>
+    <td><p><a href="http://arxiv.org/pdf/quantph/9508027.pdf" target="_blank">Paper (via Cornell University Library / arXiv.org)</a></p></td>
+  </tr>  
+</table>
+                        </div><!-- back -->
+
+                </div><!-- all -->
+
+<!-- end body -->    
+        </body>
+
+</html>

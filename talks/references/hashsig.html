@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ImperialViolet - Hash based signatures</title>
+    <meta name="author" content="Adam Langley">
+
+    <link href="https://twitter.com/agl__" rel="me">
+    <link rel="openid.server" href="https://indieauth.com/openid" />
+    <link rel="openid.delegate" href="https://www.imperialviolet.org/" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/iv-rss.xml"/>
+    <link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:extralight&text=ImperialVioletAdamLangleysWeblog%27" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/js/hyphenator/Hyphenator.js"></script>
+    <script type="text/javascript">
+Hyphenator.run();
+    </script>
+
+    <style>
+      body {
+        font-family: serif;
+        text-align: justify;
+        max-width: 45em;
+        line-height: 1.8;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #fbfbfc;
+        -webkit-font-feature-settings: 'liga' 1;
+        -moz-font-feature-settings: 'liga' 1;
+      }
+
+      ul {
+        font-size: 14pt;
+      }
+
+      p {
+        font-size: 14pt;
+        line-height: 21pt;
+      }
+
+      h1, h2 {
+        font-family: 'Yanone Kaffeesatz', arial, serif;
+        font-weight: normal;
+      }
+
+      kbd, tt, pre {
+        font-size: 12pt;
+        font-family: "Inconsolata", monospace;
+      }
+
+      h1 a {
+        text-decoration: none;
+        color: black;
+      }
+
+      h3 a {
+        color: #222;
+        text-decoration: none;
+      }
+
+      h1 {
+        font-size: 4.5em;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      h2 {
+        margin-top: 0;
+        padding-top: 0;
+        margin-bottom: 2em;
+      }
+
+      h3 {
+        font-family: sans-serif;
+        font-weight: normal;
+      }
+
+      h4 {
+        font-family: sans-serif;
+      }
+
+      td.topblock {
+        max-width: 25em;
+      }
+
+      td.topblockpadleft {
+        padding-left: 2em;
+      }
+
+      div.postcontents {
+      }
+
+      div.postcontents h3 {
+        color: #666;
+	font-size: 1.3em;
+        padding-top: 3em;
+	font-weight: normal;
+      }
+
+      div.postcontents h3 a {
+        color: #444;
+        text-decoration: none;
+	font-family: sans-serif;
+      }
+
+      div.postcontents a {
+        color: #222;
+      }
+
+      /* For the SELinux page */
+
+      div#selinux {
+        max-width: 65em;
+        text-align: justify;
+      }
+      div#selinux .subject {
+        color: red;
+      }
+      div#selinux .action {
+        color: green;
+      }
+      div#selinux .object {
+        color: blue;
+      }
+      div#selinux .class {
+        font-family: monospace;
+        color: brown;
+      }
+      .div#selinux permission {
+        font-family: monospace;
+        color: cadetblue;
+      }
+      div#selinux .type {
+        color: yellowgreen;
+      }
+      div#selinux .fileaction {
+        font-variant: small-caps;
+      }
+    </style>
+  </head>
+
+  <body class="hyphenate">
+    <div style="margin-left: 1em; margin-right: 1em;">
+      <div class="topbox">
+    <h1><a href="https://www.imperialviolet.org">ImperialViolet</a></h1>
+  </div>
+
+  <div class="postcontents">
+    <h3><a href="/2013/07/18/hashsig.html">Hash based signatures</a> (18 Jul 2013)</h3>
+
+    <div class="post">
+      <p>It's likely that Kevin Poulsen will still be alive in twenty years time, and that his <a href="http://www.wired.com/threatlevel/2013/06/signed-bda0df3c/">encrypted message to Edward Snowden</a> will still be saved somewhere. In fact, there are <a href="https://groups.google.com/forum/#!forum/alt.anonymous.messages">several</a> <a href="http://www.pgpboard.com/viewforum.php?f=4&sid=4e75eb9e171e8520c49d0aeb8e09af58">places</a> where people post RSA-encrypted messages and seem to assume that they're secure. Even assuming that no huge advances in factoring occur (and Joux et al have just <a href="http://hal.inria.fr/hal-00835446/">killed discrete logs in binary fields</a>, so it's not impossible), large, quantum computers will be able to break them.</p>
+
+<p>It might be the case that building practical, quantum computers doesn't turn out to be possible (D-Wave machines don't count here), but there are people trying hard to do it. From &ldquo;<a href="http://www.amazon.com/Deep-State-Government-Secrecy-Industry/dp/1118146689">Deep State</a>&rdquo; (a rather fragmented book, but interesting in parts):</p>
+
+<p><q>There is a quantum computing arms race of sorts under way. China, Israel and Russia have advanced quantum computing programs with direct aim of gaining geopolitical advantage, as does DARPA itself.</q></p>
+<p><q>There are classified and semi-classified DARPA and Army/Air Force/Navy Research Lab programs for the potential use of quantum computers for a select set of defense technologies, including: the ability to design a perfect sensing laser for drones or satellites; the ability to design radar that can defeat counter-stealth techniques; the ability to design coatings for aircraft that truly are stealth, owning to the exploitation of quantum fluid dynamics.</q></p>
+
+<p>Now, government agencies don't care about Wired, but they do care about those things. So it's a possibility that, in a few decades, an academic lab will be in possession of a large quantum computer and might want to pursue some light-hearted historical investigations. (Just in case, I've included the Wired message and key below in case either is deleted ☺)</p>
+
+<p>Despite a common misunderstanding, quantum computers don't break all public key cryptography, and quantum cryptography isn't the answer. (Unless you have lots of money and a dedicated fiber line, and possibly not even then.) Instead <i>post-quantum</i> cryptography is the answer, and there's even a <a href="http://www.pqcrypto.org/">conference on it</a>.</p>
+
+<p>So, should we be using post-quantum algorithms now? The reason that we don't currently use them is because they generally take one or two orders of magnitude more time, space or both. For high-volume work like TLS, that puts them outside the bounds of practicality. But for an application like PGP, where the volume of messages is very low, why not? Size might be an issue but, if it takes 1 second to process a message vs 10 milliseconds, it doesn't really make a difference. You might as well dial the security up to 11.</p>
+
+<p>There are a couple of things that one needs for a system like PGP: encryption and signatures. One option for building post-quantum, public-key signatures is hash-based signatures. These are actually really old! They were described by Lamport in 1979, only a couple of years after RSA. In fact, as <a href="http://www.cs.princeton.edu/courses/archive/spr08/cos598D/Rompel.pdf">Rompel showed</a>, a secure signature scheme exists if and only if a secure hash-based signature scheme exists. Individual hash functions may be broken, but if hash-based signatures are broken in general then there can be no secure signatures at all!</p>
+
+<p>The most primitive hash-based signature can be used only once, and only to sign a single-bit message: Alice picks two random values, <i>x</i> and <i>y</i> and publishes her public key: H(<i>x</i>) and H(<i>y</i>). In order to sign a message, Alice publishes one of the two, original values depending on the value of the bit.</p>
+
+<p>Clearly this only works for a single bit message. It's also a <i>one-time signature</i> because once one of the original values has been published, it's insecure for the same public key to be used again.</p>
+
+<p>The first extension to this scheme is to run many instances in parallel in order to sign larger messages. Fix the hash function, H, as SHA-256. Now Alice picks 512 random values, <i>x</i><sub>0..255</sub> and <i>y</i><sub>0..255</sub> and publishes the hash of each of them as her public key. Now she can sign an arbitrarily long message, <i>m</i>, by calculating H(<i>m</i>) and then publishing either <i>x</i><sub>i</sub> or <i>y</i><sub>i</sub> depending on the bits of H(<i>m</i>).</p>
+
+<p>It's still one-time though. As soon as Alice signs a different message with the same public key then, for some values of <i>i</i>, both <i>x</i><sub>i</sub> and <i>y</i><sub>i</sub> have been published. This lets an attacker forge signatures for messages that Alice hasn't signed.</p>
+
+<p>In order to allow signing multiple messages there's one easy solution: just have multiple one-time signatures! Let's say that we want a thousand. The issue is that the public and private keys of our one-time scheme were 512×32 bytes = 16KB and, if we want a thousand of them, then the public and private keys end up being 16MB, which is quite a lot. We can solve the private key size by generating a stream of values from a cipher with just a 32-byte seed key, but the large public key remains.</p>
+
+<p>The solution to this is to use a Merkle hash tree, introduced (unsurprisingly) by Merkle, in 1979.</p>
+
+<img style="display: block; margin-left: auto; margin-right: auto;" src="/binary/hashsig-merkle.svg"/>
+
+<p>The the diagram, above, four leaf hashes are included in the hash tree: A, B, C and D. The hash tree is a binary tree where each non-leaf node contains the hash of its children. If Bob believes that H(H(AB)H(CD)) is Alice's public key, then anyone can convince him that A is <i>part</i> of Alice's public key by giving him A, B and H(CD). Bob calculates H(AB) from A and B, and then H(H(AB)H(CD)) from H(AB) and H(CD). If the values match, and if the hash function isn't broken, then A must be part of Alice's public key.</p>
+
+<p>Now, if A, B, C and D were one-time signature public keys then Alice's public key has been reduced to a single hash. Each signature now needs to include the one-time signature value, the rest of the public key, and also a proof that the public key is in Alice's public key. In more detail, the signature contains either <i>x</i><sub>i</sub> or <i>y</i><sub>i</sub> depending on the bits of the hash of the message to be signed and <i>also</i> H(<i>x</i><sub>i</sub>) or H(<i>y</i><sub>i</sub>) for the bits that weren't used. With that information, Bob can reconstruct the one-time signature public key. Then the signature contains the path up the tree - i.e. the values B, and H(CD) in our example, which convince Bob that the one-time signature public key is part of Alice's overall public key.</p>
+
+<p>So now the public and private keys have been reduced to just 32 bytes (at least if you're using a 256-bit hash). We can make the tree arbitrarily large, thus supporting arbitrarily many signatures. The signatures, however, are 16KB plus change, which is pretty chunky. So the next trick will try to address this, and it's thanks to Winternitz.</p>
+
+<p>The Winternitz trick was described in <a href="http://www.merkle.com/papers/Certified1979.pdf">Merkle's original, 1979 work</a> and it involves iterating hashes. We started off by considering the one-time signature of a single bit and solved it by publishing H(<i>x</i>) and H(<i>y</i>) and then revealing one of the preimages. What if we generated a single random value, <i>z</i>, and published H(H(<i>z</i>))? We would reveal H(<i>z</i>) if the bit was one, or <i>z</i> if the bit was zero. But an attacker could take our signature of zero (<i>z</i>) and calculate H(<i>z</i>), thus creating a signature of one.</p>
+
+<p>So we need a checksum to make sure that, for any other message, the hash function needs to be broken. So we would need two of these structures and then we would sign 01 or 10. That way, one of the hash chains needs to be broken in order to calculate the signature of a different message. The second bit is the Winternitz checksum.</p>
+
+<p>As it stands, Winternitz's trick hasn't achieved anything - we're still publishing two hash values and revealing two secrets. But when we start signing larger messages it becomes valuable.</p>
+
+<p>Let's say that the Winternitz hash chains were 16 values long. That means that one of them can cover four bits of the hash that we're signing. If we were signing a 256-bit value, then we only need 64 Winternitz chains and three for the checksum. Also, the Winternitz scheme makes it easy for the verifier to calculate the original public key. The signature size has gone from 16KB to 2,144 bytes. Not bad!</p>
+
+<p>But! There's still a critical flaw in this! Recall that using a one-time signature twice completely breaks the system. Because of that, the signature scheme is &ldquo;stateful&rdquo;. This means that, when signing, the signer absolutely must record that a one-time key has been used so that they never use it again. If the private key was copied onto another computer and used there, then the whole system is broken.</p>
+
+<p>That limitation might be ok in some situations, and actually means that one can build forward-secure signature schemes: schemes where signatures prior to a key compromise can still be trusted. Perhaps for a CA where the key is in an HSM that might be useful. However, for most environments it's a huge foot-cannon.</p>
+
+<p>We could pick one-time public keys to use based on the hash of the message, or at random in the hope of never colliding but, in order for such schemes to be safe the tree of one-time public keys needs to be really big. Big as in, more than 2<sup>128</sup> entries. If we use the trick of generating the private keys from the output of a cipher then, as soon as we fix the cipher private key, we have determined the whole tree. However, although we can compute <i>any</i> part of it, we can't compute <i>all</i> of it. At least not without an infinite amount of time (or close enough to infinite as makes no difference).</p>
+
+<p>So we have to defer calculating parts of the tree until we actually need them in order to generate a signature. In order to defer bits of the tree, we have to split the tree up into a forest of smaller trees. The top-level tree is calculated as before and the Merkle hash of it is the public key. But rather than sign a message with the one-time leaves of that tree, we sign the root hash of a subtree. Since everything is deterministic, the subtree at any position is always the same so we're always signing the same message - which is safe.</p>
+
+<p>Thus, if we wished to have a conceptual hash tree with 2<sup>160</sup> leaves, we could split it up, say, every 16 bits. The tip of the tree would be a hash tree with 2<sup>16</sup> leaves. Those leaves would sign the root of a hash tree of another 2<sup>16</sup> leaves and so one. In order to make 2<sup>160</sup>, we would need 10 layers of such trees.</p>
+
+<img style="display: block; margin-left: auto; margin-right: auto;" src="/binary/hashsig-forest.svg">
+
+<p>I can't have an image with all 2<sup>16</sup> leaves in each tree, so 2<sup>2</sup> will have to do. When generating the key, only the top (blue) tree needs to be calculated. When generating each signature, all the subtrees down the path to the final one-time key need to be calculated. So the signature consists of a one-time signature, from the 3<sup>rd</sup> leaf of the blue tree, of the root of the red tree (as well as Merkle path to the blue root), plus a one-time signature, from the 1<sup>st</sup> leaf of the <i>red</i> tree, of the root of the green tree (as well as a Merkle path to the red root), etc.</p>
+
+<p>Obviously these signatures are going to be rather larger, due to all the intermediate signatures, and will take rather longer to calculate, due to calculating all the subtrees on the fly. Below is a little Haskell program that tries to estimate signature size vs signature time. It may well have some bugs because I haven't actually coded up a working example to ensure that it does actually work.</p>
+
+
+<pre>log2 = logBase 2 :: Double -&gt; Double
+
+-- We assume SHA-256 for the sake of this example.
+hashBits = 256
+hashBytes = hashBits/8
+-- This is the Winternitz parameter.
+w = 64
+wBits = log2 w
+-- These are parameters for the Winternitz signature.
+l1 = fromIntegral $ ceiling (hashBits/wBits)
+l2 = 1 + (fromIntegral $ floor $ log2(l1*(w-1))/wBits)
+-- wWords is the number of hash chains that we'll have.
+wWords = l1 + l2
+
+-- An SSE2, SHA-256 implementation can hash at 5 cycles/byte
+hashCyclesPerByte = 5
+-- We assume that we can generate keystream bytes at 2 cycles/byte.
+secretCyclesPerByte = 2
+
+otsSignatureBytes = wWords * hashBytes
+-- In order to generate a single OTS public key we need to calculate wWords
+-- hash chains to a depth of w hashes.
+otsHashOps = wWords * w
+otsHashBytes = hashBytes * otsHashOps
+otsHashCycles = hashCyclesPerByte * otsHashBytes
+-- In order to generate the private key, we need to generate this many bytes of
+-- key stream.
+otsPrivateBytes = wWords * hashBytes
+otsPublicBytes = otsPrivateBytes
+otsPrivateCycles = secretCyclesPerByte * otsPrivateBytes
+
+-- This is the height of a tree.
+treeHeight = 8
+-- To calculate the public keys for a whole tree we have to generate 2^treeHeight public keys.
+treePublicKeyGenCycles = (otsPrivateCycles + otsHashCycles) * 2**treeHeight
+-- To calculate the hash of the root of the tree, we first need to hash all the
+-- public keys.
+treePublicKeyHashCycles = otsPublicBytes * hashCyclesPerByte * 2**treeHeight
+-- Then we need to hash all the hashes
+treeMerkleCycles = 2**(treeHeight-1) * hashBytes * hashCyclesPerByte
+treeSignatureCycles = treePublicKeyGenCycles + treePublicKeyHashCycles + treeMerkleCycles
+-- As part of the signature we need to publish the OTS signature and a path up
+-- the Merkle tree. The signature is the same size as a public key because the
+-- Winternitz hash chain are just slightly shorter.
+treeSignatureBytes = otsPublicBytes + treeHeight*hashBytes
+
+logKeys = 160
+forestHeight = fromIntegral $ ceiling (logKeys/treeHeight)
+forestSignatureBytes = forestHeight * treeSignatureBytes
+forestSignatureCycles = forestHeight * treeSignatureCycles
+forestSignatureTime = forestSignatureCycles / 2.9e9</pre>
+
+<p>The Haskell code assumes that one can calculate SHA-256 at 5 cycles/byte, which <a href="http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/multi-hash-paper.pdf">is possible</a> for concurrent hashing as is needed in this case. There are several parameters that one can play with: the Winternitz value, the size of the trees (which is assumed to be uniform here) and the size of the forest. I've taken the size of the forest to be 2<sup>160</sup>, although that only allows 2<sup>16</sup> signatures before the probability of a collision reaches 2<sup>-128</sup>. However, the overall security of the scheme is somewhat less than 128 bits because there are multiple hashes to attack concurrently.</p>
+
+<p>With the parameters that I picked above, the estimated, lower-bound time for signing is 0.8 seconds (on a 2.9GHz machine) and the signatures are 34KB. The algorithm is embarrassingly parallel, so multi-core machines can cut the signing time down a lot, but the size is more difficult to improve. Changing the parameters to achieve a 20KB signature results in a signing time of nearly 30 seconds! (And it's a <i>lower-bound</i> of the signing time - in the real world there will be additional overhead.)</p>
+
+<p>So, should everyone be using hash-based, PGP signatures now? Well, probably not, at least not for a subkey: PGP clearsigned messages would look silly with 34KB of base64-encoded noise at the bottom. Perhaps for a long-term signing key if you really want. But, over the long-term, it's generally <i>confidentiality</i> (i.e. encryption) that you need to maintain and I haven't talked about post-quantum encryption at all in this post. (Maybe in the future.)</p>
+
+<p>But for problems like software updates, a reasonable case can be made. The size of the signature is generally trivial compared to the size of the message and software really does last for decades now. Hash-based signatures allow you to forget about any cryptographic breakthroughs to the greatest degree possible.</p>
+
+<p>There's <i>lots</i> more to hash-based signatures than I've covered here:</p>
+
+<ul>
+<li><a href="https://www.cdc.informatik.tu-darmstadt.de/reports/reports/BDKOV07.pdf">GMSS</a> treats the forest construction as an optimisation problem and solves for several cases.</li>
+<li><a href="http://huelsing.files.wordpress.com/2013/05/wotsspr.pdf">W-OTS+</a> builds on several, previous papers and changes the hash property needed from collision resistance to second preimage resistance, which is huge for classical machines! It means that the size of the hash can be halved. However, quantum computers can do a pre-image in 2<sup>n/2</sup> time, the same amount of time that classical computers can do a collision, so it doesn't help you there. (Can quantum computers do a collision in 2<sup>n/3</sup> time? <a href="http://cr.yp.to/hash/collisioncost-20090823.pdf">djb says don't worry</a>.)</li>
+<li>If you don't mind keeping state, then <a href="http://huelsing.files.wordpress.com/2013/05/mssgesamt.pdf">XMSS</a> is probably the most recent work exploring that problem that I'm aware of. (Although one might want to combine it with W-OTS+.)</li>
+<li>Tahoe-LAFS has <a href="https://tahoe-lafs.org/trac/tahoe-lafs/wiki/OneHundredYearCryptography">some notes</a> on hash-based signatures, notably <a href="https://tahoe-lafs.org/pipermail/tahoe-dev/2010-July/004587.html">some</a> from Daira Hopwood.</li>
+</ul>
+
+<p>And those messages for anyone in possession of a large, quantum computer:</p>
+
+<pre style="font-size: 0.05em;">-----BEGIN PGP MESSAGE-----
+Version: GnuPG/MacGPG2 v2.0.19 (Darwin)
+Comment: GPGTools - http://gpgtools.org
+
+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
+++wUhec=
+=7n2p
+-----END PGP MESSAGE-----
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+=NKhg
+-----END PGP PUBLIC KEY BLOCK-----</pre>
+
+    </div>
+  </div>
+
+    </div>
+  </body>
+</html>

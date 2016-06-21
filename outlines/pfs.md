@@ -1,0 +1,55 @@
+- Forward secrecy and key lifetime issues
+    - Main ideas:
+        - Review the case for ubiquitous transport security
+        - Discuss key exchange and service centric sessions
+        - Discuss what’s between session transport keys and long-lived public/private key pairs.
+        - Open question: we need for a dynamic multiparty group key exchange protocol
+    - Slide outline
+        - Issue #1: Transport security
+            - Show timeline of transport encryption for IP protocols
+                - DNS start, DNS-over-DTLS
+                - TCP start, SSL/TLS and tcpcrypt
+                - UDP start, DTLS and QUIC
+            - Show Boneh paper on the case for ubiquitous transport encryption
+                - State reasons
+            - State main goals of ICN
+                - object-based security
+                - name-based networking
+            - Question #1: Does ICN require ubiquitous transport encryption?
+        - Issue #2: Forward secrecy
+            - Modern transport secure communication protocols have several desirable properties:
+                - Forward secrecy (define)
+                - Deniability (define)
+                - ...
+            - Today’s ICN architectures have long-lived public keys
+            - Existing works for confidentiality *do not have forward secrecy*
+                - Cite all of the papers and state why not
+                    - No handshake, basically
+            - What’s the difference between IP protocols and ICN approaches?
+                - Key lifetime and window of compromise
+                - Sessions: lifetime and window is that of the session
+                - ICN: lifetime and window is basically infinite
+                - **Draw the spectrum (sessions on left, ICN on right)
+                    - Farther we go to the left the closer we get to host-based networking
+                    - Farther we go to the right the closer we get to information-centric networking
+            - Lifetime spectrum of transport keys
+                - Why?
+                    - We want to minimize content exposure but also want to increase caching utilization
+                - What is the middle ground?
+                    - Who owns the keys?
+                    - How are they used? What do they protect?
+                - Thought experiment:
+                    - Draw the spanning tree from the producer to consumers (top-down)
+                    - Imagine we had a group key exchange protocol that existed between adjacent peers in an ICN network
+                        - 1-n between a router and its downstream consumers/routers
+                        - Assume that the protocol was such that each key was updated whenever the lifetime window rolled over
+                    - Imagine that the lifetime of each link key became smaller and smaller the further away from the producer
+                        - Draw a top-down picture that shows the lifetime window of data being transported (see notebook)
+                    - Assume that content was still encrypted end-to-end so that transport key exposure doesn’t compromise the data
+                    - What would this give us?
+                        - Longer cache lifetimes upstream with wider exposure windows
+                            - But! Exposure doesn’t threaten privacy of individual consumers since the anonymity set is naturally larger
+                        - Small (even session-based) windows at the edge
+                            - Exposure is minimized
+                    - How can we build this protocol?
+                        - Ongoing work with Christian Tschudin and <insert your name here>

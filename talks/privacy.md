@@ -1,4 +1,4 @@
-iin ideas:
+Main ideas:
         - Data correlation problem and thought experiment slides
         - Privacy definitions and principles (https://github.com/chris-wood/icn-privacy-principles)
     - Slide outline:

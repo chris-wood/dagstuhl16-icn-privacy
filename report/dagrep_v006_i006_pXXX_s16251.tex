@@ -22,11 +22,15 @@
 \author[2]{Börje Ohlman}
 \author[3]{Gene Tsudik}
 \author[4]{Ersin Uzun}
-\authorrunning{Edith Ngai, Börje Ohlman, Gene Tsudik, and Ersin Uzun}
+\author[5]{Christopher A. Wood}
+\authorrunning{Edith Ngai, Börje Ohlman, Gene Tsudik, Ersin Uzun, and Christopher A. Wood}
 \affil[1]{Uppsala University, SE, \texttt{edith.ngai@it.uu.se}}
 \affil[2]{Ericsson Research - Stockholm, SE, \texttt{borje.ohlman@ericsson.com}}
 \affil[3]{University of California - Irvine, US, \texttt{gts@ics.uci.edu}}
 \affil[4]{Xerox PARC - Palo Alto, US, \texttt{ersin.uzun@acm.org}}
+\affil[5]{University of California - Irvine, US, \texttt{woodc1@uci.edu}}
+
+
 
 \seminarnumber{16251}
 \semdata{June 19--22, 2016 -- \href{http://www.dagstuhl.de/16251}{http://www.dagstuhl.de/16251}}
@@ -50,13 +54,13 @@ In recent years, Information-centric Networking (ICN) has received much attentio
 \begin{itemize}
 \item What are the relevant threat models with which ICN must be concerned?
 \item To what extent is trust management a solved problem in ICN? Have we adequately identified the core elements of a trust model, e.g., with NDN trust schemas?
-\item How practical and realistic is object-based security when framed in the context of accepted privacy measures used in IP-based networks? Ephemerally keyed and forward-secure sessions invalidate ICN caches but allow us to 
+\item How practical and realistic is object-based security when framed in the context of accepted privacy measures used in IP-based networks? Ephemerally keyed and forward-secure sessions invalidate ICN caches but allow us to
 \item Are there new types of cryptographic schemes or primitives ICN architectures should be using or following that will enable more efficient or secure packet processing?
 \end{itemize}
 
 The seminar satisfied many of these questions and fueled discussions for those remaining. All participants briefly self-introduced themselves. Afterwards, select participants contributed talks on various topics of interests, ranging from trust management, privacy, to threat models. Between these primary discussions, the group partitioned itself into various working groups to spend a significant amount of time focusing on a select topic of interest to the subgroup. Example working group topics included routing on encrypted names, ICN and IoT, non-privacy-centric aspects of ICN security, and trust and identity in ICN. Following these working groups, a representative from each would present the findings to the group. (These are documented in the remainder of this report.)
 
-The discussions at this seminar elucidated the lack of clarity the community has on topics that are important to the continuation of ICN. For instance, namespace management is still a topic of much ambiguity and confusion. There is also no consensus about the need for forward secrecy in ICN as a foundation for future networks. It is our hope that these lengthy debates serve as a fruitful resource for future research into some of the biggest security and privacy elements of ICN. 
+The discussions at this seminar elucidated the lack of clarity the community has on topics that are important to the continuation of ICN. For instance, namespace management is still a topic of much ambiguity and confusion. There is also no consensus about the need for forward secrecy in ICN as a foundation for future networks. It is our hope that these lengthy debates serve as a fruitful resource for future research into some of the biggest security and privacy elements of ICN.
 
 We thank Schloss Dagstuhl for the environment necessary to galvanize members of the ICN community to tackle these difficult problems. Much progress was had over the course of the seminar and since its completion, and this is primarily because of the ease of face-to-face collaboration and interaction held at Dagstuhl.
 \end{abstract}
@@ -87,9 +91,9 @@ Talking about ICN privacy, we should not focus only on What (i.e., the content o
 Interestingly, an approach similar to the one to violate consumer (location) privacy, might be used also to detect eavesdropper.
 Discussion questions:
 \begin{itemize}
-\item Exactly what routing information is made available to routing-aware adversaries, and  how useful is it to run attacks? 
-\item By observing past traffic, can I infer where interests will be routed in the network? 
-\item What capabilities does the adversary possess? 
+\item Exactly what routing information is made available to routing-aware adversaries, and  how useful is it to run attacks?
+\item By observing past traffic, can I infer where interests will be routed in the network?
+\item What capabilities does the adversary possess?
 \item How this compare to similar attacks in IP?
 \end{itemize}
 
@@ -116,6 +120,86 @@ The talk described the following unpublished observation. The access control pol
 
 Project Origin is a bittorrent-like system for CCNx that uses concepts of nameless objects and custodian routing to achieve a scalable, secure content distribution system. In this talk we present the initial design of Project Origin in the context of CCNx.
 
+\abstracttitle{In-Network Processing and Related Laws}
+\abstractauthor[Tohru Asami]{Tohru Asami (University of Tokyo, JP)}
+\license
+
+The history of the Internet is the one to adapt the existing law system
+to our new business paradigms. The level of in-network processing has
+been expanded as (1) Routing, (2) Forwarding, (3) Packet replication,
+(4) Merging/Splitting packets, (5) Quality of Control, (6) Caching, (7)
+Switching with moderate packet inspection (NAT),(8) SDN/NFV, (9)
+Extended data processing using in-network data object. We all have been
+crossing together on the red light since every new technology has
+violated the existing laws to some extent.
+The first conflict was Cache/Replication against Copyright law. Before
+the revision of the Copyright Act in 2009, the followings violated our
+copyright laws in Japan but the government overlooked these services: (1)
+Internet search service (i.e., Google), (2) backup of the customers’ e-mail
+folders by Internet service providers, (3) packet replications in IP
+routers, and (4) P2P service. Accidentally, Isamu Kaneko, the developer
+of Winny (a P2P program), was arrested on suspicion of abetting
+copyright law violation in 2004. During the course of this court battle,
+in 2009, the use of cache was legally admitted in Japan on providing
+communication services to the extent deemed necessary in order to carry
+out the transmission efficiently.
+We all are still crossing together on the red light in the problem of
+“Secrecy of Correspondence vs Packet Header Processing.” This case is
+more severe since this time is the conflict against our fundamental
+human rights. Thus our constitution or laws prohibit knowing, disclosing
+and using the secrecy of correspondence without ‘permission’.
+According to the postal businesses, main theorists in law have been
+requiring the whole secrecy of correspondence or the secrecy for both
+the header (envelope) and the payload (letter paper), while minor
+theorists requiring only the secrecy of payload. However, in the
+practical postal services, envelopes have been intensively used to
+classify mails as ordinary mails (default), registered mails,
+confidential mail, contents-certified mail, etc. The mails rather than
+ordinary mails are identified by the ‘explicit requirement of a sender’.
+This is the important tradition to remember.
+As for secrecy of correspondence operated by the Internet, routers use
+packet headers without permission from the sender. The following
+in-network processing may violate Secrecy of Correspondence: 1)IP packet
+forwarding, 2)Software Defined Network (SDN) detecting a traffic flow
+based on IP addresses and port numbers to control, 3) ICN Cache ranking
+by names for prioritization, etc. Thus several exceptions have been
+defined by individual laws.
+Now we are facing at the age that most of the traffic is carried by
+HTTPS. It is highly possible that Deep Packet Inspection (DPI) of
+SSL/TLS packets violates Secrecy of Correspondence since the targeted
+packets declare their secrecy intention by encryption, even if DPI
+is technically possible. In fact, although DPI is one of the
+technologies to perform a behavioral targeting advertising, it is not
+carried out in many countries because of the reason that it may violate
+Secrecy of Correspondence and may be illegal.
+As for the policy of Secrecy of Correspondence/Privacy, two policies
+have been discussed: All-or-nothing Policy and Policy of Controllability.
+Most researchers as well as the discussions in this seminar are fond
+of the former secrecy, but I’m afraid that the former will not expand
+the network business. The latter requires that owner can control his/her
+information at hand. This is what postal services have been based on as
+well as our fruitful future in-network processing business. According to
+this policy, the sender’s intention on secrecy or preference of
+in-network processing should be declared in the optional ‘header’ field
+of the sending/receiving ICN packet in an opt-in fashion as the content
+owner’s contract with the network provider. The default is, of course,
+that everything other than content name is secret (so as to EU Data
+Protection Directive/Regulation). Since ICN routers left less
+communication logs than the conventional IP routers, they will be
+welcomed from the view point of Secrecy of Correspondence/Privacy. This
+is the advantage of ICN against IP in the age of secure communications,
+and we should promote ICN from this perspective.
+In conclusion, ICN packet header should have enough information for
+future in-network processing. From the point of secrecy of
+correspondence/Privacy, ICN header should reflect the intent of
+packet sender on secrecy and privacy by its optional header. Otherwise,
+there will be a large risk that ICN in-network processing is regarded as
+violating privacy and secrecy of correspondence.
+
+\begin{thebibliography}{0}
+[1] FireEye SSL Intercept Appliance -- Expose Attacks Hiding in SSL Traffic. Available online at: \url{https://www.fireeye.com/content/dam/fireeye-www/global/en/products/pdfs/ds-ssl-intercept.pdf}. Accessed on 9/15/2016.
+\end{thebibliography}
+
 %\abstracttitle{Quantum Computing and Cryptography}
 %\abstractauthor[Ersin Uzun]{Ersin Uzun (Xerox PARC - Palo Alto, US)}
 %\license
@@ -132,24 +216,24 @@ Project Origin is a bittorrent-like system for CCNx that uses concepts of namele
 \abstractauthor[Marc Mosko]{Marc Mosko (Xerox PARC - Palo Alto, US)}
 \license
 
-The CCNxTorrent working group discussed locators and fetching data with non-topological names (or even topological names that are cached off-path). Routing should, it seems, only concern itself with topological names or addresses.  Finding data (objects) with non-topological names should not be done in the data plane.  It should be done via a service. 
- 
-In CCNx, the service could resolve a named root manifest to then resolve locator names by hash. 
-In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet, 
-there is a distinction between Locator names and Descriptor names. Locator names have a 
-strong binding between their name and a point of attachment. Descriptor (hash) names, on the 
-other hand, are free-form and could be present anywhere.  One resolves a tag query (of either 
+The CCNxTorrent working group discussed locators and fetching data with non-topological names (or even topological names that are cached off-path). Routing should, it seems, only concern itself with topological names or addresses.  Finding data (objects) with non-topological names should not be done in the data plane.  It should be done via a service.
+
+In CCNx, the service could resolve a named root manifest to then resolve locator names by hash.
+In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet,
+there is a distinction between Locator names and Descriptor names. Locator names have a
+strong binding between their name and a point of attachment. Descriptor (hash) names, on the
+other hand, are free-form and could be present anywhere.  One resolves a tag query (of either
 type) to a topological locator and then does data transfer on that locator.
- 
+
 This lead to a discussion on locator and identifier split.  Should CCNx embrace this, or continue on with its mixed use of the name? For example, if there is a clear locator field and then a clear identifier tuple \{name, [keyed restriction], [hash restriction]\}, one would get full matching expressivity with the functionality of nameless object locators.  A similar approach could be done in NDN, though with a different tuple.  There was no consensus on this idea, though it is worth exploring.
- 
+
 There was some discussion on the benefit of ICN if one still needs to do an external name to address lookup.  Why bother if one still needs an IP/DNS like function?  One partial answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal applications), one could inject all names into the internal routing protocol and realize the full benefit of application-specific names.  Another argument is that it improves how one writes software to not have to deal with IP addresses and host-based networking.   One could also see benefits from a re-thought network stack beyond sockets.
 
 \abstracttitle{ICN and IoT}
 \abstractauthor[Edith Ngai]{Edith Ngai (Uppsala University, SE)}
 \license
 
-The Internet of Things (IoT) is connecting billions of smart devices (e.g. sensors) and is growing very fast. We expect more than 1 million networked ``things'' per square kilometer in 2030. In this group, we tried to explore how much data density we can afford 
+The Internet of Things (IoT) is connecting billions of smart devices (e.g. sensors) and is growing very fast. We expect more than 1 million networked ``things'' per square kilometer in 2030. In this group, we tried to explore how much data density we can afford
 and how we communicate with the ``things'' (say, directly to the sensors, or indirectly through the cloud or gateways). We discussed the potential of implementing ICN for the IoT. For instance, the ICN routers connecting to sensors can cache sensor data to improve the performance of data dissemination. Users can obtain data directly from the sensors and the ICN routers, without going through the cloud. There are several security concerns:
 
 \begin{itemize}
@@ -166,7 +250,7 @@ We discussed the potentials and concerns of caching data at the sensors:
 \item When using cryptography on sensors, the encryption time could be long and cause a delay in data retrieval.
 \item Sensors have to be always on to listen to the interests, which may consume a lot of energy. Scheduling or adaptive duty cycles might be considered to mitigate this.
 \end{itemize}
- 
+
 Our summary and future plan is as follows. First, we plan to come up with sample IoT use cases, which allow us to understand more about the security needs and communication patterns in ICN for IoT. Second, we will aim at answering the following questions:
 
 \begin{itemize}
@@ -185,7 +269,7 @@ The ``No Privacy'' security working group sought to answer the following questio
 \item What ICN entities (content consumers, hosts, routers, content creators) need identities?
 \item What entities can simply operate with a public/private key pair but no formal name?
 \item Does splitting routing out as an application help?
-\item Do interests need to be authenticated at each router? 
+\item Do interests need to be authenticated at each router?
 \end{itemize}
 
 The group achieved a simple security model. Members of the group hope to write up the result as a short paper.
@@ -216,11 +300,11 @@ Yingdi Yu, kc claffy, Alexander Afanasyev, Van Jacobson, David Clark, and Lixia 
 \abstractauthor[Christopher A. Wood, Edith Ngai, Jan Seedorf, and Matthias W\"ahlisch]{Christopher A. Wood (University of California - Irvine, US), Edith Ngai (Uppsala University, SE), Jan Seedorf (NEC Laboratories Europe - Heidelberg, DE \& Hochschule f\"ur Technik - Stuttgart, DE), and Matthias W\"ahlisch (FU Berlin, DE)}
 \license
 
-This group started with a discussion about routing on encrypted names but ended up being a discussion about name privacy and the necessary conditions for it to be possible in different ICN architectures. In this context, we defined name privacy to be a property where a so-called "network name," i.e., the name encoded in a packet, has no correlation or connection with the referenced content object. Specifically, name privacy means that a network name reveals nothing about the data inside the content object. Names should reveal no more than what is currently revealed by an IP address and port. After settling on this definition, we laid out our assumptions, including: 
+This group started with a discussion about routing on encrypted names but ended up being a discussion about name privacy and the necessary conditions for it to be possible in different ICN architectures. In this context, we defined name privacy to be a property where a so-called "network name," i.e., the name encoded in a packet, has no correlation or connection with the referenced content object. Specifically, name privacy means that a network name reveals nothing about the data inside the content object. Names should reveal no more than what is currently revealed by an IP address and port. After settling on this definition, we laid out our assumptions, including:
 
 \begin{itemize}
-\item There is no name discovery process or search engine. 
-\item Content may be requested by an identifier (ID) such as its cryptographic hash digest. Moreover, revealing the content ID does not compromise privacy. 
+\item There is no name discovery process or search engine.
+\item Content may be requested by an identifier (ID) such as its cryptographic hash digest. Moreover, revealing the content ID does not compromise privacy.
 \item Consumers know the public key of the producer to which they want to communicate.
 \item Network names have an implicit routable prefix and application-specific suffix. By default, consumers do not know the locator and identifier split in a name.
 \item Requests may specify the ID of a signature verification key or the expected content.
@@ -264,7 +348,7 @@ Beyond ICN packets, ICN programmers will generate linked data, e.g., FLIC. We sh
 \abstractauthor[Gene Tsudik]{Gene Tsudik (University of California - Irvine, US)}
 \license
 
-What is the future of privacy for ICN? To what, or whom, is ICN privacy related? Existing architectures leak a significant amount of information by default, including: who requests information, whose information is requested, when content is requested, and other miscellaneous properties of information, e.g., data contents, name, size, etc. As of yet, we have not adequately addressed these privacy problems yet.
+What is the future of privacy for ICN? To what, or whom, is ICN privacy related? Existing architectures leak a significant amount of information by default, including: who requests information, whose information is requested, when content is requested, and other miscellaneous properties of information, e.g., data contents, name, size, etc. As of yet, we have not adequately addressed these privacy problems.
 
 \abstracttitle{Forward Security in ICN?}
 \abstractauthor[Christopher A. Wood]{Christopher A. Wood (University of California - Irvine, US)}
@@ -277,7 +361,7 @@ Forward secrecy is the property that exposure of a principal's long-term secret 
 \vfill
 
 \begin{center}
-\includegraphics[width=0.71\textwidth]{16251.jpg}
+\includegraphics[width=1.0\textwidth]{16251.jpg}
 \end{center}
 
 \end{document}

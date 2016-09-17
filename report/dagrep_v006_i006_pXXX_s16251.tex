@@ -49,21 +49,42 @@
 \maketitle
 
 \begin{abstract}
-In recent years, Information-centric Networking (ICN) has received much attention from both academic and industry participants. ICN offers a data-centric means of inter-networking that is radically different from today's IP-based Internet which is host- or address-centric. Security and privacy issues in ICN have become increasingly important, as ICN technology gradually matures and nears real-world deployment. As is well known, in today's Internet, security and privacy features were addedally not present and had to be incrementally and individually retrofitted (with varying success) over the last 35 years. In contrast, since ICN-based architectures (e.g., NDN, CCNx, etc.) are still evolving, it is both timely and important to explore ICN security and privacy issues as well as devise and assess possible mitigation techniques. Therefore, the general purpose of this Dagstuhl seminar was to discuss and explore potential ICN security features, attacks, privacy leaks, and potential means of mitigating vulnerabilities. During the seminar, these points were the focus of our discussion:
+In recent years, Information-centric Networking (ICN) has received much attention from both academic and industry participants. ICN offers a data-centric means of inter-networking that is radically different from today's host-based IP networks. Security and privacy issues in ICN have become increasingly important as ICN technology gradually matures and nears real-world deployment. As is well known, in today's Internet, security and privacy features were originally not present and had to be incrementally and individually retrofitted (with varying success) over the last 35 years. In contrast, since ICN-based architectures (e.g., NDN, CCNx, etc.) are still evolving, it is both timely and important to explore ICN security and privacy issues as well as devise and assess possible mitigation techniques. 
 
-\begin{itemize}
-\item What are the relevant threat models with which ICN must be concerned?
-\item To what extent is trust management a solved problem in ICN? Have we adequately identified the core elements of a trust model, e.g., with NDN trust schemas?
-\item How practical and realistic is object-based security when framed in the context of accepted privacy measures used in IP-based networks? Ephemerally keyed and forward-secure sessions invalidate ICN caches but allow us to
-\item Are there new types of cryptographic schemes or primitives ICN architectures should be using or following that will enable more efficient or secure packet processing?
-\end{itemize}
-
-The seminar satisfied many of these questions and fueled discussions for those remaining. All participants briefly self-introduced themselves. Afterwards, select participants contributed talks on various topics of interests, ranging from trust management, privacy, to threat models. Between these primary discussions, the group partitioned itself into various working groups to spend a significant amount of time focusing on a select topic of interest to the subgroup. Example working group topics included routing on encrypted names, ICN and IoT, non-privacy-centric aspects of ICN security, and trust and identity in ICN. Following these working groups, a representative from each would present the findings to the group. (These are documented in the remainder of this report.)
-
-The discussions at this seminar elucidated the lack of clarity the community has on topics that are important to the continuation of ICN. For instance, namespace management is still a topic of much ambiguity and confusion. There is also no consensus about the need for forward secrecy in ICN as a foundation for future networks. It is our hope that these lengthy debates serve as a fruitful resource for future research into some of the biggest security and privacy elements of ICN.
-
-We thank Schloss Dagstuhl for the environment necessary to galvanize members of the ICN community to tackle these difficult problems. Much progress was had over the course of the seminar and since its completion, and this is primarily because of the ease of face-to-face collaboration and interaction held at Dagstuhl.
+This report documents the program and outcomes of the Dagstuhl Seminar 16251 ``Information-centric Networking and Security.'' The goal was to bring together researchers with different areas of expertise relevant to ICN to discuss and grapple with some of the large outstanding security and privacy problems particular to ICN-based architectures. The represented areas of expertise included networking, security, privacy, software engineering, and formal methods, among others. Through generalized presentations and focused working groups, the attendees attempted to unveil emerging problems, highlight outstanding issues relevant to security and privacy, and work towards solutions in ICN-based architectures. 
 \end{abstract}
+
+% Executive Summary %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Executive Summary}
+
+\summaryauthor[Christopher A. Wood]{}
+\license
+
+The Dagstuhl seminar 16251 "Information-centric Networking and Security" was a short workshop held from June 19-21, 2016. The goal was to bring together researchers with different areas of expertise relevant to ICN to discuss and grapple with some outstanding security and privacy problems particular to ICN-based architectures. These problems have become increasingly important as ICN technology gradually matures and nears real-world deployment. 
+
+The threat models for ICN are distinct from IP. Differentiating factors between the two include new application design patterns, unique trust models and management, and a strong emphasis on object-based security instead of channel-based security. Therefore, it is both timely and important to explore ICN security and privacy issues as well as devise and assess possible mitigation techniques. This was the general purpose of the Dagstuhl seminar. To that end, the attendees focused on the following issues in particular:
+%
+\begin{itemize}
+\item What are the relevant threat models with which ICN must be concerned? How are they different from those in IP-based networks?
+\item To what extent is trust management a solved problem in ICN? Have we adequately identified the core elements of a trust model, e.g., with NDN trust schemas?
+\item How practical and realistic is object-based security when framed in the context of accepted privacy measures used in IP-based networks?
+\item Are there new types of cryptographic schemes or primitives ICN architectures should be using or following that will enable (a) more efficient or secure packet processing or (b) an improved security architecture?
+\end{itemize}
+%
+The seminar satisfied many of these questions and fueled discussions for those remaining. To begin, all participants briefly self-introduced themselves. Afterwards, select participants contributed talks on various topics of interests, ranging from trust management and identity to an exploration of privacy and anonymity. Between these primary discussions, the group partitioned itself into various working groups to focus more intensely on a select topic of interest to the subgroup. Example topics included routing on encrypted names, ICN and IoT, non-privacy-centric aspects of ICN security, and trust and identity in ICN. Following these working groups, a representative from each would present the findings to the group. (These are documented in the remainder of this report.)
+
+The major takeaways from the seminar were as follows. First, the ICN community still does not have a clear answer for how namespace and identity management will be handled. While trust management in ICN can be distributed without a PKI, it seems difficult to break away from this model for namespace management and arbitration. This has strong implications on how names are propagated in the routing fabric. Can any producer application advertise any name they want, anywhere in the network? If not, how will advertisements be constrained or limited?
+
+Second, given that ICN focuses on object security, the need for and use of transport protocols that provide forward secrecy should be deferred to an upper layer in the stack. Attendees found that while most ICN-based architectures do not preclude forward secrecy, it should not be a requirement for the core network protocol. 
+
+Third, there is still deep uncertainty about whether ICN should embrace a content locator and identifier split. Names in architectures such as NDN and CCN serve as both a locator and identifier of data, though extensions do exist to permit explicit locators (e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that routing should concern itself with topological names; Finding data through non-topological names should not be in the data plane as part of the global routing space. However, if we revert to a distinction between topological locators and identifiers, then features characteristic of ICN become much more limited. One facet that is certainly unique to ICN is how software is written. Specifically, we have the opportunity to move beyond the mental model of a fixed address space and re-design existing network stacks and APIs. 
+
+Fourth, privacy seems difficult to achieve without major architectural changes to many existing ICN-based systems. In particular, since data names reveal a great deal of information to the passive eavesdropper, privacy here would imply that names and payloads have no correlation. However, achieving this particular goal seems infeasible without the presence of an upper-layer service akin to one that would resolve non-topological identifiers to topological names. 
+
+Lastly, it is clear that ICN-based architectures should not yet be exploring the use of esoteric cryptographic algorithms in the network. Computationally bounded and ``boring'' cryptographic primitives, such as digital signatures, hash functions, etc., should be the extent of per-packet cryptographic processing done by routers. Anything more could unnecessarily induce computational Denial-of-Service attacks that could render the entire infrastructure ineffective. However, architecture designs should not restrict themselves to specific algorithms. They should allow new and improved algorithms to be used as their need becomes apparent. This could be useful if, for example, post-quantum digital signature schemes become necessary for the longevity of content authenticators. 
+
+We thank Schloss Dagstuhl for the environment necessary to galvanize members of the ICN community to address these difficult problems. Much progress was had over the course of the seminar and since its completion, and this is primarily because of the ease of face-to-face collaboration and interaction held at Dagstuhl.
 
 \tableofcontents
 
@@ -75,32 +96,34 @@ We thank Schloss Dagstuhl for the environment necessary to galvanize members of 
 \abstractauthor[Ersin Uzun]{Ersin Uzun (Xerox PARC - Palo Alto, US)}
 \license
 
-Networking helped to create today's world of content but was not designed for it. ICN attempts to move away from: (a) the communication model that is all about hosts and a point-to-point conversation between them, (b) the host-based central abstraction in the network, and (c) security problems of the current IP-based Internet architecture. The ICN emphasis on object security instead channel security is one step towards this transition. To quantify the degree by which security is improved, a thread model is needed. These threat models must be tailored toward the particular design challenge, such as infrastructure protection, user-friendly key distribution and trust management and enforcement, and content protection and access control. We discuss some necessary elements of threat models for these scenarios and suggest a strategy to use them in the design process.
+IP-based networks helped to create today's world of content but was not designed for it. ICN attempts to move away from: (a) the communication model that is all about hosts and a point-to-point conversation between them, (b) the host-based central abstraction in the network, and (c) security problems of the current IP-based Internet architecture. The ICN emphasis on object security instead channel security is one step towards this transition. To quantify the degree by which security is improved, a thread model is needed. These threat models must be tailored toward the particular design challenge, such as infrastructure protection, user-friendly key distribution and trust management and enforcement, and content protection and access control. We discuss some necessary elements of threat models for these scenarios and suggest a strategy to use them in the ICN security design process.
 
 \abstracttitle{Cryptographic Algorithms and Security Protocols for ICN}
 \abstractauthor[Christopher A. Wood]{Christopher A. Wood (University of California - Irvine, US)}
 \license
 
-Old and new cryptographic algorithms and security protocols with relevance to ICN are discussed. Topics include integrity and authenticity, privacy, and availability. The goal is to stimulate useful discussions about the security services and properties that future ICN architectures could provide.
+We present a survey of old and new cryptographic algorithms and security protocols with relevance to ICN packet processing, routing, and object security. Select topics include integrity and authenticity, privacy, and availability, as these are the main security goals of ICN-based architectures. The objective is to stimulate useful discussions about the characteristics and implementation of security services and properties that future ICN-based architectures might provide.
 
 \abstracttitle{Violating Consumer Anonymity: Geo-locating Nodes in Named Data Networking}
 \abstractauthor[Mauro Conti]{Mauro Conti (University of Padova, IT)}
 \license
 
-Talking about ICN privacy, we should not focus only on What (i.e., the content of a message) and Who (i.e., the sender, or the receiver, of a message): we should also be worried about protecting "Where", meaning the geographical position (or just the position within a network topology) where the message is originated from, or destined to. In fact (as shown in the ACNS '15 paper by Compagno et al. [1]), ICN caching and interest-collapse mechanisms make ICN itself inherently vulnerable to the possibility for an adversary to locate consumers.
+Talking about ICN privacy, we should not focus only on ``what'' (i.e., the content of a message) and ``who'' (i.e., the sender, or the receiver, of a message): we should also be worried about protecting "where", meaning the geographical position (or just the position within a network topology) where the message is originated from, or destined to. In fact (as shown in the ACNS '15 paper by Compagno et al. [1]), ICN caching and interest-collapse mechanisms make ICN itself inherently vulnerable to the possibility for an adversary to locate consumers.
 Interestingly, an approach similar to the one to violate consumer (location) privacy, might be used also to detect eavesdropper.
-Discussion questions:
+Discussion questions included:
 \begin{itemize}
-\item Exactly what routing information is made available to routing-aware adversaries, and  how useful is it to run attacks?
-\item By observing past traffic, can I infer where interests will be routed in the network?
+\item Exactly what routing information is made available to routing-aware adversaries, and how useful is it to run attacks?
+\item By observing past traffic, can one infer where interests will be routed in the network?
 \item What capabilities does the adversary possess?
-\item How this compare to similar attacks in IP?
+\item How does this compare to similar attacks in IP?
 \end{itemize}
 
 \begin{thebibliography}{0}
 [1] Alberto Compagno, Mauro Conti, Paolo Gasti, Luigi Vincenzo Mancini, Gene Tsudik:
 Violating Consumer Anonymity: Geo-Locating Nodes in Named Data Networking. ACNS 2015: 243-262.
 \end{thebibliography}
+
+%%%%% XXXX: here
 
 \abstracttitle{ABE in ICN}
 \abstractauthor[Ashish Gehani]{Ashish Gehani (SRI - Menlo Park, US)}
@@ -111,7 +134,7 @@ The ENCODERS information-centric networking system was designed for publish-subs
 The talk described the following unpublished observation. The access control policies that applied to the metadata (content tags and subscriber interests) effectively creates reachability constraints that are independent from the one defined by the routing protocols. (This is because the access control defines which brokers can match and therefore route traffic.) Consequently, this security-routing interaction must be treated carefully during policy definition. We examined this empirically for a number of routing and access control policies.
 
 \begin{thebibliography}{0}
-\bibitem{Raykova} Mariana Raykova, Hasnain Lakhani, Hasanat Kazmi, and Ashish Gehani, Decentralized Authorization and Privacy-Enhanced Routing for Information-Centric Networks, 31st Annual Computer Security Applications Conference (ACSAC), 2015.
+[1] Mariana Raykova, Hasnain Lakhani, Hasanat Kazmi, and Ashish Gehani, Decentralized Authorization and Privacy-Enhanced Routing for Information-Centric Networks, 31st Annual Computer Security Applications Conference (ACSAC), 2015.
 \end{thebibliography}
 
 \abstracttitle{PROJECT ORIGIN: A peer-to-peer object store for CCN}
@@ -135,7 +158,7 @@ violated the existing laws to some extent.
 The first conflict was Cache/Replication against Copyright law. Before
 the revision of the Copyright Act in 2009, the followings violated our
 copyright laws in Japan but the government overlooked these services: (1)
-Internet search service (i.e., Google), (2) backup of the customers’ e-mail
+Internet search service (i.e., Google), (2) backup of the customers' e-mail
 folders by Internet service providers, (3) packet replications in IP
 routers, and (4) P2P service. Accidentally, Isamu Kaneko, the developer
 of Winny (a P2P program), was arrested on suspicion of abetting
@@ -147,7 +170,7 @@ We all are still crossing together on the red light in the problem of
 “Secrecy of Correspondence vs Packet Header Processing.” This case is
 more severe since this time is the conflict against our fundamental
 human rights. Thus our constitution or laws prohibit knowing, disclosing
-and using the secrecy of correspondence without ‘permission’.
+and using the secrecy of correspondence without ``permission.''
 According to the postal businesses, main theorists in law have been
 requiring the whole secrecy of correspondence or the secrecy for both
 the header (envelope) and the payload (letter paper), while minor
@@ -155,7 +178,7 @@ theorists requiring only the secrecy of payload. However, in the
 practical postal services, envelopes have been intensively used to
 classify mails as ordinary mails (default), registered mails,
 confidential mail, contents-certified mail, etc. The mails rather than
-ordinary mails are identified by the ‘explicit requirement of a sender’.
+ordinary mails are identified by the ``explicit requirement of a sender.''
 This is the important tradition to remember.
 As for secrecy of correspondence operated by the Internet, routers use
 packet headers without permission from the sender. The following
@@ -179,10 +202,10 @@ of the former secrecy, but I’m afraid that the former will not expand
 the network business. The latter requires that owner can control his/her
 information at hand. This is what postal services have been based on as
 well as our fruitful future in-network processing business. According to
-this policy, the sender’s intention on secrecy or preference of
-in-network processing should be declared in the optional ‘header’ field
+this policy, the sender's intention on secrecy or preference of
+in-network processing should be declared in the optional ``header'' field
 of the sending/receiving ICN packet in an opt-in fashion as the content
-owner’s contract with the network provider. The default is, of course,
+owner's contract with the network provider. The default is, of course,
 that everything other than content name is secret (so as to EU Data
 Protection Directive/Regulation). Since ICN routers left less
 communication logs than the conventional IP routers, they will be
@@ -227,7 +250,7 @@ type) to a topological locator and then does data transfer on that locator.
 
 This lead to a discussion on locator and identifier split.  Should CCNx embrace this, or continue on with its mixed use of the name? For example, if there is a clear locator field and then a clear identifier tuple \{name, [keyed restriction], [hash restriction]\}, one would get full matching expressivity with the functionality of nameless object locators.  A similar approach could be done in NDN, though with a different tuple.  There was no consensus on this idea, though it is worth exploring.
 
-There was some discussion on the benefit of ICN if one still needs to do an external name to address lookup.  Why bother if one still needs an IP/DNS like function?  One partial answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal applications), one could inject all names into the internal routing protocol and realize the full benefit of application-specific names.  Another argument is that it improves how one writes software to not have to deal with IP addresses and host-based networking.   One could also see benefits from a re-thought network stack beyond sockets.
+There was some discussion on the benefit of ICN if one still needs to do an external name to address lookup.  Why bother if one still needs an IP- or DNS-like function?  One partial answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal applications), one could inject all names into the internal routing protocol and realize the full benefit of application-specific names.  Another argument is that it improves how one writes software to not have to deal with IP addresses and host-based networking. One could also see benefits from a re-thought network stack beyond sockets.
 
 \abstracttitle{ICN and IoT}
 \abstractauthor[Edith Ngai]{Edith Ngai (Uppsala University, SE)}
@@ -283,7 +306,7 @@ In an ideal ICN architecture, applications should be able to express their trust
 To address the second question, we had to agree upon what the network is responsible for enforcing.
 First and foremost, network layer ``trust enforcement'' should not prohibit or prevent other application-layer trust models. This means that the network functionality must be simpler than that which is supported by the middleware. Currently, this is comprised of digital signature and content object hash verification. Behaviors such as certificate chain resolution or key retrieval should not be part of the core network functionality. This means that in the general "network," routers are only responsible for single signature or hash verification. All other network nodes (e.g., consumers and producers) contain the middleware responsible for handling the remaining trust enforcement steps.
 
-After addressing trust, we turned to identity. We discussed the following major questions:
+After addressing trust, we turned to identity and discussed the following major questions:
 %
 \begin{itemize}
 \item How are names registered and managed in ICN?

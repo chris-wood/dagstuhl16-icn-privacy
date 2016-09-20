@@ -148,22 +148,91 @@ We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. 
 progress was made over the course of the seminar and since its completion. This is mainly
 because of the ease of face-to-face collaboration and interaction at Dagstuhl.
 
-\section{Namespace and Identity Management}
+\section{Plenary Talks in a Nutshell}
 XXX
 
-\section{Object Security but No Forward Secrecy}
-XXX
+\section{Parallel Group Work}
+\subsection{ICN and IoT}
 
-\section{Locators and Identifiers}
-XXX
+The Internet of Things (IoT) is connecting billions of smart devices (e.g., sensors) and is growing very fast. We expect more than 1 million networked ``things'' per square kilometer in 2030. In this group, we tried to explore how much data density we can afford
+and how we communicate with the ``things'' (say, directly to the sensors, or indirectly through the cloud or gateways). We discussed the potential of implementing ICN for the IoT. For instance, the ICN routers connecting to sensors can cache sensor data to improve the performance of data dissemination. Users can obtain data directly from the sensors and the ICN routers, without going through the cloud. This raised several security concerns:
 
-\section{The Futility of Privacy}
-XXX
+\begin{itemize}
+\item How are sensors securely configured at the time of initialization?
+\item How can software updates be performed securely?
+\item How can we handle ICN mobility for IoT? For example, each sensor may have a unique publisher identity. How do mobility and naming affect the scalability of routing?
+\end{itemize}
 
-\section{Boring Crypto}
-XXX
+We also discussed the potentials and concerns of caching data at the sensors. First, sensors are resource limited devices. However, memory resources may increase and the price will go down. Second, it is advantageous to retrieve data directly from the sensors in some use cases (e.g., to control home lighting without going through the cloud). Third, when using cryptography on sensors, the encryption time could be long and cause a delay in data retrieval. Lastly, sensors have to be always on to listen to the interests, which may consume a lot of energy. Scheduling or adaptive duty cycles might be considered to mitigate this.
 
-\section{Conclusion and Future Work}
+Based on these observations, our summary and future plan is as follows. First, we plan to come up with sample IoT use cases, which allow us to understand more about the security needs and communication patterns in ICN for IoT. Second, we will aim at answering the following questions: How does IoT benefit from ICN? How does one securely configure and bootstrap sensors? And what is the cost of providing security for IoT data?
+
+\subsection{Namespace and Identity Management}
+In an ideal ICN architecture, applications should be able to express their trust preferences or policies and let the ``middleware'' enforce them. This raises two important questions: (1) what is the minimum set of policies that can be factored out of all trust models, and (2) what is the middleware that does this enforcement? The trust schemas pioneered by the NDN architecture \cite{schemas} are exemplary of the common rules that can be used to express most trust models. Among other things, they specify what keys are allowed to sign what data. Since both keys and data are named resources in NDN and other ICN architectures, this means that a schema allows for arbitrary hierarchical trust models. It remains to be seen if other non-hierarchical trust models will be applicable to ICN.
+
+To address the second question, we had to agree upon what the network is responsible for enforcing. (This is discussed at length in \cite{trust}.)
+First and foremost, network layer ``trust enforcement'' should not prohibit or prevent other application-layer trust models. This means that the network functionality must be simpler than that which is supported by the middleware. Currently, this is comprised of (at most) digital signature and content object hash verification. Behaviors such as certificate chain resolution or key retrieval should not be part of the core network functionality. This means that in the general ``network,'' routers are only responsible for single signature or hash verification. All other network nodes (e.g., consumers and producers) contain the middleware responsible for handling the remaining trust enforcement steps.
+
+After addressing network trust, we turned to identity and discussed the following major questions:
+%
+\begin{itemize}
+\item How are names registered and managed in ICN?
+\item How can names possibly be location agnostic (without aids such as the NDN LINK)? Is there always a discovery or locator service?
+\end{itemize}
+%
+Namespace ownership is intrinsically tied to identity. Thus, namespace advertisements under different namespaces or in different networks must be authenticated with respect to the claimed owner's identity. In this context, an identity is a public and private key pair. We struggled with issues about namespace scale and the practicality of a global namespace. Questions such as, ``how do NATs work in a global namespace?,'' drove the discussion. No consensus or common understanding about how namespaces and identities should be managed was reached.
+
+
+\subsection{Routing on Encrypted Names}
+This group started with a discussion about routing on encrypted names but ended up being an exploration of name privacy and the necessary conditions for it to be possible in different ICN architectures. In this context, we defined name privacy to be the property where a so-called ``network name,'' i.e., the name encoded in a packet, has no correlation or connection with the corresponding content object. Specifically, name privacy means that a network name reveals nothing about the data inside the content object. Ideally, names should reveal no more than what is currently revealed by an IP address and port. After settling on this definition, we laid out our assumptions to use when discussing name privacy, including:
+
+\begin{itemize}
+\item There is no name discovery process or search engine.
+\item Content may be requested by an identifier (ID) such as its cryptographic hash digest. Moreover, revealing the content ID does not compromise privacy.
+\item Consumers know the public key of the producer with which they want to communicate.
+\item Network names have an implicit routable prefix and application-specific suffix. By default, consumers do not know the locator and identifier split in a name.
+\item Requests may specify the ID of (1) a signature verification key or (2) the expected content.
+\end{itemize}
+
+To begin, there are fundamentally two ways to request content: (1) with and (2) without a content ID. In case (1), a request name needs to only contain a routable prefix that will move the request to some cache or producer which can return the corresponding content. These locators can be completely separate from the desired content and, therefore, this approach can satisfy our name privacy goal. However, without implicit knowledge about the locator for some desired content, an upper-layer service is necessary to obtain said information.
+
+In case (2), the application-specific suffix of a name must not reveal anything about the data. To achieve this, it must be encrypted. Name encryption introduces a number of other questions, such as how to obtain the routable prefix, what key to use for encryption, and how to ``protect'' the result. Assume that the routable prefix is known and that the producer public key is used for name suffix encryption. If the resultant content payload is not encrypted then one may be able to infer the name from its contents. Therefore, the content response itself must also be encrypted. This requires requests to carry a consumer-generated key that is protected in a CCA-secure envelope. Otherwise, eavesdroppers could replay requests with the same encrypted name but their own key to obtain a decrypted response.
+
+In all cases, we concluded that to achieve name privacy then one needs some upper-layer service. Whether its role is to provide the routable prefix for a name, encrypt the response, or to separate a content ID and locator via some other means is an orthogonal discussion. Also, name privacy seems to, in most cases, invalidate the utility of shared caches, which puts it at odds with the primary feature of many ICN-based architectures. Thus, our conjecture is that name privacy is not possible natively in the network.
+
+
+\subsection{Locators and Identifiers}
+This working group discussed locators and fetching data with non-topological names (or even topological names that are cached off-path). Routing should, it seems, only concern itself with topological names or addresses.  Finding data (objects) with non-topological names should not be done in the data plane.  It should be done via a service.
+
+In CCN, the service could resolve a named root manifest to then resolve locator names by hash.
+In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet,
+there is a distinction between Locator names and Descriptor names. Locator names have a
+strong binding between their name and a point of attachment. Descriptor (hash) names, on the
+other hand, are free-form and could be present anywhere.  One resolves a tag query (of either
+type) to a topological locator and then does data transfer on that locator.
+
+This lead to a discussion on locator and identifier split.  Should CCN embrace this, or continue on with its mixed use of the name? For example, if there is a clear locator field and then a clear identifier tuple (name, [keyed restriction], [hash restriction]), one would get full matching expressivity with the functionality of nameless object locators.  A similar approach could be done in NDN, though with a different tuple.  There was no consensus on this idea, though it is worth exploring.
+
+There was also some discussion on the benefit of ICN if one still needs to do an external name to address lookup.  Why bother if one still needs a DNS-like function?  One partial answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal applications), one could inject all names into the internal routing protocol and realize the full benefit of application-specific names.  Another argument is that it improves how one writes software to not have to deal with IP addresses and host-based networking. One could also see benefits from a re-designed network stack beyond sockets.
+
+\subsection{Security, Not Privacy}
+The ``No Privacy'' security working group sought to answer the following question: is an ICN security architecture easier to devise if the designs fundamentally make privacy hard to achieve? In particular, the group discussed:
+
+\begin{itemize}
+\item What ICN entities (content consumers, hosts, routers, content creators) need identities?
+\item What entities can simply operate with a public and private key pair but no formal name?
+\item Does splitting routing out as an application help?
+\item Do interests need to be authenticated at each router?
+\end{itemize}
+
+The group achieved a simple security model. Members of the group hope to write up the result as a short paper.
+
+
+\section{Open Problems}
+
+xxx
+
+\section{Outlook}
 XXX
 
 \small

@@ -73,13 +73,21 @@ and privacy, and charted paths for their mitigation.
 \end{abstract}
 
 \section{Introduction}
-Dagstuhl seminar 16251 ``Information-centric Networking and Security'' was a short
+Dagstuhl seminar 16251 ``Information-centric Networking and Security'' was a three days
 workshop held June 19-21, 2016. The goal was to bring together researchers with
 different areas of expertise relevant to ICN to discuss security and privacy issues
 particular to ICN-based architectures. These problems have become increasingly
 important as ICN technology gradually matures and nears real-world deployment.
 
-Threat models are distinct from IP. Differentiating factors between the two include
+\paragraph{Brief History of Dagstuhl Seminars on ICN}
+This seminar is the fourth get-together of the ICN community at Schloss Dagstuhl, who usually meet every two years there.
+In 2010, the term ICN was coined to assemble different informa\-tion-centric networking approaches, such as 4WARD, SAIL, PSIRP in Europe and concent-centric networking (CCN) in the US.
+In 2012, reality checks has been discussed.
+In 2014, special focus was on scalability and deployment issues.
+This seminar discussed primarily security aspects.
+
+\paragraph{Current Research Challenges}
+Threat models are distinct from IP~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
 new application design patterns, trust models and management, as well as a strong
 emphasis on object-based, instead of channel-based, security. Therefore, it is both
 timely and important to explore ICN security and privacy issues as well as devise and
@@ -105,22 +113,24 @@ and anonymity. Subsequently, the attendees split into working groups to focus mo
 intensely on specific topics. Working group topics included routing on encrypted names,
 ICN and IoT, non-privacy-centric aspects of ICN security, as well as trust and identity in ICN.
 Once the working group sessions were over, a representative from each presented outcomes
-to all attendees. (These are documented in the remainder of this report.) The major
-takeaways from the seminar were as follows.
+to all attendees. (These are documented in the remainder of this report.) 
 
-{\bf First}, the ICN community still does not have a clear answer for how to handle
+\paragraph{Main Takeways} The major takeaways from the seminar are as follows.
+
+\begin{description}
+  \item[Management of namespace and identity] The ICN community still does not have a clear answer for how to handle
 namespace and identity management. While trust management in ICN can be distributed and
 function without a global PKI, it seems difficult to break away from this model for
 namespace management and arbitration. This has strong implications on how names are
 propagated in the routing fabric. Can any producer application advertise any name,
 anywhere in the network? If not, how can name prefix advertisements be constrained or limited?
 
-{\bf Second}, given that ICN focuses on object security, the need for and use of transport
+  \item[Forward secrecy] Given that ICN focuses on object security, the need for and use of transport
 protocols that provide forward secrecy should be deferred to higher layers. Attendees
 found that while most ICN-based architectures do not preclude forward secrecy, it should
 not be a requirement at the network layer.
 
-{\bf Third}, there is still deep uncertainty about whether ICN should embrace a content
+  \item[Locator and identifier split] There is still deep uncertainty about whether ICN should embrace a content
 locator and identifier split. Names in architectures such as NDN and CCN serve as both a
 locator and identifier of data, though there are extensions that permit explicit locators
 (e.g., through the use of NDN LINK objects). This distinction is necessary under the
@@ -132,13 +142,13 @@ certainly unique to ICN is how software is written. Specifically, we have the op
 to move beyond the mental model of a fixed address space and re-design existing network
 stacks and APIs.
 
-{\bf Fourth}, privacy seems difficult to achieve without major architectural changes to
+  \item[Privacy tradeoffs] Privacy seems difficult to achieve without major architectural changes to
 ICN-based systems. In particular, since data names reveal a great deal of information to
 the passive eavesdropper, privacy demands that names and payloads have no correlation.
 However, achieving this seems infeasible without the presence of an upper-layer service
 akin to one that would resolve non-topological identifiers to topological names.
 
-{\bf Lastly}, there are no compelling reasons to apply esoteric (and often untested)
+  \item[How much crypto] There are no compelling reasons to apply esoteric (and often untested)
 cryptographic techniques in ICN, at least at the network layer. Computationally bounded
 and ``boring'' cryptographic primitives, such as digital signatures, hash functions, etc.,
 should be the extent of per-packet cryptographic processing done by routers. Anything
@@ -148,14 +158,19 @@ to specific algorithms. In other words, there must be flexibility in accommodati
 multiple (and evolving) cryptographic primitives. This could be useful if, for example,
 post-quantum digital signature schemes become necessary for the longevity of content authenticators.
 
-We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. Much
-progress was made over the course of the seminar and since its completion. This is mainly
-because of the ease of face-to-face collaboration and interaction at Dagstuhl.
+\end{description}
+
+The remainder of this workshop report is structured as follows.
+Section~\ref{sec:plenary-talks} summarizes plenary talks.
+Section~\ref{sec:group-work} presents discussions during group work in detail.
+Finally, Section~\ref{sec:open-problems} and Section~\ref{sec:outlook} discuss open problems and future work, respectively.
 
 \section{Plenary Talks in a Nutshell}
+\label{sec:plenary-talks}
 XXX
 
 \section{Parallel Group Work}
+\label{sec:group-work}
 \subsection{ICN and IoT}
 
 The Internet of Things (IoT) is connecting billions of smart devices (e.g., sensors) and is growing very fast. We expect more than 1 million networked ``things'' per square kilometer in 2030. In this group, we tried to explore how much data density we can afford
@@ -233,11 +248,21 @@ The group achieved a simple security model. Members of the group hope to write u
 
 
 \section{Open Problems}
+\label{sec:open-problems}
 
 xxx
 
 \section{Outlook}
+\label{sec:outlook}
 XXX
+
+\subsection{Acknowledgements}
+We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. Much
+progress was made over the course of the seminar and since its completion. This is mainly
+because of the ease of face-to-face collaboration and interaction at Dagstuhl.
+
+Furthermore, we thank all participants for fruitful \emph{and} open discussions on very urgent challenges.
+The following people attend Dagstuhl Seminar 16251: TODO.
 
 \small
 \bibliographystyle{IEEEtran}

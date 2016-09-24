@@ -40,12 +40,13 @@
 \makeatother
 
 \begin{document}
-\title{A Thing}
+
+\title{Can We Make a Cake and Eat it Too? \\ A Discussion of ICN Security and Privacy at Dagstuhl}
 
 \numberofauthors{1}
 \author{
 \alignauthor
-Peoples \\
+People \\
 \affaddr{Places}\\
 \email{Things}
 }
@@ -80,11 +81,11 @@ particular to ICN-based architectures. These problems have become increasingly
 important as ICN technology gradually matures and nears real-world deployment.
 
 \paragraph{Brief History of Dagstuhl Seminars on ICN}
-This seminar is the fourth get-together of the ICN community at Schloss Dagstuhl, who usually meet every two years there.
-In 2010, the term ICN was coined to assemble different informa\-tion-centric networking approaches, such as 4WARD, SAIL, PSIRP in Europe and concent-centric networking (CCN) in the US.
-In 2012, reality checks has been discussed.
-In 2014, special focus was on scalability and deployment issues.
-This seminar discussed primarily security aspects.
+This seminar is the fourth assembly of the ICN community at Schloss Dagstuhl, who
+usually meet every two years. In 2010, the term ICN was coined to assemble different informa\-tion-centric networking approaches,
+such as 4WARD, SAIL, PSIRP in Europe and concent-centric networking (CCN) in the US.
+In 2012, reality checks has been discussed. In 2014, special focus was on scalability
+and deployment issues. This seminar discussed primarily security aspects.
 
 \paragraph{Current Research Challenges}
 Threat models are distinct from IP~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
@@ -94,7 +95,7 @@ timely and important to explore ICN security and privacy issues as well as devis
 assess possible mitigation techniques. This was the general purpose of the Dagstuhl
 seminar. To that end, the attendees focused on the following issues:
 %
-\begin{itemize}
+\begin{compactitem}
 \item What are the relevant threat models with which ICN must be concerned? How are
 they different from those in IP-based networks?
 \item To what extent is trust management a solved problem in ICN? Have we adequately
@@ -104,7 +105,7 @@ context of accepted privacy measures used in IP-based networks?
 \item Are there new types of cryptographic schemes or primitives ICN architectures
 should be using or following that will enable (a) more efficient or secure packet
 processing or (b) an improved security architecture?
-\end{itemize}
+\end{compactitem}
 %
 The seminar answered (entirely or partially) some of these questions and fueled discussions
 for others. To begin, all participants briefly introduced themselves. This was followed
@@ -115,22 +116,24 @@ ICN and IoT, non-privacy-centric aspects of ICN security, as well as trust and i
 Once the working group sessions were over, a representative from each presented outcomes
 to all attendees. (These are documented in the remainder of this report.)
 
-\paragraph{Main Takeways} The major takeaways from the seminar are as follows.
+\paragraph{Main Takeways} The major takeaways from the seminar are as follows. \\
 
-\begin{description}
-  \item[Management of namespace and identity] The ICN community still does not have a clear answer for how to handle
+\noindent
+{\bf Management of namespace and identity}. The ICN community still does not have a clear answer for how to handle
 namespace and identity management. While trust management in ICN can be distributed and
 function without a global PKI, it seems difficult to break away from this model for
 namespace management and arbitration. This has strong implications on how names are
 propagated in the routing fabric. Can any producer application advertise any name,
-anywhere in the network? If not, how can name prefix advertisements be constrained or limited?
+anywhere in the network? If not, how can name prefix advertisements be constrained or limited? \\
 
-  \item[Forward secrecy] Given that ICN focuses on object security, the need for and use of transport
+\noindent
+{\bf Forward secrecy}. Given that ICN focuses on object security, the need for and use of transport
 protocols that provide forward secrecy should be deferred to higher layers. Attendees
 found that while most ICN-based architectures do not preclude forward secrecy, it should
-not be a requirement at the network layer.
+not be a requirement at the network layer.\\
 
-  \item[Locator and identifier split] There is still deep uncertainty about whether ICN should embrace a content
+\noindent
+{\bf Locator and identifier split}. There is still deep uncertainty about whether ICN should embrace a content
 locator and identifier split. Names in architectures such as NDN and CCN serve as both a
 locator and identifier of data, though there are extensions that permit explicit locators
 (e.g., through the use of NDN LINK objects). This distinction is necessary under the
@@ -140,15 +143,17 @@ routing space. However, if we revert to a distinction between topological locato
 identifiers, then features unique to ICN become much more limited. One facet that is
 certainly unique to ICN is how software is written. Specifically, we have the opportunity
 to move beyond the mental model of a fixed address space and re-design existing network
-stacks and APIs.
+stacks and APIs.\\
 
-  \item[Privacy tradeoffs] Privacy seems difficult to achieve without major architectural changes to
+\noindent
+{\bf Privacy tradeoffs}. Privacy seems difficult to achieve without major architectural changes to
 ICN-based systems. In particular, since data names reveal a great deal of information to
 the passive eavesdropper, privacy demands that names and payloads have no correlation.
 However, achieving this seems infeasible without the presence of an upper-layer service
-akin to one that would resolve non-topological identifiers to topological names.
+akin to one that would resolve non-topological identifiers to topological names.\\
 
-  \item[How much crypto] There are no compelling reasons to apply esoteric (and often untested)
+\noindent
+{\bf How much crypto}. There are no compelling reasons to apply esoteric (and often untested)
 cryptographic techniques in ICN, at least at the network layer. Computationally bounded
 and ``boring'' cryptographic primitives, such as digital signatures, hash functions, etc.,
 should be the extent of per-packet cryptographic processing done by routers. Anything
@@ -157,13 +162,11 @@ infrastructure ineffective. However, architecture designs should not restrict th
 to specific algorithms. In other words, there must be flexibility in accommodating
 multiple (and evolving) cryptographic primitives. This could be useful if, for example,
 post-quantum digital signature schemes become necessary for the longevity of content authenticators.
-\end{description}
 
 The remainder of this workshop report is structured as follows.
 Section~\ref{sec:plenary-talks} summarizes plenary talks.
 Section~\ref{sec:group-work} presents discussions during group work in detail.
 Finally, Section~\ref{sec:open-problems} and Section~\ref{sec:outlook} discuss open problems and future work, respectively.
-
 
 \input{talks}
 \input{groups}

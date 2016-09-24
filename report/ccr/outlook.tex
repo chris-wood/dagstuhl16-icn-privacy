@@ -1,2 +1,36 @@
 \section{Outlook}
-XXX
+After nearly a decade of research, there still exists a plethora of security
+and privacy problems that the ICN community has yet to adequately address. 
+This leaves much room for future work on a variety of topics, including, but
+certainly not limited to:\\
+
+\noindent
+{\bf Object-based security with forward secrecy}. We need to resolve the 
+    channel- vs object-based security debate. One primary factor why channel-based
+    security is preferred is because it allows for forward secrecy. Without this,
+    the security of a packet is entirely dependent on key management techniques.
+    (If private keys are leaked, then intercepted packets can be decrypted.)
+    Transport security adds another obstacle for attackers, i.e., as a matter
+    of defense in depth. If we can design a object-based security scheme that
+    also provides for secrecy, perhaps related to or built on the forward-secure public-key
+    encryption scheme of Canetti et al. \cite{canetti2003forward}, then this argument is simplified.\\
+
+\noindent
+{\bf Namespaces, identities, and routing}. In ICNs, namespace ownership, identities, and
+    the routing fabric are all intimately coupled. Currently, we do not know of a way
+    to break away from a centralized model for namespace management and arbitration. 
+    Routing updates therefore have a dependency on this management oracle. (Otherwise,
+    any producer application would be able to advertise any namespace it wants. Schemes
+    such as \cite{dibenedetto2015mitigating} can be used to remove malicious producers
+    from advertising under incorrect namespaces, but it \emph{does not} resolve conflicts
+    over namespace ownership.)\\
+
+\noindent
+{\bf Privacy}. Privacy of consumers, producers, and content all remain significant
+    challenges in most ICN-based architectures. Moreover, the trend in the IETF and other
+    standard bodies is to put privacy as a \emph{primary} goal going forward. Consequently,
+    to meet future privacy expectations, many architectures need to make certain techniques
+    such as onion-based routing \cite{uzun2011anonymous}, name encryption \cite{privacy}, or secure
+    sessions \cite{wood-icnrg-ccnxkeyexchange-00} a de facto part of the architecture. 
+    Otherwise, it is difficult to foresee the incentives to use these architectures in the
+    real world.

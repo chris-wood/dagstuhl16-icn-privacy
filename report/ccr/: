@@ -1,64 +1,3 @@
-@inproceedings{uzun2011anonymous,
-  title={Anonymous Named Data Networking Application},
-  author={Uzun, Ersin and DiBenedetto, Steven and Tsudik, Gene and Gasti, Paolo},
-  booktitle={19th Annual Network and Distributed System Security Symposium (NDSS)},
-  year={2012}
-}
-
-@inproceedings{privacy,
-  title={(The Futility of) Data Privacy in Content-Centric Networks},
-  author={Ghali, Cesar and Tsudik, Gene and Wood, Christopher A.},
-  booktitle={ACM CCS Workshop on Privacy in the Electronic Society (WPES)},
-  year={2016}
-}
-
-@techreport{wood-icnrg-ccnxkeyexchange-00,
-    number=     {draft-wood-icnrg-ccnxkeyexchange-00},
-    type =      {Internet-Draft},
-    institution =   {Internet Engineering Task Force},
-    publisher = {Internet Engineering Task Force},
-    note =      {Work in Progress},
-    url =       {https://tools.ietf.org/html/draft-wood-icnrg-ccnxkeyexchange-00},
-    author=     {Christopher Wood and Ersin Uzun and marc.mosko@parc.com},
-    title=      {{CCNx Key Exchange Protocol Version 1.0}},
-    pagetotal = 27,
-    year =      2016,
-    month =     jul,
-    day =       8,
-    abstract =  {This document specifies Version 1.0 of the CCNx Key Exchange (CCNxKE) protocol. The CCNxKE protocol allows two peers to establish a shared, forward-secure key for secure and confidential communication. The protocol is designed to prevent eavesdropping, tampering, and message forgery between two peers. It is also designed to minimize the number of rounds required to establish a shared key. In the worst case, it requires two RTTs between a consumer and producer to establish a shared key. In the best case, one RTT is required before sending any application data. This document outlines how to derive the keys used to encrypt traffic for a session and shows how session information is exchanged between a consumer and producer using message encapsulation.},
-}
-
-
-@inproceedings{canetti2003forward,
-  title={A forward-secure public-key encryption scheme},
-  author={Canetti, Ran and Halevi, Shai and Katz, Jonathan},
-  booktitle={International Conference on the Theory and Applications of Cryptographic Techniques},
-  pages={255--271},
-  year={2003},
-  organization={Springer}
-}
-
-
-@inproceedings{compagno2015violating,
-  title={Violating consumer anonymity: Geo-locating nodes in named data networking},
-  author={Compagno, Alberto and Conti, Mauro and Gasti, Paolo and Mancini, Luigi Vincenzo and Tsudik, Gene},
-  booktitle={International Conference on Applied Cryptography and Network Security},
-  pages={243--262},
-  year={2015},
-  organization={Springer}
-}
-
-
-@inproceedings{raykova2015decentralized,
-  title={Decentralized authorization and privacy-enhanced routing for information-centric networks},
-  author={Raykova, Mariana and Lakhani, Hasnain and Kazmi, Hasanat and Gehani, Ashish},
-  booktitle={Proceedings of the 31st Annual Computer Security Applications Conference},
-  pages={31--40},
-  year={2015},
-  organization={ACM}
-}
-
-
 @article{tourani2016security,
   title={Security, Privacy, and Access Control in Information-Centric Networking: A Survey},
   author={Tourani, Reza and Mick, Travis and Misra, Satyajayant and Panwar, Gaurav},
@@ -74,14 +13,6 @@
   pages={403--422},
   year={2011},
   organization={Springer}
-}
-
-@article{dibenedetto2015mitigating,
-  title={Mitigating Poisoned Content with Forwarding Strategy},
-booktitle={2016 IEEE Conference on Computer Communications Workshops (INFOCOM WKSHPS)}, 
-  author={DiBenedetto, Steve and Papadopoulos, Christos},
-  year={2015},
-month={April},
 }
 
 

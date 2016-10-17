@@ -8,22 +8,17 @@ them. The ICN emphasis on named data and object security instead channel securit
 is one clear differentiating factor contributing to this parity. To quantify
 the degree by which secret is improved (or worsened), threat models are needed.
 In general, they must capture a particular design challenge in ICN, such as
-infrastructure protection, user-friendly key distribution and trust management
-and enforcement, and content protection and access control. And given the wide gap
+infrastructure protection, user-friendly key distribution and trust management, and content protection and access control.  Given the wide gap
 between IP and ICN, there is a great need for common threat models to use
 in the design phrase.
 
 One particular threat revolves around consumer anonymity, which was also
-the topic of discussion at the seminar. The subject(s) and contents
-of a packet are not the only facets that should be considered with respect to privacy.
-Origin and destination details (e.g., geographical location or position within a network
+the topic of discussion at the seminar. The subject and content
+of a packet are not the only facets to be considered with privacy.
+The origin and destination details (e.g., geographical location or position within a network
 topology), as well as identity information (e.g., consumer identifying information),
-can sometimes harm network users. As shown by \cite{compagno2015violating}, ICN caching and interest-collapse mechanisms make
-ICN itself inherently vulnerable to the possibility for an adversary to locate
-consumers. Moreover, an approach similar to the one to violate consumer
-(location) privacy, might be used also to detect eavesdropper. Therefore, the
-threat model must consider this vulnerability and adversaries capable of exploiting
-it successfully.
+can sometimes harm the network users. As shown by \cite{compagno2015violating}, ICN caching and interest-collapse mechanisms make ICN itself inherently vulnerable to the possibility for an adversary to locate
+consumers. %Moreover, an approach similar to the one to violate consumer (location) privacy, might be used also to detect eavesdropper. Therefore, the threat model must consider this vulnerability and adversaries capable of exploiting it successfully. @@@ Edith: I am not able to follow the above sentences and logic too...@@@
 
 Another design challenge unique to ICN is how to develop scalable object-based
 access control mechanisms. A variety of encryption techniques have been used
@@ -33,9 +28,9 @@ layer. In contrast, publish-subscribe ICNs such as ENCODERS \cite{raykova2015dec
 access control into the network. It uses multi-authority attribute-based encryption
 to allow content access to be scoped to selected nodes in the system. Since the
 system is completely decentralized, peers serve as brokers that match content from
-publishers with interests expressed by subscribers. In order to perform such a match,
+the publishers with interests expressed by the subscribers. In order to perform such a match,
 an intermediate node must be authorized to see both the relevant content tags and
-subscriber interests. One talk at the seminar focused on the observation that
+the subscriber interests. One talk at the seminar focused on the observation that
 access control policies applied to the metadata (content tags and subscriber interests)
 effectively create reachability constraints that are independent from the one defined by
 the routing protocols. Consequently, this security-routing interaction must be
@@ -46,11 +41,11 @@ security and privacy problems in IP-based networks that we could try to remedy.
 Can ICNs use the NSEC3 strategy of \emph{authenticated denial} \cite{blacka2008dns} to limit incoming requests
 for non-existent content as a way of deterring sophisticated distributed DoS (DDoS) attacks?
 Can we levereage recent advances in deep packet inspection over encryption data \cite{sherry2015blindbox}
-to let forwarders blindly route packets without seeing cleartext or otherwise sensitive information,
-e.g., application names? Can we leverage information-theoretic PIR techniques to allow for 
-truly private content queries (similar to what is done in \cite{pir-icn}). Can we prevent correlation
+to let forwarders blindly route packets without seeing the content or sensitive information,
+e.g., application names? Can we leverage information-theoretic PIR techniques \cite{pir-icn} to support
+truly private content queries? Can we prevent correlation
 of static content across multiple consumers by adopting randomizable encryption schemes \cite{blazy2011signatures}? 
-And if so, how can we do so while maintaining the integrity of content. There are many 
+And if so, how can we do so while maintaining the integrity of content? There are many 
 features that could improve beyond what is done in IP-based networks and there are cryptographic
 algorithms, schemes, and protocols that could allow us to realize these features. However,
 it is unclear whether or not these more esoteric cryptographic schemes should be applied in

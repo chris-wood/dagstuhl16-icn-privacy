@@ -10,21 +10,20 @@ certainly not limited to:\\
     channel- vs object-based security debate. One primary factor why channel-based
     security is preferred is because it allows for forward secrecy. Without this,
     the security of a packet is entirely dependent on key management techniques.
-    (If private keys are leaked, then intercepted packets can be decrypted.)
-    Transport security adds another obstacle for attackers, i.e., as a matter
-    of defense in depth. If we can design a object-based security scheme that
-    also provides for secrecy, perhaps related to or built on the forward-secure public-key
+    If private keys are leaked, then intercepted packets can be decrypted.
+    Transport layer security adds another obstacle for attackers. If we can design an object-based security scheme that
+    also provides forward secrecy, say built on the forward-secure public-key
     encryption scheme of Canetti et al. \cite{canetti2003forward}, then this argument is simplified.\\
 
 \noindent
 {\bf Namespaces, identities, and routing}. In ICNs, namespace ownership, identities, and
     the routing fabric are all intimately coupled. Currently, we do not know of a way
     to break away from a centralized model for namespace management and arbitration. 
-    Routing updates therefore have a dependency on this management oracle. (Otherwise,
+    Routing updates therefore have a dependency on this management oracle. Otherwise,
     any producer application would be able to advertise any namespace it wants. Schemes
     such as \cite{dibenedetto2015mitigating} can be used to remove malicious producers
     from advertising under incorrect namespaces, but it \emph{does not} resolve conflicts
-    over namespace ownership.)\\
+    over namespace ownership.
 
 \noindent
 {\bf Privacy}. Privacy of consumers, producers, and content all remain significant

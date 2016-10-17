@@ -55,57 +55,57 @@ People \\
 
 \begin{abstract}
 In recent years, Information-centric Networking (ICN) has received much attention from
-both academic and industry participants. ICN offers a data-centric means of inter-networking
+both academic and industry participants. ICN offers a data-centric inter-networking
 that is radically different from today's host-based IP networks. Security and privacy issues
-in ICN have become increasingly important as ICN technology gradually matures and nears
-real-world deployment. As is well known, in today's Internet, security and privacy features
-were originally not present and had to be incrementally and individually retrofitted
-(with varying success) over the last 35 years. In contrast, since ICN-based architectures
+in ICN have become increasingly important as ICN technology gradually matures for
+real-world deployment. Security and privacy features on today's Internet
+were originally not present and have been incrementally retrofitted
+over the last 35 years. ICN-based architectures
 (e.g., NDN, CCNx, etc.) are still evolving, it is both timely and important to explore
 ICN security and privacy issues as well as devise and assess possible mitigation techniques.
 
 This report documents the program and outcomes of the Dagstuhl Seminar 16251
-``Information-centric Networking and Security.'' The goal was to bring together
+on ``Information-centric Networking and Security.'' The goal was to bring together
 researchers to discuss and address security and privacy issues particular to ICN-based
 architectures. Attendees represented diverse areas of expertise, including: networking,
 security, privacy, software engineering, and formal methods. Through presentations and
 focused working groups, attendees identified and discussed issues relevant to security
-and privacy, and charted paths for their mitigation.
+and privacy, and charted paths for their mitigation and future work.
 \end{abstract}
 
 \section{Introduction}
-Dagstuhl seminar 16251 ``Information-centric Networking and Security'' was a three days
-workshop held June 19-21, 2016. The goal was to bring together researchers with
+Dagstuhl seminar 16251 on ``Information-centric Networking and Security'' was a three-day
+workshop held on June 19-21, 2016 in Dagstuhl, Germany. The goal was to bring together researchers with
 different areas of expertise relevant to ICN to discuss security and privacy issues
 particular to ICN-based architectures. These problems have become increasingly
-important as ICN technology gradually matures and nears real-world deployment.
+important as ICN technology gradually matures and gets close to real-world deployment.
 
 \paragraph{Brief History of Dagstuhl Seminars on ICN}
 This seminar is the fourth retreat of the ICN community at Schloss Dagstuhl, who
 usually meet every two years at this place. In 2010, the term ICN was
 coined to assemble different informa\-tion-centric networking approaches,
-such as 4WARD, SAIL, PSIRP in Europe and concent-centric networking (CCN) in the US.
-In 2012, reality checks has been discussed. In 2014, special focus was on scalability
+such as 4WARD, SAIL, PSIRP in Europe and content-centric networking (CCN) in the US.
+In 2012, reality checks have been discussed. In 2014, special focus was on scalability
 and deployment issues. This seminar discussed primarily security aspects.
 
 \paragraph{Current Research Challenges}
-Threat models are distinct from IP~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
+Threat models in ICN are distinct from traditional IP-based networks ~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
 new application design patterns, trust models and management, as well as a strong
-emphasis on object-based, instead of channel-based, security. Therefore, it is both
-timely and important to explore ICN security and privacy issues as well as devise and
+emphasis on object-based, instead of channel-based, security. As ICN develops, it is both
+timely and important to explore ICN security and privacy issues in order to devise and
 assess possible mitigation techniques. This was the general purpose of the Dagstuhl
-seminar. To that end, the attendees focused on the following issues:
+seminar. To that end, the seminar focused on the following issues:
 %
 \begin{compactitem}
-\item What are the relevant threat models with which ICN must be concerned? How are
-they different from those in IP-based networks?
+\item What are the relevant threat models that ICN must be concerned? How are
+they different from those in the IP-based networks?
 \item To what extent is trust management a solved problem in ICN? Have we adequately
 identified the core elements of a trust model, e.g., with NDN trust schemas?
 \item How practical and realistic is object-based security when framed in the
-context of accepted privacy measures used in IP-based networks?
-\item Are there new types of cryptographic schemes or primitives ICN architectures
-should be using or following that will enable (a) more efficient or secure packet
-processing or (b) an improved security architecture?
+context of accepted privacy measures used in the IP-based networks?
+\item Are there any new types of cryptographic schemes or primitives that ICN architectures
+could use to enable (a) more efficient or secure packet
+processing or (b) a more security architecture?
 \end{compactitem}
 %
 The seminar answered (entirely or partially) some of these questions and fueled discussions
@@ -114,53 +114,48 @@ by several talks on various topics, ranging from trust management and identity t
 and anonymity. Subsequently, the attendees split into working groups to focus more
 intensely on specific topics. Working group topics included routing on encrypted names,
 ICN and IoT, non-privacy-centric aspects of ICN security, as well as trust and identity in ICN.
-Once the working group sessions were over, a representative from each presented outcomes
-to all attendees. (These are documented in the remainder of this report.)
+Once the working group sessions were over, a representative from each group presented outcomes
+to all attendees. The results of the seminar are documented in the remainder of this report.
 
 \paragraph{Main Takeways} The major takeaways from the seminar are as follows. \\
 
 \noindent
-{\bf Management of namespace and identity}. The ICN community still does not have a clear answer for how to handle
-namespace and identity management. While trust management in ICN can be distributed and
-function without a global PKI, it seems difficult to break away from this model for
-namespace management and arbitration. This has strong implications on how names are
+{\bf Management of namespace and identity}. The ICN community still does not have a clear answer on how to handle
+namespace and identity management. While trust management in ICN can be distributed and function without a global PKI, it seems difficult to break away from this model for namespace management and arbitration. This has strong implications on how names are
 propagated in the routing fabric. Can any producer application advertise any name,
 anywhere in the network? If not, how can name prefix advertisements be constrained or limited? \\
 
 \noindent
-{\bf Forward secrecy}. Given that ICN focuses on object security, the need for and use of transport
-protocols that provide forward secrecy should be deferred to higher layers. Attendees
-found that while most ICN-based architectures do not preclude forward secrecy, it should
-not be a requirement at the network layer.\\
+{\bf Forward secrecy}. Given that ICN focuses on object security, the need for transport
+protocols that provide forward secrecy should be implemented in higher layers. Attendees
+found that while most ICN-based architectures do not preclude forward secrecy, forward secrecy should
+not be a requirement in the network layer.\\
 
 \noindent
-{\bf Locator and identifier split}. There is still deep uncertainty about whether ICN should embrace a content
-locator and identifier split. Names in architectures such as NDN and CCN serve as both a
-locator and identifier of data, though there are extensions that permit explicit locators
-(e.g., through the use of NDN LINK objects). This distinction is necessary under the
-common understanding that routing should concern itself with topological names. Finding
-data through non-topological names should not be in the data plane as part of the global
+{\bf Locator and identifier split}. There is still a high uncertainty about whether ICN should split content
+locator and identifier. Names in architectures such as NDN and CCN serve as both
+locator and identifier of the data, though there are extensions that permit explicit locators
+(e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that 
+routing could be more efficient with topological names. Finding
+data through non-topological names should not be implemented in the data plane as part of the global
 routing space. However, if we revert to a distinction between topological locators and
-identifiers, then features unique to ICN become much more limited. One facet that is
-certainly unique to ICN is how software is written. Specifically, we have the opportunity
-to move beyond the mental model of a fixed address space and re-design existing network
-stacks and APIs.\\
+identifiers, then the unique features of ICN become much more limited. 
+%One facet that is certainly unique to ICN is how software is written. Specifically, we have the opportunity to move beyond the mental model of a fixed address space and re-design existing network stacks and APIs. @@@ Edith: I don't quite understand the above sentences (commented). How does routing relate to software? @@@ \\
 
 \noindent
 {\bf Privacy tradeoffs}. Privacy seems difficult to achieve without major architectural changes to
-ICN-based systems. In particular, since data names reveal a great deal of information to
+ICN-based systems. In particular, since data names reveal large amount of information to
 the passive eavesdropper, privacy demands that names and payloads have no correlation.
-However, achieving this seems infeasible without the presence of an upper-layer service
-akin to one that would resolve non-topological identifiers to topological names.\\
+However, achieving this seems unfeasible without the presence of an upper-layer service
+akin to the one that would resolve non-topological identifiers to topological names.\\
 
 \noindent
 {\bf How much crypto}. There are no compelling reasons to apply esoteric (and often untested)
 cryptographic techniques in ICN, at least at the network layer. Computationally bounded
-and ``boring'' cryptographic primitives, such as digital signatures, hash functions, etc.,
-should be the extent of per-packet cryptographic processing done by routers. Anything
-more would become fodder for Denial-of-Service attacks that could render the entire
-infrastructure ineffective. However, architecture designs should not restrict themselves
-to specific algorithms. In other words, there must be flexibility in accommodating
+and traditional cryptographic primitives, such as digital signatures, hash functions, etc.,
+could be the extent of per-packet cryptographic processing done by the routers.  %Anything more would become fodder for Denial-of-Service attacks that could render the entire infrastructure ineffective. 
+However, architecture designs should not restrict themselves
+to specific algorithms. There should be flexibility in accommodating
 multiple (and evolving) cryptographic primitives. This could be useful if, for example,
 post-quantum digital signature schemes become necessary for the longevity of content authenticators.
 
@@ -177,12 +172,8 @@ Finally, Section~\ref{sec:open-problems} and Section~\ref{sec:outlook} discuss o
 \section{Conclusion}
 This paper described in detail the events and outcomes of the Dagstuhl 16251
 seminar on ICN security and privacy. Despite significant research over the past
-half decade, there are still many open problems whose solutions seem difficult
-if not impossible to achieve with the existing architectures. Are we too invested
-in the current architectures to make deep design changes to patch these problems?
-Is there something to be gained by sacrificing properties such as privacy in favor
-of features such as object security? If so, is this the right tradeoff to make
-today? Only future research and development will tell.
+half decade, there are still many open problems with solutions that are difficult
+to be completely realized with the existing architectures. Are we too invested in the current architectures to make significant design changes to solve these problems? Is there something to be gained by sacrificing properties such as privacy in favor of features such as object security? If so, is this the right tradeoff to make today? Only future research and development will tell.
 
 \subsection*{Acknowledgements \& Participants}
 We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. Much

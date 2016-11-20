@@ -13,6 +13,7 @@
 \usepackage{amssymb, framed, graphics}
 \usepackage{bytefield}
 \usepackage{todonotes}
+\usepackage{comment}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage[group-separator={,}]{siunitx}
@@ -23,9 +24,13 @@
 \usepackage{cite}
 \usepackage{fancybox,fancyvrb}
 \usepackage{url}
+\usepackage{fancyhdr}
 \usepackage{framed}
 \usepackage{xspace}
 \usepackage{subfigure}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -39,16 +44,63 @@
 \renewcommand{\paragraph}[1]{\vspace*{0.03in}\noindent{\bf #1.}\hspace{0.25ex \@plus1ex \@minus.2ex}}
 \makeatother
 
+\fancypagestyle{plain}{%
+   \fancyhf{} %
+   \renewcommand{\headrulewidth}{0pt}%
+   \fancyfoot[L]{ACM SIGCOMM Computer Communication Review }%
+   \fancyfoot[R]{Volume XX Issue YY, MONTH YEAR}%
+}
+\pagestyle{plain}
+\def\refname{}
+
+%\def\sharedaffiliation{%
+%\end{tabular}
+%\begin{tabular}{c}}
+
 \begin{document}
 
 \title{Can We Make a Cake and Eat it Too? \\ A Discussion of ICN Security and Privacy at Dagstuhl}
 
-\numberofauthors{1}
+\numberofauthors{6}
 \author{
 \alignauthor
-People \\
-\affaddr{Places}\\
-\email{Things}
+Edith Ngai \\
+\affaddr{Uppsala University, SE}\\
+\email{edith.ngai@it.uu.se}
+\and
+\alignauthor
+B\"orje Ohlman \\
+\affaddr{Ericsson Research, Stockholm, SE}\\
+\email{Borje.Ohlman@ericsson.com }
+\and
+\alignauthor
+Gene Tsudik \\
+\affaddr{University of California Irvine}\\
+\email{gts@ics.uci.edu}
+\and
+\alignauthor
+Ersin Uzun \\
+\affaddr{Xerox PARC}\\
+\email{ersin.uzun@parc.com}
+\and
+\alignauthor
+Matthias W\"ahlisch \\
+\affaddr{Freie University Berlin, DE}\\
+\email{m.waehlisch@fu-berlin.de}
+\and
+\alignauthor
+Christopher A. Wood \\
+\affaddr{University of California Irvine}\\
+\email{woodc1@uci.edu}
+\end{tabular}
+\begin{tabular}{c}
+\begin{minipage}[t]{0.9\textwidth}%
+\begin{center}
+\vspace{11pt} {\normalsize This article is an editorial note submitted to CCR. It
+has NOT been peer reviewed. The author takes full responsibility for this
+article's technical content. Comments can be posted through CCR Online.}
+\end{center}
+\end{minipage}\tabularnewline
 }
 
 \maketitle
@@ -109,15 +161,7 @@ processing or (b) a more security architecture?
 \end{compactitem}
 %
 The seminar answered (entirely or partially) some of these questions and fueled discussions
-for others. To begin, all participants briefly introduced themselves. This was followed
-by several talks on various topics, ranging from trust management and identity to privacy
-and anonymity. Subsequently, the attendees split into working groups to focus more
-intensely on specific topics. Working group topics included routing on encrypted names,
-ICN and IoT, non-privacy-centric aspects of ICN security, as well as trust and identity in ICN.
-Once the working group sessions were over, a representative from each group presented outcomes
-to all attendees. The results of the seminar are documented in the remainder of this report.
-
-\paragraph{Main Takeways} The major takeaways from the seminar are as follows. \\
+for others. The major takeaways that resulted from these discussions are as follows.
 
 \noindent
 {\bf Management of namespace and identity}. The ICN community still does not have a clear answer on how to handle
@@ -135,11 +179,11 @@ not be a requirement in the network layer.\\
 {\bf Locator and identifier split}. There is still a high uncertainty about whether ICN should split content
 locator and identifier. Names in architectures such as NDN and CCN serve as both
 locator and identifier of the data, though there are extensions that permit explicit locators
-(e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that 
+(e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that
 routing could be more efficient with topological names. Finding
 data through non-topological names should not be implemented in the data plane as part of the global
 routing space. However, if we revert to a distinction between topological locators and
-identifiers, then the unique features of ICN become much more limited. 
+identifiers, then the unique features of ICN become much more limited.
 %One facet that is certainly unique to ICN is how software is written. Specifically, we have the opportunity to move beyond the mental model of a fixed address space and re-design existing network stacks and APIs. @@@ Edith: I don't quite understand the above sentences (commented). How does routing relate to software? @@@ \\
 
 \noindent
@@ -152,8 +196,9 @@ akin to the one that would resolve non-topological identifiers to topological na
 \noindent
 {\bf How much crypto}. There are no compelling reasons to apply esoteric (and often untested)
 cryptographic techniques in ICN, at least at the network layer. Computationally bounded
-and traditional cryptographic primitives, such as digital signatures, hash functions, etc.,
-could be the extent of per-packet cryptographic processing done by the routers.  %Anything more would become fodder for Denial-of-Service attacks that could render the entire infrastructure ineffective. 
+and traditional cryptographic primitives, such as elliptic curve digital signatures, hash functions, etc.,
+could be the extent of per-packet cryptographic processing done by the routers.
+%Anything more would become fodder for Denial-of-Service attacks that could render the entire infrastructure ineffective.
 However, architecture designs should not restrict themselves
 to specific algorithms. There should be flexibility in accommodating
 multiple (and evolving) cryptographic primitives. This could be useful if, for example,
@@ -180,6 +225,7 @@ We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. 
 progress was made over the course of the seminar and since its completion. This is mainly
 because of the ease of face-to-face collaboration and interaction at Dagstuhl.
 
+\begin{comment}
 Furthermore, we thank all participants for fruitful \emph{and} open discussions
 on very urgent challenges. The following people attend Dagstuhl Seminar 16251:
     Bengt Ahlgren (Swedish Institute of Computer Science, SE),
@@ -215,8 +261,9 @@ on very urgent challenges. The following people attend Dagstuhl Seminar 16251:
     Matthias W\"ahlisch (FU Berlin, DE),
     Cedric Westphal (Huawei Technologies, Santa Clara, US),
     Christopher A. Wood (University of California, Irvine, US).
+\end{comment}
 
-\small
+%\small
 \balance
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,references}

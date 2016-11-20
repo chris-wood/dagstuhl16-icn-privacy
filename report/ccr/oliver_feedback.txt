@@ -1,0 +1,19 @@
+I've been overloaded with the selection of the technical papers. Here are some comments on your submission :
+
+- it would be nice if the paper could not go beyond the 6 pages
+- please do not reduce the font size for the bibliography
+- I'm not sure that listing all the participants is useful for the CCR readers. I'd suggest to simply reference the Dasgtuhl report that already contains this information instead of listing all of them and provide a URL in your citation
+- in the intro, you could reference the previous dagsthul reports as links to the previous work
+
+
+Section 2
+
+The content is fine, but I'm not sure that having a structure that is divided between plenary talks and parallel work groups really makes sense.
+You might want to simply structure the document on the basis of the topics addressed, independently of the workgroup/plenary issue
+
+Section 3
+
+Fine except 3.5 whose conclusion is a bit weak (group achieved a simple security model and short paper will appear without any reference)
+
+4.2 seems like an abstract of a talk, should be rewritten as a summary
+Same for 4.4

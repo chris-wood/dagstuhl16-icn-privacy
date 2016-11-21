@@ -1,12 +1,1 @@
-Section 2
 
-The content is fine, but I'm not sure that having a structure that is divided between plenary talks and parallel work groups really makes sense.
-You might want to simply structure the document on the basis of the topics addressed, independently of the workgroup/plenary issue
-
-Section 3
-
-Fine except 3.5 whose conclusion is a bit weak (group achieved a simple security model
-and short paper will appear without any reference)
-
-4.2 seems like an abstract of a talk, should be rewritten as a summary
-Same for 4.4

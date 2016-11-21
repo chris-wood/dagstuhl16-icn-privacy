@@ -1,3 +1,33 @@
+@techreport{ietf-tcpinc-tcpcrypt-03,
+	number =	{draft-ietf-tcpinc-tcpcrypt-03},
+	type =		{Internet-Draft},
+	institution =	{Internet Engineering Task Force},
+	publisher =	{Internet Engineering Task Force},
+	note =		{Work in Progress},
+	url =		{https://tools.ietf.org/html/draft-ietf-tcpinc-tcpcrypt-03},
+	author =	{Dan Boneh and Daniel B. Giffin and Mike Hamburg and Mark J. Handley and David Mazieres and Quinn Slack and Eric W. Smith and Andrea Bittau},
+	title =		{{Cryptographic protection of TCP Streams (tcpcrypt)}},
+	pagetotal =	24,
+	year =		2016,
+	month =		oct,
+	day =		31,
+	abstract =	{This document specifies tcpcrypt, a TCP encryption protocol designed for use in conjunction with the TCP Encryption Negotiation Option (TCP-ENO) [I-D.ietf-tcpinc-tcpeno]. Tcpcrypt coexists with middleboxes by tolerating resegmentation, NATs, and other manipulations of the TCP header. The protocol is self-contained and specifically tailored to TCP implementations, which often reside in kernels or other environments in which large external software dependencies can be undesirable. Because the size of TCP options is limited, the protocol requires one additional one-way message latency to perform key exchange before application data may be transmitted. However, this cost can be avoided between two hosts that have recently established a previous tcpcrypt connection.},
+}
+@misc{cfrg,
+  title = {{Crypto Forum Research Group (CFRG)}},
+  howpublished = {\url{https://irtf.org/cfrg}},
+  note = {Accessed: 2016-11-21}
+}
+
+@inproceedings{wood2014flexible,
+  title={Flexible end-to-end content security in CCN},
+  author={Wood, Christopher A and Uzun, Ersin},
+  booktitle={2014 IEEE 11th Consumer Communications and Networking Conference (CCNC)},
+  pages={858--865},
+  year={2014},
+  organization={IEEE}
+}
+
 @Article{dagstuhl2012,
   author =	{Ali Ghodsi and B{\"o}rje Ohlman and J{\"o}rg Ott and Ignacio Solis and Matthias W{\"a}hlisch},
   title =	{{Information-centric networking -- Ready for the real worldl (Dagstuhl Seminar 12361)}},
@@ -57,7 +87,7 @@
 }
 
 @inproceedings{privacy,
-  title={(The Futility of) Data Privacy in Content-Centric Networks},
+  title={{(The Futility of) Data Privacy in Content-Centric Networks}},
   author={Ghali, Cesar and Tsudik, Gene and Wood, Christopher A.},
   booktitle={ACM CCS Workshop on Privacy in the Electronic Society (WPES)},
   year={2016}
@@ -70,7 +100,7 @@
     publisher = {Internet Engineering Task Force},
     note =      {Work in Progress},
     url =       {https://tools.ietf.org/html/draft-wood-icnrg-ccnxkeyexchange-00},
-    author=     {Christopher Wood and Ersin Uzun and marc.mosko@parc.com},
+    author=     {Christopher Wood and Ersin Uzun and Marc Mosko},
     title=      {{CCNx Key Exchange Protocol Version 1.0}},
     pagetotal = 27,
     year =      2016,

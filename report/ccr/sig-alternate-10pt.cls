@@ -321,7 +321,7 @@
 \def\email#1{{{\eaddfnt{\par #1}}}}       % revised  - GM - 11/30/2006
 
 \def\addauthorsection{\ifnum\originalaucount>3
-    \section{Additional Authors}\the\addauthors
+    %\section{Additional Authors}\the\addauthors
   \fi}
 
 \newcount\savesection

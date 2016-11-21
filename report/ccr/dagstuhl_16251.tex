@@ -1,4 +1,4 @@
-\documentclass{sig-alternate-10pt}
+\documentclass{sig-alternate-05-2015}
 
 \pagestyle{plain}
 
@@ -48,10 +48,20 @@
    \fancyhf{} %
    \renewcommand{\headrulewidth}{0pt}%
    \fancyfoot[L]{ACM SIGCOMM Computer Communication Review }%
-   \fancyfoot[R]{Volume XX Issue YY, MONTH YEAR}%
+   \fancyfoot[R]{Volume 47 Issue 1, April 2016}%
 }
 \pagestyle{plain}
 \def\refname{}
+
+\usepackage{etex}
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\@afterheading}%
+    {\clubpenalty \@M}{\clubpenalties 3 \@M \@M 0}{}{}
+\patchcmd{\@afterheading}%
+    {\clubpenalty \@clubpenalty}{\clubpenalties 2 \@clubpenalty 0}{}{}
+\makeatother
 
 %\def\sharedaffiliation{%
 %\end{tabular}
@@ -69,8 +79,8 @@ Edith Ngai \\
 \email{edith.ngai@it.uu.se}
 \and
 \alignauthor
-B\"orje Ohlman \\
-\affaddr{Ericsson Research, Stockholm, SE}\\
+B\"{o}rje Ohlman \\
+\affaddr{Ericsson Research, SE}\\
 \email{Borje.Ohlman@ericsson.com }
 \and
 \alignauthor
@@ -84,7 +94,7 @@ Ersin Uzun \\
 \email{ersin.uzun@parc.com}
 \and
 \alignauthor
-Matthias W\"ahlisch \\
+Matthias W\"{a}hlisch \\
 \affaddr{Freie University Berlin, DE}\\
 \email{m.waehlisch@fu-berlin.de}
 \and
@@ -107,17 +117,17 @@ article's technical content. Comments can be posted through CCR Online.}
 
 \begin{abstract}
 In recent years, Information-centric Networking (ICN) has received much attention from
-both academic and industry participants. ICN offers a data-centric inter-networking
+both academic and industry participants. ICN offers data-centric inter-networking
 that is radically different from today's host-based IP networks. Security and privacy issues
-in ICN have become increasingly important as ICN technology gradually matures for
+in ICN have become increasingly important as ICN technology gradually matures towards
 real-world deployment. Security and privacy features on today's Internet
 were originally not present and have been incrementally retrofitted
 over the last 35 years. ICN-based architectures
 (e.g., NDN, CCNx, etc.) are still evolving, it is both timely and important to explore
 ICN security and privacy issues as well as devise and assess possible mitigation techniques.
 
-This report documents the program and outcomes of the Dagstuhl Seminar 16251
-on ``Information-centric Networking and Security.'' The goal was to bring together
+This report documents the highlights and outcomes of the Dagstuhl Seminar 16251
+on ``Information-centric Networking and Security.'' The goal of which was to bring together
 researchers to discuss and address security and privacy issues particular to ICN-based
 architectures. Attendees represented diverse areas of expertise, including: networking,
 security, privacy, software engineering, and formal methods. Through presentations and
@@ -125,8 +135,36 @@ focused working groups, attendees identified and discussed issues relevant to se
 and privacy, and charted paths for their mitigation and future work.
 \end{abstract}
 
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10002978.10003006</concept_id>
+<concept_desc>Security and privacy~Systems security</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10002978.10003014</concept_id>
+<concept_desc>Security and privacy~Network security</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10003033.10003034</concept_id>
+<concept_desc>Networks~Network architectures</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Security and privacy~Systems security}
+\ccsdesc[500]{Security and privacy~Network security}
+\ccsdesc[500]{Networks~Network architectures}
+
+\printccsdesc
+\keywords{Information-Centric Networking; Security and Privacy}
+
+
 \section{Introduction}
-Dagstuhl seminar 16251 on ``Information-centric Networking and Security'' was a three-day
+Dagstuhl Seminar 16251 on ``Information-centric Networking and Security'' was a three-day
 workshop held on June 19-21, 2016 in Dagstuhl, Germany. The goal was to bring together researchers with
 different areas of expertise relevant to ICN to discuss security and privacy issues
 particular to ICN-based architectures. These problems have become increasingly
@@ -136,7 +174,7 @@ important as ICN technology gradually matures and gets close to real-world deplo
 This seminar is the fourth retreat of the ICN community at Schloss Dagstuhl, who
 usually meet every two years at this place. In 2010, the term ICN was
 coined to assemble different informa\-tion-centric networking approaches,
-such as 4WARD, SAIL, PSIRP in Europe and content-centric networking (CCN) in the US \cite{dagstuhl2010}.
+such as 4WARD, SAIL, PSIRP in Europe and Content-Centric Networking (CCN) in the US \cite{dagstuhl2010}.
 In 2012, reality checks have been discussed \cite{dagstuhl2012}. In 2014, special focus was on scalability
 and deployment issues \cite{dagstuhl2014}. This seminar discussed primarily security aspects.
 
@@ -161,66 +199,24 @@ processing or (b) a more security architecture?
 \end{compactitem}
 %
 The seminar answered (entirely or partially) some of these questions and fueled discussions
-for others. The major takeaways that resulted from these discussions are as follows.
+for others. In the remainder of this document we will review the major themes of the
+seminar, discuss many open problems that exist in the architecture, and summarize
+their outlook going forward.
 
-\noindent
-{\bf Management of namespace and identity}. The ICN community still does not have a clear answer on how to handle
-namespace and identity management. While trust management in ICN can be distributed and function without a global PKI, it seems difficult to break away from this model for namespace management and arbitration. This has strong implications on how names are
-propagated in the routing fabric. Can any producer application advertise any name,
-anywhere in the network? If not, how can name prefix advertisements be constrained or limited? \\
-
-\noindent
-{\bf Forward secrecy}. Given that ICN focuses on object security, the need for transport
-protocols that provide forward secrecy should be implemented in higher layers. Attendees
-found that while most ICN-based architectures do not preclude forward secrecy, forward secrecy should
-not be a requirement in the network layer.\\
-
-\noindent
-{\bf Locator and identifier split}. There is still a high uncertainty about whether ICN should split content
-locator and identifier. Names in architectures such as NDN and CCN serve as both
-locator and identifier of the data, though there are extensions that permit explicit locators
-(e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that
-routing could be more efficient with topological names. Finding
-data through non-topological names should not be implemented in the data plane as part of the global
-routing space. However, if we revert to a distinction between topological locators and
-identifiers, then the unique features of ICN become much more limited.
-%One facet that is certainly unique to ICN is how software is written. Specifically, we have the opportunity to move beyond the mental model of a fixed address space and re-design existing network stacks and APIs. @@@ Edith: I don't quite understand the above sentences (commented). How does routing relate to software? @@@ \\
-
-\noindent
-{\bf Privacy tradeoffs}. Privacy seems difficult to achieve without major architectural changes to
-ICN-based systems. In particular, since data names reveal large amount of information to
-the passive eavesdropper, privacy demands that names and payloads have no correlation.
-However, achieving this seems unfeasible without the presence of an upper-layer service
-akin to the one that would resolve non-topological identifiers to topological names.\\
-
-\noindent
-{\bf How much crypto}. There are no compelling reasons to apply esoteric (and often untested)
-cryptographic techniques in ICN, at least at the network layer. Computationally bounded
-and traditional cryptographic primitives, such as elliptic curve digital signatures, hash functions, etc.,
-could be the extent of per-packet cryptographic processing done by the routers.
-%Anything more would become fodder for Denial-of-Service attacks that could render the entire infrastructure ineffective.
-However, architecture designs should not restrict themselves
-to specific algorithms. There should be flexibility in accommodating
-multiple (and evolving) cryptographic primitives. This could be useful if, for example,
-post-quantum digital signature schemes become necessary for the longevity of content authenticators.
-
-The remainder of this workshop report is structured as follows.
-Section~\ref{sec:plenary-talks} summarizes plenary talks.
-Section~\ref{sec:group-work} presents discussions during group work in detail.
-Finally, Section~\ref{sec:open-problems} and Section~\ref{sec:outlook} discuss open problems and future work, respectively.
-
-\input{talks}
 \input{groups}
-\input{open}
 \input{outlook}
 
 \section{Conclusion}
 This paper described in detail the events and outcomes of the Dagstuhl 16251
 seminar on ICN security and privacy. Despite significant research over the past
 half decade, there are still many open problems with solutions that are difficult
-to be completely realized with the existing architectures. Are we too invested in the current architectures to make significant design changes to solve these problems? Is there something to be gained by sacrificing properties such as privacy in favor of features such as object security? If so, is this the right tradeoff to make today? Only future research and development will tell.
+to be completely realized with the existing architectures. Are we too invested in
+the current architectures to make significant design changes to solve these problems?
+Is there something to be gained by sacrificing properties such as privacy in favor
+of features such as object security? If so, is this the right tradeoff to make today?
+Only future research and development will tell.
 
-\subsection*{Acknowledgements \& Participants}
+\subsection*{Acknowledgements}
 We thank Schloss Dagstuhl for providing a stimulating setting for this seminar. Much
 progress was made over the course of the seminar and since its completion. This is mainly
 because of the ease of face-to-face collaboration and interaction at Dagstuhl.

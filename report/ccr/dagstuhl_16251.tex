@@ -118,21 +118,27 @@ article's technical content. Comments can be posted through CCR Online.}
 \begin{abstract}
 In recent years, Information-centric Networking (ICN) has received much attention from
 both academic and industry participants. ICN offers data-centric inter-networking
-that is radically different from today's host-based IP networks. Security and privacy issues
-in ICN have become increasingly important as ICN technology gradually matures towards
-real-world deployment. Security and privacy features on today's Internet
-were originally not present and have been incrementally retrofitted
-over the last 35 years. ICN-based architectures
+that is radically different from today's host-based IP networks. Security and
+privacy features on today's Internet were originally not present and have been
+incrementally retrofitted over the last 35 years. As such, these issues
+have become increasingly important as ICN technology gradually matures towards
+real-world deployment. Thus, while ICN-based architectures
 (e.g., NDN, CCNx, etc.) are still evolving, it is both timely and important to explore
 ICN security and privacy issues as well as devise and assess possible mitigation techniques.
 
 This report documents the highlights and outcomes of the Dagstuhl Seminar 16251
 on ``Information-centric Networking and Security.'' The goal of which was to bring together
 researchers to discuss and address security and privacy issues particular to ICN-based
-architectures. Attendees represented diverse areas of expertise, including: networking,
-security, privacy, software engineering, and formal methods. Through presentations and
-focused working groups, attendees identified and discussed issues relevant to security
-and privacy, and charted paths for their mitigation and future work.
+architectures. Upon finishing the three-day workshop, the outlook of ICN is still
+unclear. Many unsolved and ill-addressed problems remain, such as namespace
+and identity management, object security and forward secrecy, and privacy. Regardless
+of the fate of ICN, one thing is certain: much more research and practical experience
+with these systems is needed to make progress towards solving these arduous problems.
+
+% Attendees represented diverse areas of expertise, including: networking,
+% security, privacy, software engineering, and formal methods. Through presentations and
+% focused working groups, attendees identified and discussed issues relevant to security
+% and privacy, and charted paths for their mitigation and future work.
 \end{abstract}
 
 \begin{CCSXML}
@@ -166,20 +172,23 @@ and privacy, and charted paths for their mitigation and future work.
 \section{Introduction}
 Dagstuhl Seminar 16251 on ``Information-centric Networking and Security'' was a three-day
 workshop held on June 19-21, 2016 in Dagstuhl, Germany. The goal was to bring together researchers with
-different areas of expertise relevant to ICN to discuss security and privacy issues
-particular to ICN-based architectures. These problems have become increasingly
-important as ICN technology gradually matures and gets close to real-world deployment.
+different areas of expertise relevant to Information-Centric Networking (ICN) to discuss
+security and privacy issues particular to ICN-based architectures. These problems have
+become increasingly important as ICN technology gradually matures and gets close to real-world deployment.
 
 \paragraph{Brief History of Dagstuhl Seminars on ICN}
-This seminar is the fourth retreat of the ICN community at Schloss Dagstuhl, who
-usually meet every two years at this place. In 2010, the term ICN was
+This seminar is the fourth retreat of the ICN community at Schloss Dagstuhl, which
+usually meets every two years at this place. In 2010, the term ICN was
 coined to assemble different informa\-tion-centric networking approaches,
 such as 4WARD, SAIL, PSIRP in Europe and Content-Centric Networking (CCN) in the US \cite{dagstuhl2010}.
-In 2012, reality checks have been discussed \cite{dagstuhl2012}. In 2014, special focus was on scalability
-and deployment issues \cite{dagstuhl2014}. This seminar discussed primarily security aspects.
+In 2012, reality checks were discussed \cite{dagstuhl2012}. In 2014, special focus was given to scalability
+and deployment issues \cite{dagstuhl2014}. And finally, at long last, the most
+recent seminar discussed primarily security aspects of these architectures.
 
 \paragraph{Current Research Challenges}
-Threat models in ICN are distinct from traditional IP-based networks ~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
+Many ICN-based architectures have the luxury of starting with a clean slate.
+As a consequence, threat models in ICN are often distinct from traditional IP-based
+networks ~\cite{wsv-bdpts-13,gtuz-ddndn-13}. Differentiating factors between the two include
 new application design patterns, trust models and management, as well as a strong
 emphasis on object-based, instead of channel-based, security. As ICN develops, it is both
 timely and important to explore ICN security and privacy issues in order to devise and
@@ -192,22 +201,22 @@ they different from those in the IP-based networks?
 \item To what extent is trust management a solved problem in ICN? Have we adequately
 identified the core elements of a trust model, e.g., with NDN trust schemas?
 \item How practical and realistic is object-based security when framed in the
-context of accepted privacy measures used in the IP-based networks?
+context of accepted, best-practice privacy measures used in IP-based networks?
 \item Are there any new types of cryptographic schemes or primitives that ICN architectures
-could use to enable (a) more efficient or secure packet
-processing or (b) a more security architecture?
+could use to (a) enable more efficient or secure packet
+processing or (b) build a more secure architecture?
 \end{compactitem}
 %
 The seminar answered (entirely or partially) some of these questions and fueled discussions
 for others. In the remainder of this document we will review the major themes of the
-seminar, discuss many open problems that exist in the architecture, and summarize
+seminar, discuss many open problems that exist in ICN architectures, and summarize
 their outlook going forward.
 
 \input{groups}
 \input{outlook}
 
 \section{Conclusion}
-This paper described in detail the events and outcomes of the Dagstuhl 16251
+This paper described in detail the discussions and outcomes of the Dagstuhl 16251
 seminar on ICN security and privacy. Despite significant research over the past
 half decade, there are still many open problems with solutions that are difficult
 to be completely realized with the existing architectures. Are we too invested in

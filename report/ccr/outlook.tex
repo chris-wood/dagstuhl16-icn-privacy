@@ -9,38 +9,38 @@ upon below.
 Should we continue to focus on securing the data instead of securing the pipe?
 The former promotes a ``take what you want'' model of group access control which
 is dependent on long-lived keys.
-One primary factor why channel-based security is preferred is because it allows for forward
+One factor why channel-based security is preferred is because it allows for forward
 secrecy. Forward secrecy is the property that exposure of a principal's long-term secret keys
 does not compromise the secrecy of their previously generated ephemeral (session)
 keys. This is a useful property to have in the presence of eavesdropping attackers
 intercepting and logging traffic. It minimizes data and key compromise windows and
 therefore reduces the overall attack surface. However, it requires protocols and
 techniques for deriving ephemeral keys and then updating them regularly.
-Without forward secrecy, the packet confidentiality is reduced to the efficacy of key management.
-If private keys are leaked, then intercepted packets can be decrypted.
-Transport layer security adds another obstacle for attackers. If we can design an object-based security scheme that
-also provides forward secrecy, say built on the forward-secure public-key
-encryption scheme of Canetti et al. \cite{canetti2003forward}, then this argument is simplified.
+Without forward secrecy, packet confidentiality is reduced to the efficacy of key management.
+That is, if private keys are leaked, then intercepted packets can be decrypted.
 
 Given the IP-based push for TLS everywhere that leads to applications built on top of (D)TLS
-rather than plain TCP (or UDP), this type of communication is a significant departure from
-what is accepted as best practice today. Can ICN-based architectures make a compelling
+rather than plain TCP (or UDP), object-based security is a significant departure from
+what is accepted as best-practice today. Can ICN-based architectures make a compelling
 enough case to motivate applications to revert to this less-secure form of
 data delivery?
 
 {\bf Outlook}. Given that ICN focuses on object security, the need for transport
 protocols that provide forward secrecy should be implemented in higher layers. Attendees
 found that while most ICN-based architectures do not preclude forward secrecy, forward secrecy should
-not be a requirement in the network layer.\\
+not be a requirement in the network layer. However, a worthy research question is
+whether or not we can design an object-based security scheme that
+also provides forward secrecy. Reviewing existing schemes such as the forward-secure public-key
+encryption scheme of Canetti et al. \cite{canetti2003forward} might prove useful here.
 
 \subsection{Namespaces, Identities, and Routing}
-{\bf Summary}. In ICNs, namespace ownership, identities, and
+{\bf Summary}. As previously discussed, in ICNs, namespace ownership, identities, and
 the routing fabric are all intimately coupled. Currently, we do not know of a way
 to break away from a centralized model for namespace management and arbitration.
-Routing updates therefore have a dependency on this management oracle. Otherwise,
+Routing updates therefore have a dependency on this management oracle. Without it,
 any producer application would be able to advertise any namespace it wants. Schemes
 such as \cite{dibenedetto2015mitigating} can be used to remove malicious producers
-from advertising under incorrect namespaces, but it \emph{does not} resolve conflicts
+from advertising under incorrect namespaces, but they \emph{do not} resolve conflicts
 over namespace ownership.
 
 {\bf Outlook}. The ICN community still does not have a clear answer on how to handle
@@ -59,7 +59,7 @@ raises questions of resource exhaustion attacks on FIBs and general complexity
 attacks (e.g., hash collisions). Newer attacks try to leak information from the
 FIB contents to target the forwarding plane. Can ICNs be managed to avoid these
 types of scalability or security problems, or do they necessitate an ecosystem in
-which any producer can inject any type of information into the network state.
+which any producer can inject any type of information into the network state?
 
 {\bf Outlook}. This class of problem is tied to how namespaces, identities, and routing
 are to be handled in ICN-based architectures. Until we have a shared understanding
@@ -67,57 +67,28 @@ of how namespace ownership, advertisement, and propagation will be controlled, w
 cannot expect to manage the network state to prevent state exhaustion or mitigate
 FIB scalability problems.
 
-\subsection{Evolving Network Services}
-{\bf Summary}. The Internet has a history of adapting the existing law system to new business paradigms.
-One such paradigm is in-network processing, which, in recent years, has expanded to
-aid and impact routing, forwarding, packet replication, packet splitting and merging,
-quality of control, caching, and others. The relationship between these services and
-existing laws has been a continual tussle. When and how does caching affect copyright laws?
-When do other services violate the Secrecy of Correspondence (SoC) statute?
-Moreover, Deep Packet Inspection on SSL/TLS connections, while technically feasible, may violate
-the SoC statute and various other privacy rules. Thus, there has been a recent push for
-all-or-nothing secrecy, which unfortunately stifles network business opportunities.
-
-{\bf Outlook}. Privacy should be controllable in that it allows secrecy preferences to be
-expressed by senders in packet headers. This is one area where ICN can innovate to
-allow in-network processing to continue without violating existing laws. This type
-of flexibility is not possible in IP-based protocols such as TCP and TLS, both
-of which have fixed packet frames and do not easily permit any sort of privacy expression.
-One notable exception to this claim is the presence of TCP option fields. These may
-be (mis)used to allow for privacy preferences to be conveyed. For example, tcpcrypt \cite{ietf-tcpinc-tcpcrypt-03}
-uses these option fields to encode key exchange parameters used to establish
-a secure channel between both ends of the TCP connection. So, while it may be feasible
-to express privacy preferences in some packet headers, existing protocols were certainly
-not designed with this in mind.
-
 \subsection{Privacy}
 {\bf Summary}. Privacy of consumers, producers, and content all remain significant
-challenges in most ICN-based architectures. Moreover, the trend in the IETF and other
-standard bodies is to put privacy as a \emph{primary} goal going forward. Consequently,
-to meet future privacy expectations, many architectures need to make certain techniques
+challenges in most ICN-based architectures. As of yet, we have not adequately addressed
+these privacy problems. In particular, since data names reveal large amount of information to
+the passive eavesdropper, privacy demands that names and payloads have no correlation.
+However, achieving this seems unfeasible without the presence of an upper-layer service
+akin to the one that would resolve non-topological identifiers to topological names.
+Moreover, the trend in the IETF and other standard bodies is to put privacy as a \emph{primary} goal going forward. Consequently,
+to meet future privacy expectations, many architectures may need to make certain techniques
 such as onion-based routing \cite{uzun2011anonymous}, name encryption \cite{privacy}, or secure
-sessions \cite{wood-icnrg-ccnxkeyexchange-00} a de facto part of the architecture.
+sessions \cite{wood-icnrg-ccnxkeyexchange-01} a de facto part of the architecture.
 Otherwise, it is difficult to foresee the incentives to use these architectures in the
 real world.
 
 {\bf Outlook}. Privacy seems difficult to achieve without major architectural changes to
-ICN-based systems. Existing architectures leak a significant amount of information by default,
-including: who requests information, whose information is requested, when content
-is requested, and other miscellaneous properties, e.g., data contents, name, size,
-etc. As of yet, we have not adequately addressed these privacy problems.
-In particular, since data names reveal large amount of information to
-the passive eavesdropper, privacy demands that names and payloads have no correlation.
-However, achieving this seems unfeasible without the presence of an upper-layer service
-akin to the one that would resolve non-topological identifiers to topological names.\\
+ICN-based systems. As of now, it seems as though ICN-based architectures trade privacy
+for efficiency, which contradicts the perspective of the IETF and beyond. More
+research is needed to determine if both privacy and efficiency can be achieved in
+future without such drastic tradeoffs.
 
 \subsection{Locator and Identifier Split}
-{\bf Summary}. By focusing on named data instead of hosts, many ICN-based architectures
-blur the line between content locators and identifiers. This has implications on how
-routing and discovery occurs in the network. Existing architectures differ in packet format
-and protocol semantics in how these two mechanisms are performed. More research is
-needed before we, as a community, declare one approach superior to another.
-
-{\bf Outlook}. There is still a high uncertainty about whether ICN should split the content
+{\bf Summary}. There is still a high uncertainty about whether ICN should split the content
 locator and identifier. Names in architectures such as NDN and CCN serve as both
 locator and identifier of the data, though there are extensions that permit explicit locators
 (e.g., through the use of NDN LINK objects). This distinction is necessary under the common understanding that
@@ -125,9 +96,15 @@ routing could be more efficient with topological names. Finding
 data through non-topological names should not be implemented in the data plane as part of the global
 routing space. However, if we revert to a distinction between topological locators and
 identifiers, then the unique features of ICN become much more limited.
-One facet that is certainly unique to ICN is how software is written. Specifically, we
-have the opportunity to move beyond the mental model of a fixed address space and re-design
-existing network stacks and APIs.
+% One facet that is certainly unique to ICN is how software is written. Specifically, we
+% have the opportunity to move beyond the mental model of a fixed address space and re-design
+% existing network stacks and APIs.
+
+{\bf Outlook}. By focusing on named data instead of hosts, many ICN-based architectures
+blur the line between content locators and identifiers. This has implications on how
+routing and discovery occurs in the network. Existing architectures differ in packet format
+and protocol semantics in how these two mechanisms are performed. More research is
+needed before we, as a community, declare one approach superior to another.
 
 \subsection{Common Crypto}
 {\bf Summary}. ICN-based architectures have the unique privilege of being able to start from
@@ -154,3 +131,26 @@ the entire infrastructure ineffective. However, architecture designs should not
 restrict themselves to specific algorithms. There should be flexibility in accommodating
 multiple (and evolving) cryptographic primitives. This could be useful if, for example,
 post-quantum digital signature schemes become necessary for the longevity of content authenticators.
+
+\subsection{Evolving Network Services}
+{\bf Summary}. The Internet has a history of adapting the existing law system to new business paradigms.
+One such paradigm is in-network processing, which, in recent years, has expanded to
+aid and impact routing, forwarding, packet replication, packet splitting and merging,
+quality of control, caching, and others. The relationship between these services and
+existing laws has been a continual tussle. When and how does caching affect copyright laws?
+When do other services violate the Secrecy of Correspondence (SoC) statute?
+Moreover, Deep Packet Inspection on SSL/TLS connections, while technically feasible, may violate
+the SoC statute and various other privacy rules. Thus, there has been a recent push for
+all-or-nothing secrecy, which unfortunately stifles network business opportunities.
+
+{\bf Outlook}. Privacy should be controllable in that it allows secrecy preferences to be
+expressed by senders in packet headers. This is one area where ICN can innovate to
+allow in-network processing to continue without violating existing laws. This type
+of flexibility is not always possible in IP-based protocols such as TCP and TLS, both
+of which have fixed packet frames and do not easily permit any sort of privacy expression.
+One notable exception to this claim is the presence of TCP option fields. These may
+be (mis)used to allow for privacy preferences to be conveyed. For example, tcpcrypt \cite{ietf-tcpinc-tcpcrypt-03}
+uses these option fields to encode key exchange parameters used to establish
+a secure channel between both ends of the TCP connection. So, while it may be feasible
+to express privacy preferences in some packet headers, existing protocols were certainly
+not designed with this in mind.

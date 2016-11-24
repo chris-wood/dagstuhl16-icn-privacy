@@ -1,23 +1,25 @@
 \section{Driving Themes} \label{sec:themes}
-In this section we summarize the driving themes of technical presentations and
-group discussions at the seminar. The main ideas of each are detailed in the context
+Thre were several driving themes throughout the course of the seminar, including:
+ICN-related threat models, namespace and identity management, privacy, the
+so-called ``locator and identifier split,'' ICN and IoT, and future design directions.
+In this section we summarize the discussions along each theme in the context
 of general ICN-based architectures. References to specific architectures, such as
 Named-Data Networking (NDN) or CCN, are included where necessary.
 
 \subsection{IP Parity and Threat Models}
-ICNs attempt to diverge from IP with respect
+ICN attempts to diverge from IP with respect
 to the central abstraction of hosts and point-to-point communication between
 them. The ICN emphasis on named data and object security instead channel security
-is one clear differentiating factor contributing to this parity. To quantify
+is one clear differentiating factor contributing to this divergence. To quantify
 the degree by which secret is improved (or worsened), threat models are needed.
-In general, they must capture a particular design challenge in ICN, such as
+In general, they must capture particular design challenges in ICN, such as
 infrastructure protection, user-friendly key distribution and trust management, and
 content protection and access control.  Given the wide gap between IP and ICN,
-there is a great need for common threat models to use in the design phrase.
+there is a tremendous need for standard and well-scrutinized threat models to use in the design phase.
 
-One particular threat revolves around consumer anonymity, which was also
-the topic of discussion at the seminar. The subject and content
-of a packet are not the only facets to be considered with privacy.
+To give an example of a threat that is unique to ICN, consider the
+problem of consumer anonymity. By design, the subject and content
+of a ICN packets are not the facets to be considered in the context of privacy.
 The origin and destination details (e.g., geographical location or position within a network
 topology), as well as identity information (e.g., consumer identifying information),
 can sometimes harm the network users. As shown by \cite{compagno2015violating}, ICN caching and
@@ -25,80 +27,58 @@ interest-collapse mechanisms make ICN itself inherently vulnerable to the possib
 adversary to locate consumers. Therefore, the threat model must consider these vulnerabilities
 and adversaries capable of exploiting them successfully.
 
-\subsection{Future Designs}
-There are many infrastructure security and privacy problems in IP-based networks that we could try to remedy.
-Can ICNs use the NSEC3 strategy of \emph{authenticated denial} \cite{blacka2008dns} to limit incoming requests
-for non-existent content as a way of deterring sophisticated distributed DoS (DDoS) attacks?
-Can we levereage recent advances in deep packet inspection over encryption data \cite{sherry2015blindbox}
-to let forwarders blindly route packets without seeing the content or sensitive information,
-e.g., application names? Can we leverage information-theoretic PIR techniques \cite{pir-icn} to support
-truly private content queries? Can we prevent correlation
-of static content across multiple consumers by adopting randomizable encryption schemes \cite{blazy2011signatures}?
-And if so, how can we do so while maintaining the integrity of content? There are many
-features that could improve beyond what is done in IP-based networks and there are cryptographic
-algorithms, schemes, and protocols that could allow us to realize these features. However,
-it is unclear whether or not these more esoteric cryptographic schemes should be applied in
-the network layer of a future Internet.
-
 \subsection{Namespace and Identity Management}
 In ICN, there is an intimate relationship between trust, identity, and namespace management.
-Furthermore, naming, which in the current Internet is primarily located in the application
-layer, now directly affects the network layer as well.
+Furthermore, resource naming, which in the current Internet is primarily an application-layer
+concern, now directly affects the network layer as well.
 
 In an ideal ICN architecture, applications should be able to express their trust preferences
 (using policies) and let some ``middleware'' enforce them throughout the network. This raises
 two important questions: (1) what is the minimum set of policies that can be factored out of
-all trust models, and (2) what is the middleware that does this enforcement? The trust schemas
-pioneered by the NDN architecture \cite{schemas} are exemplary of the common rules that can be
+all trust models, and (2) what is the middleware that does this enforcement? The trust schema concept
+pioneered by the NDN architecture \cite{schemas} is a prime example of a set of rules that can be
 used to express most trust models. Among other things, they specify what keys are allowed to
 sign what data. Since both keys and data are named resources in NDN and other ICN architectures,
 this means that a schema allows for arbitrary hierarchical trust models. It remains to be seen
-if other non-hierarchical trust models will be applicable to ICN.
+if other non-hierarchical trust models will be so effortlessly realized in ICN-based architectures.
 
 With respect to (2), it is clear that the network should only be responsible for
 validating at most one signature per packet and doing nothing else to enforce
-trust models. Further details about this limitation are provided in \cite{trust}.
+trust models. (Further details about this limitation are provided in \cite{trust}.)
 However, despite this limitation, network layer ``trust enforcement'' should not prohibit or prevent other
 application-layer trust models. This means that the network functionality must be simpler than
-that which is supported by the middleware. Currently, this is comprised of (at most) digital
-signature and content object hash verification. Functionalities such as certificate chain
-resolution or key retrieval should not be implemented in the core network. This means that
-in the backbone ``network,'' routers are only responsible for single signature or hash
-verification. All other network nodes (e.g., consumers and producers) run the middleware
-responsible for handling the remaining trust enforcement steps. It is worth noting that
-end systems are supersets of routers in terms of functionality, and thus may route data as well.
+that which is supported by the middleware. Functionalities such as certificate chain
+resolution or key retrieval should not be implemented in the core network.
+This behavior must be handled by other network nodes (e.g., consumers and producers)
+or other middleware entities.
+% It is worth noting that end systems are supersets of routers in terms of functionality,
+% and thus may route data as well.
 
-Even with an agreement about how the network aids in trust enforcement, we are
-left with the following major questions:
-%
-\begin{itemize}
-\item How are names registered and managed in ICN?
-\item How can names possibly be location agnostic (without aids such as the NDN LINK)?
-Is there always a discovery or locator service?
-\end{itemize}
-%
-Namespace ownership is intrinsically tied to identity. Thus, namespace advertisements under
+Even with an agreement about how and to what extent the network aids in trust
+enforcement, we are left with the following major question: how are names registered and managed in ICN?
+Namespace ownership is intrinsically tied to an identity. Thus, namespace advertisements under
 different namespaces or in different networks must be authenticated with respect to the
 claimed owner's identity. In this context, an identity is a public and private key pair.
 The community struggled with issues about namespace scale and the practicality of a global
 namespace. Questions such as, ``how do NATs work in a global namespace?,'' drove the
 discussion. No consensus or common understanding about how namespaces and identities
-should be managed was reached.
+should be managed was reached. THis is still an area of active research.
 
 \subsection{Privacy}
 Privacy is and has always been an elusive property in ICN-based architectures.
 In many designs, there is a significant amount of information leaked by packets, including
 content payloads, signatures, and even the names. One major focus for this seminar
 was on privacy with respect to names. In this context, we defined name privacy to be the property
-where a so-called ``network name,'' i.e., the name encoded in a packet, has no correlation
+that a so-called ``network name,'' i.e., the name encoded in a packet, has no correlation
 or connection with the corresponding content object. Specifically, name privacy means
 that a network name reveals nothing about the data inside the content object. Ideally,
 names should reveal no more than what is currently revealed by an IP address and port.
-After settling on this definition, we laid out our assumptions to use when discussing
-name privacy, including:
 
+Adding name privacy to ICN-based architectures is no easy task. As a thought exercise,
+consider how this would work if it were done cleanly, i.e., without some upper-layer
+service. To restrict the design space, one might make the following assumptions:
+%
 \begin{itemize}
-\item There is no name discovery process or search engine.
 \item Content may be requested by an identifier (ID) such as its cryptographic hash digest.
 Moreover, revealing the content ID does not compromise privacy.
 \item Consumers know the public key of the producer with which they want to communicate.
@@ -106,8 +86,9 @@ Moreover, revealing the content ID does not compromise privacy.
 By default, consumers do not know the locator and identifier split in a name.
 \item Requests may specify the ID of (1) a signature verification key or (2) the expected content.
 \end{itemize}
-
-To begin, there are fundamentally two ways to request content: (1) with and (2) without a
+%
+Under these assumptions, now consider how a consumer might fetch content.
+There are fundamentally two ways to issue a request: (1) with and (2) without a
 content ID. In case (1), a request name needs to only contain a routable prefix that will
 move the request to some cache or producer which can return the corresponding content.
 These locators can be completely separate from the desired content and, therefore, this
@@ -125,12 +106,15 @@ This requires requests to carry a consumer-generated key that is protected in a
 CCA-secure envelope. Otherwise, eavesdroppers could replay requests with the same
 encrypted name but their own key to obtain a decrypted response.
 
-In all cases, we concluded that to achieve name privacy then one needs some upper-layer
+In all cases, it seems that to achieve name privacy then one needs some upper-layer
 service. Whether its role is to provide the routable prefix for a name, encrypt the
 response, or to separate a content ID and locator via some other means is an orthogonal
-discussion. Also, name privacy seems to, in most cases, invalidate the utility of
+issue to be resolved. Also, one critical observation is that name privacy seems to, in most cases, invalidate the utility of
 shared caches, which puts it at odds with the primary feature of many ICN-based
-architectures. Thus, our conjecture is that name privacy is not possible natively in the network.
+architectures. Thus, it seems as though name privacy is a property that must be
+abandoned in pure name-based ICN designs.
+
+% Thus, our conjecture is that name privacy is not possible natively in the network.
 
 \subsection{Locator and Identifier Split}
 The notion of locators and how to fetch data with non-topological names (or
@@ -139,27 +123,28 @@ the seminar. Routing should, it seems, only concern
 itself with topological names or addresses. Finding data (objects) with non-topological
 names should not be done in the data plane. It should be done via a service.
 
-In CCN, the service could resolve a named root manifest to then resolve locator names by hash.
+In CCN, this service could resolve a named root manifest to then resolve locator names by hash.
 In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet,
 there is a distinction between Locator names and Descriptor names. Locator names have a
 strong binding between their name and a point of attachment. Descriptor (hash) names, on the
 other hand, are free-form and could be present anywhere.  One resolves a tag query (of either
 type) to a topological locator and then does data transfer on that locator.
 
-This lead to a discussion on locator and identifier split.  Should CCN embrace this, or
-continue on with its mixed use of the name? For example, if there is a clear locator
-field and then a clear identifier tuple (name, [keyed restriction], [hash restriction]),
+This lack of uniformity led to one major question: should locators and identifiers
+be split, as in TagNet, or should they be combined? For example, in CCN, if there is a clear locator
+field and then a clear identifier tuple (Name, [KeyID Restriction], [Hash Restriction]),
 one would get full matching expressivity with the functionality of nameless object locators.
 A similar approach could be done in NDN, though with a different tuple.  There was no
 consensus on this idea, though it is worth exploring.
 
 There was also some discussion on the benefit of ICN if one still needs to do an external
-name to address lookup.  Why bother if one still needs a DNS-like function?  One partial
-answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal
-applications), one could inject all names into the internal routing protocol and realize
-the full benefit of application-specific names.  Another argument is that it improves
-how one writes software to not have to deal with IP addresses and host-based networking.
-One could also see benefits from a re-designed network stack beyond sockets.
+name to address lookup. Specifically, is it worth it if one still needs a DNS-like function?
+One partial answer is that in the non-global routing space (i.e., data center, maybe IoT, some internal
+applications, etc.), one could inject all names into the internal routing protocol and realize
+the full benefit of application-specific names.
+% Another argument is that it improves
+% how one writes software to not have to deal with IP addresses and host-based networking.
+% One could also see benefits from a re-designed network stack beyond sockets.
 
 \subsection{ICN and IoT}
 The Internet of Things (IoT) is connecting billions of smart devices (e.g., sensors) and is growing
@@ -179,35 +164,52 @@ identity, which may change with its location. How does mobility affect naming of
 \end{itemize}
 
 There are also several advantages and concerns of caching data at the sensors. Firstly,
-sensors are resource limited devices, which may not have sufficient memory for caching the data.
+sensors are resource-limited devices, which may not have sufficient memory for caching the data.
 However, memory resources in the sensors may increase and the
 price may decrease in the future. Secondly, it is advantageous to retrieve data directly from the
 sensors in certain use cases. For example, it is more efficient to control home lighting without
 going through the cloud. Thirdly, when applying cryptography on  the sensors, the encryption time
 could be long and cause additional delay in data retrieval. Lastly, the sensors have to be always
-on to listen to the interest packets in the ICN, which may consume a lot of energy. Scheduling or
-adaptive duty cycles might be considered to mitigate this problem.
+on to listen to the interest packets in ICN, which may consume a large amout of energy.
+Mitigating this problem might require us to more carefully use scheduling or adaptive duty cycles.
 
-Based on these observations, the group summarized the discussion and layout the future plan as
-follows. Firstly, the group plans to select and explore a few use cases in the IoT, which allow
-better understanding on the communication patterns and the security requirements in ICN for IoT.
-Secondly, it aims at answering several key research questions: How does IoT benefit from ICN?
-What is the best way to configure and bootstrap the sensors securely? Finally, what is the cost
-of providing security for IoT data with ICN?
+Based on these observations, there are several major outstanding questions. Firstly, what are
+some critical use cases for ICN in the IoT and how can we experiment with them to
+better understand the application communication patterns and the related security requirements.
+Secondly, beyond network stack simplicity, what are other ways in which the IoT might
+benefit from ICN? Thirdly, what is the best way to configure and bootstrap the sensors securely?
+And finally, what is the cost of providing security for IoT data with ICN? Answers to
+some of these questions are already topics of active research; see, e.g., \cite{shang2016named}.
 
 \subsection{Access Control}
-Another design challenge unique to ICN is how to develop scalable object-based
+Another challenge unique to ICN is how to develop scalable object-based
 access control mechanisms. A variety of encryption techniques have been used
 in the past to protect access to confidential network data \cite{tourani2016security}.
 Many design approaches, particularly in CCN and NDN, exist well above the network
-layer. In contrast, publish-subscribe ICNs such as ENCODERS \cite{raykova2015decentralized} integrate
-access control into the network. It uses multi-authority attribute-based encryption
+layer \cite{Smetters2010,Misra2013,Ion2013,Wood2014,ifip15,yu2015name,ghali2015interest}.
+In contrast, publish-subscribe ICNs such as ENCODERS \cite{raykova2015decentralized} integrate
+access control into the network layer. It uses multi-authority attribute-based encryption \cite{chase2007multi}
 to allow content access to be scoped to selected nodes in the system. Since the
 system is completely decentralized, peers serve as brokers that match content from
 the publishers with interests expressed by the subscribers. In order to perform such a match,
 an intermediate node must be authorized to see both the relevant content tags and
-the subscriber interests. One talk at the seminar focused on the observation that
+the subscriber interests. In this case,
 access control policies applied to the metadata (content tags and subscriber interests)
 effectively create reachability constraints that are independent from the one defined by
-the routing protocols. Consequently, this security-routing interaction must be
-treated carefully during policy definition.
+the routing protocols. Consequently, when performed at the network layer,
+this security-routing interaction must be treated carefully during policy definition.
+
+\subsection{Design Exploration}
+There are many infrastructure security and privacy problems in IP-based networks that we could try to remedy in ICN-based architectures.
+Can ICNs use the NSEC3 strategy of \emph{authenticated denial} \cite{blacka2008dns} to limit incoming requests
+for non-existent content as a way of deterring sophisticated distributed DoS (DDoS) attacks?
+Can we levereage recent advances in deep packet inspection over encryption data \cite{sherry2015blindbox}
+to let forwarders blindly route packets without seeing the content or sensitive information,
+e.g., application names? Can we leverage information-theoretic PIR techniques \cite{pir-icn} to support
+truly private content queries? Can we prevent correlation
+of static content across multiple consumers by adopting randomizable encryption schemes \cite{blazy2011signatures}?
+And if so, how can we do so while maintaining the integrity of content? There are many
+features that could improve beyond what is done in IP-based networks. Moreover, there are cryptographic
+algorithms, schemes, and protocols that could allow us to realize these features. However,
+it is unclear whether or not these more esoteric cryptographic schemes can and should be applied in
+the network layer of future networks.

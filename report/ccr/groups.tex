@@ -1,5 +1,5 @@
 \section{Driving Themes} \label{sec:themes}
-Thre were several driving themes throughout the course of the seminar, including:
+There were several driving themes throughout the course of the seminar, including:
 ICN-related threat models, namespace and identity management, privacy, the
 so-called ``locator and identifier split,'' ICN and IoT, and future design directions.
 In this section we summarize the discussions along each theme in the context
@@ -32,6 +32,7 @@ In ICN, there is an intimate relationship between trust, identity, and namespace
 Furthermore, resource naming, which in the current Internet is primarily an application-layer
 concern, now directly affects the network layer as well.
 
+%@@@ Edith: The following paragraph looks a bit abstract at the beginning. What do trust preferences and policies mean here? Are we talking about data or name authentication? @@@
 In an ideal ICN architecture, applications should be able to express their trust preferences
 (using policies) and let some ``middleware'' enforce them throughout the network. This raises
 two important questions: (1) what is the minimum set of policies that can be factored out of
@@ -62,7 +63,7 @@ claimed owner's identity. In this context, an identity is a public and private k
 The community struggled with issues about namespace scale and the practicality of a global
 namespace. Questions such as, ``how do NATs work in a global namespace?,'' drove the
 discussion. No consensus or common understanding about how namespaces and identities
-should be managed was reached. THis is still an area of active research.
+should be managed was reached. This is still an area of active research.
 
 \subsection{Privacy}
 Privacy is and has always been an elusive property in ICN-based architectures.
@@ -119,7 +120,7 @@ abandoned in pure name-based ICN designs.
 \subsection{Locator and Identifier Split}
 The notion of locators and how to fetch data with non-topological names (or
 even topological names that are cached off-path) was another major theme of
-the seminar. Routing should, it seems, only concern
+the seminar. Routing should, possibly, only concern
 itself with topological names or addresses. Finding data (objects) with non-topological
 names should not be done in the data plane. It should be done via a service.
 
@@ -148,9 +149,8 @@ the full benefit of application-specific names.
 
 \subsection{ICN and IoT}
 The Internet of Things (IoT) is connecting billions of smart devices (e.g., sensors) and is growing
-very fast. More than one million networked ``things'' will be expected per square kilometer in 2030.
-In the future, users may communicate directly to the sensors, or indirectly through the cloud or gateways.
-Considering the characteristics and future trends, there may be benefits in applying ICN to the IoT. For instance,
+very fast. In the future, users may communicate directly to the sensors, or indirectly through the cloud or gateways.
+Considering the communication patterns and future trends, there may be benefits in applying ICN to the IoT. For instance,
 the ICN routers connecting to sensors can cache the sensor data to improve the performance of data
 dissemination. In addition, the users may obtain sensor data directly from the sensors or from a
 nearby ICN router, without going through the cloud. Although ICN for IoT may provide in-network
@@ -170,7 +170,7 @@ price may decrease in the future. Secondly, it is advantageous to retrieve data 
 sensors in certain use cases. For example, it is more efficient to control home lighting without
 going through the cloud. Thirdly, when applying cryptography on  the sensors, the encryption time
 could be long and cause additional delay in data retrieval. Lastly, the sensors have to be always
-on to listen to the interest packets in ICN, which may consume a large amout of energy.
+on to listen to the interest packets in ICN, which may consume a large amount of energy.
 Mitigating this problem might require us to more carefully use scheduling or adaptive duty cycles.
 
 Based on these observations, there are several major outstanding questions. Firstly, what are
@@ -179,7 +179,7 @@ better understand the application communication patterns and the related securit
 Secondly, beyond network stack simplicity, what are other ways in which the IoT might
 benefit from ICN? Thirdly, what is the best way to configure and bootstrap the sensors securely?
 And finally, what is the cost of providing security for IoT data with ICN? Answers to
-some of these questions are already topics of active research; see, e.g., \cite{shang2016named}.
+some of these questions are already topics of active research \cite{shang2016named}.
 
 \subsection{Access Control}
 Another challenge unique to ICN is how to develop scalable object-based

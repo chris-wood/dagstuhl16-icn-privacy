@@ -4,7 +4,7 @@ ICN-related threat models, namespace and identity management, privacy, the
 so-called ``locator and identifier split,'' ICN and IoT, and future design directions.
 In this section we summarize the discussions along each theme in the context
 of general ICN-based architectures. References to specific architectures, such as
-Named-Data Networking (NDN) or CCN, are included where necessary.
+NDN or CCN, are included where necessary.
 
 \subsection{IP Parity and Threat Models}
 ICN attempts to diverge from IP with respect
@@ -31,7 +31,6 @@ and adversaries capable of exploiting them successfully.
 In ICN, there is an intimate relationship between trust, identity, and namespace management.
 Furthermore, resource naming, which in the current Internet is primarily an application-layer
 concern, now directly affects the network layer as well.
-
 %@@@ Edith: The following paragraph looks a bit abstract at the beginning. What do trust preferences and policies mean here? Are we talking about data or name authentication? @@@
 In an ideal ICN architecture, applications should be able to express their trust preferences
 (using policies) and let some ``middleware'' enforce them throughout the network. This raises
@@ -125,7 +124,7 @@ itself with topological names or addresses. Finding data (objects) with non-topo
 names should not be done in the data plane. It should be done via a service.
 
 In CCN, this service could resolve a named root manifest to then resolve locator names by hash.
-In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet,
+In NDN, it resolves the link routing hints to allow off-path interest forwarding. In TagNet \cite{papalini2015tagnet},
 there is a distinction between Locator names and Descriptor names. Locator names have a
 strong binding between their name and a point of attachment. Descriptor (hash) names, on the
 other hand, are free-form and could be present anywhere.  One resolves a tag query (of either
@@ -134,7 +133,7 @@ type) to a topological locator and then does data transfer on that locator.
 This lack of uniformity led to one major question: should locators and identifiers
 be split, as in TagNet, or should they be combined? For example, in CCN, if there is a clear locator
 field and then a clear identifier tuple (Name, [KeyID Restriction], [Hash Restriction]),
-one would get full matching expressivity with the functionality of nameless object locators.
+one would get full matching expressiveness with the functionality of nameless object locators.
 A similar approach could be done in NDN, though with a different tuple.  There was no
 consensus on this idea, though it is worth exploring.
 

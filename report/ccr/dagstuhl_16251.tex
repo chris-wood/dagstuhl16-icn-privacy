@@ -36,13 +36,12 @@
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
 \newtheorem{theorem}{Theorem}
-
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
 
-\makeatletter
-\renewcommand{\paragraph}[1]{\vspace*{0.03in}\noindent{\bf #1.}\hspace{0.25ex \@plus1ex \@minus.2ex}}
-\makeatother
+%\makeatletter
+%\renewcommand{\paragraph}[1]{\vspace*{0.03in}\noindent{\bf #1.}\hspace{0.25ex \@plus1ex \@minus.2ex}}
+%\makeatother
 
 \fancypagestyle{plain}{%
    \fancyhf{} %
@@ -56,12 +55,12 @@
 \usepackage{etex}
 \usepackage{etoolbox}
 
-\makeatletter
-\patchcmd{\@afterheading}%
-    {\clubpenalty \@M}{\clubpenalties 3 \@M \@M 0}{}{}
-\patchcmd{\@afterheading}%
-    {\clubpenalty \@clubpenalty}{\clubpenalties 2 \@clubpenalty 0}{}{}
-\makeatother
+%\makeatletter
+%\patchcmd{\@afterheading}%
+%    {\clubpenalty \@M}{\clubpenalties 3 \@M \@M 0}{}{}
+%\patchcmd{\@afterheading}%
+%    {\clubpenalty \@clubpenalty}{\clubpenalties 2 \@clubpenalty 0}{}{}
+%\makeatother
 
 %\def\sharedaffiliation{%
 %\end{tabular}

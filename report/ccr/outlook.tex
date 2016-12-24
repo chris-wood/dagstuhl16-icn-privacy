@@ -149,8 +149,8 @@ allow in-network processing to continue without violating existing laws. This ty
 of flexibility is not always possible in IP-based protocols such as TCP and TLS, both
 of which have fixed packet frames and do not easily permit any sort of privacy expression.
 One notable exception to this claim is the presence of TCP option fields. These may
-be (mis)used to allow for privacy preferences to be conveyed. For example, tcpcrypt \cite{ietf-tcpinc-tcpcrypt-03}
-uses these option fields to encode key exchange parameters used to establish
-a secure channel between both ends of the TCP connection. So, while it may be feasible
-to express privacy preferences in some packet headers, existing protocols were certainly
-not designed with this in mind.
+be (mis)used to allow for privacy preferences to be conveyed. For example, tcpcrypt \cite{bittau2010case}
+uses these option fields to indicate that a TCP connection will be encrypted. So, while it may be feasible
+to express privacy preferences in some packet headers, many existing protocols were 
+certainly not designed with this in mind.
+
